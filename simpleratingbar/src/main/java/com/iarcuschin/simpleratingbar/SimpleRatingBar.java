@@ -10,6 +10,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -45,6 +47,7 @@ public class SimpleRatingBar extends View {
   private float innerBottomVerticalMargin;
   private float innerCenterVerticalMargin;
   private float[] starVertex;
+  private RectF starsDrawingSpace;
 
   // in order to delete some drawing, and keep transparency
   // http://stackoverflow.com/a/21865858/2271834
@@ -144,13 +147,13 @@ public class SimpleRatingBar extends View {
       height = desiredHeight;
     }
 
-    starSize = calculateBestStarSize(height, width);
-    performStarSizeAssociatedCalculations();
+    starSize = calculateBestStarSize(width, height);
+    performStarSizeAssociatedCalculations(width, height);
     //MUST CALL THIS
     setMeasuredDimension(width, height);
   }
 
-  private float calculateBestStarSize(int height, int width) {
+  private float calculateBestStarSize(int width, int height) {
     float desiredTotalSize = maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1);
     if (desiredTotalSize > width) {
       // we need to shrink the size of the stars
@@ -160,7 +163,12 @@ public class SimpleRatingBar extends View {
     }
   }
 
-  private void performStarSizeAssociatedCalculations() {
+  private void performStarSizeAssociatedCalculations(int width, int height) {
+    float totalStarsSize = starSize * numberOfStars + starsSeparation * (numberOfStars -1);
+    float startingX = width/2 - totalStarsSize/2;
+    float startingY = 0;
+    starsDrawingSpace = new RectF(startingX, startingY, startingX + totalStarsSize, startingY + starSize);
+
     bottomFromMargin = starSize*0.2f;
     triangleSide = starSize*0.35f;
     half = starSize * 0.5f;
@@ -214,10 +222,9 @@ public class SimpleRatingBar extends View {
 
     internalCanvas.drawColor(Color.argb(0, 0, 0, 0));
 
-    float totalStarsSize = starSize * numberOfStars + starsSeparation * (numberOfStars -1);
     float remainingTotalRaiting = rating;
-    float startingX = width/2 - totalStarsSize/2;
-    float startingY = 0;
+    float startingX = starsDrawingSpace.left;
+    float startingY = starsDrawingSpace.top;
     for (int i = 0; i < numberOfStars; i++) {
       if (remainingTotalRaiting >= 1) {
         drawStar(internalCanvas, startingX, startingY, 1f);
@@ -300,6 +307,12 @@ public class SimpleRatingBar extends View {
     if (isIndicator) {
       return false;
     }
+
+    // check if action is performed above stars
+    if (!starsDrawingSpace.contains(event.getX(), event.getY())) {
+      return false;
+    }
+
     int action = event.getAction() & MotionEvent.ACTION_MASK;
     switch(action) {
       case MotionEvent.ACTION_DOWN:
@@ -319,7 +332,9 @@ public class SimpleRatingBar extends View {
   }
 
   private void setNewRatingFromTouch(float x, float y) {
-    rating = (float)numberOfStars / (float)getWidth() * x;
+    // normalize x to inside starsDrawinSpace
+    x = x - starsDrawingSpace.left;
+    rating = (float)numberOfStars / starsDrawingSpace.width() * x;
   }
 
   /**
