@@ -226,7 +226,11 @@ public class SimpleRatingBar extends View {
         drawStar(internalCanvas, startingX, startingY, remainingTotalRaiting);
         remainingTotalRaiting = 0;
       }
-      startingX += starSize + starsSeparation;
+      startingX += starSize;
+      if (i < numberOfStars -1) {
+        drawSeparator(internalCanvas, startingX, startingY);
+        startingX += starsSeparation;
+      }
     }
     canvas.drawBitmap(internalBitmap, 0, 0, null);
   }
@@ -280,6 +284,15 @@ public class SimpleRatingBar extends View {
     }
     path.close();
     canvas.drawPath(path, paintStar);
+  }
+
+  private void drawSeparator(Canvas canvas, float x, float y) {
+    paintBackground.setColor(backgroundColor);
+    paintBackground.setStrokeWidth(1);
+    if (backgroundColor == Color.TRANSPARENT) {
+      paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+    }
+    canvas.drawRect(x, y, x + starsSeparation, y + starSize, paintBackground);
   }
 
   @Override
