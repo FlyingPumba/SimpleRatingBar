@@ -239,8 +239,10 @@ public class SimpleRatingBar extends View {
       paintBackground.setXfermode(null);
     }
     paintBackground.setColor(starsColor);
+    paintBackground.setStrokeWidth(0);
     canvas.drawRect(x, y, x + starSize * filled, y + starSize, paintBackground);
     paintBackground.setColor(backgroundColor);
+    paintBackground.setStrokeWidth(1);
     if (backgroundColor == Color.TRANSPARENT) {
       paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
