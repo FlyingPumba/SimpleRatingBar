@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="SimpleRatingBar">
+    <attr name="backgroundColor" format="color" />
+    <attr name="starsColor" format="color" />
+    <attr name="numberOfStars" format="integer" />
+    <attr name="maxStarSize" format="dimension" />
+    <attr name="starsSeparation" format="dimension" />
+    <attr name="isIndicator" format="boolean" />
+    <attr name="rating" format="float" />
+  </declare-styleable>
+</resources>
