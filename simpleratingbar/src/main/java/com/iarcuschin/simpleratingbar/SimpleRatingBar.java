@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
@@ -37,6 +36,7 @@ public class SimpleRatingBar extends View {
   private Paint paintBackground;
   private Path path;
   private float defaultStarSize;
+  private OnRatingBarChangeListener listener;
   // Internal variables used to speed up drawing. They all depend on  the value of starSize
   private float bottomFromMargin;
   private float triangleSide;
@@ -378,6 +378,9 @@ public class SimpleRatingBar extends View {
         break;
       case MotionEvent.ACTION_UP:
         setNewRatingFromTouch(event.getX(), event.getY());
+        if (listener != null) {
+          listener.onRatingChanged(this, rating, false);
+        }
         break;
 
     }
@@ -402,9 +405,35 @@ public class SimpleRatingBar extends View {
     }
     this.rating = rating;
     invalidate();
+    if (listener != null) {
+      listener.onRatingChanged(this, rating, false);
+    }
   }
 
   public float getRating(){
     return rating;
+  }
+
+  public void setOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
+    this.listener = listener;
+  }
+
+  public interface OnRatingBarChangeListener {
+
+    /**
+     * Notification that the rating has changed. Clients can use the
+     * fromUser parameter to distinguish user-initiated changes from those
+     * that occurred programmatically. This will not be called continuously
+     * while the user is dragging, only when the user finalizes a rating by
+     * lifting the touch.
+     *
+     * @param simpleRatingBar The RatingBar whose rating has changed.
+     * @param rating The current rating. This will be in the range
+     *            0..numStars.
+     * @param fromUser True if the rating change was initiated by a user's
+     *            touch gesture or arrow key/horizontal trackbell movement.
+     */
+    void onRatingChanged(SimpleRatingBar simpleRatingBar, float rating, boolean fromUser);
+
   }
 }
