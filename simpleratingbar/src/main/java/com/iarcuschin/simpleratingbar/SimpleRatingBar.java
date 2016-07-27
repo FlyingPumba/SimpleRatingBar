@@ -395,6 +395,9 @@ public class SimpleRatingBar extends View {
     rating = (float)numberOfStars / starsDrawingSpace.width() * x;
   }
 
+
+  /* ----------- GETTERS AND SETTERS ----------- */
+
   /**
    * Sets rating
    * @param rating value between 0 and numberOfStars
@@ -412,6 +415,72 @@ public class SimpleRatingBar extends View {
 
   public float getRating(){
     return rating;
+  }
+
+
+
+  public boolean isIndicator() {
+    return isIndicator;
+  }
+
+  public void setIndicator(boolean indicator) {
+    isIndicator = indicator;
+  }
+
+  public float getMaxStarSize() {
+    return maxStarSize;
+  }
+
+  public void setMaxStarSize(float maxStarSize) {
+    this.maxStarSize = maxStarSize;
+    if (starSize > maxStarSize) {
+      invalidate();
+    }
+  }
+
+  public float getStarSize() {
+    return starSize;
+  }
+
+  public void setStarSize(float starSize) {
+    this.starSize = starSize;
+    invalidate();
+  }
+
+  public float getStarsSeparation() {
+    return starsSeparation;
+  }
+
+  public void setStarsSeparation(float starsSeparation) {
+    this.starsSeparation = starsSeparation;
+    invalidate();
+  }
+
+  public int getNumberOfStars() {
+    return numberOfStars;
+  }
+
+  public void setNumberOfStars(int numberOfStars) {
+    this.numberOfStars = numberOfStars;
+    invalidate();
+  }
+
+  public @ColorInt int getBackgroundColor() {
+    return backgroundColor;
+  }
+
+  @Override public void setBackgroundColor(@ColorInt int backgroundColor) {
+    this.backgroundColor = backgroundColor;
+    invalidate();
+  }
+
+  public @ColorInt int getStarsColor() {
+    return starsColor;
+  }
+
+  public void setStarsColor(@ColorInt int starsColor) {
+    this.starsColor = starsColor;
+    invalidate();
   }
 
   public void setOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
