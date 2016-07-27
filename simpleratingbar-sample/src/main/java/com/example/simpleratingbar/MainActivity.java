@@ -8,9 +8,9 @@ import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 public class MainActivity extends AppCompatActivity {
 
-  @Bind(R.id.ratingBar1) SimpleRatingBar ratingBar1;
-  @Bind(R.id.ratingBar2) SimpleRatingBar ratingBar2;
-  @Bind(R.id.ratingBar3) SimpleRatingBar ratingBar3;
+  //@Bind(R.id.ratingBar1) SimpleRatingBar ratingBar1;
+  //@Bind(R.id.ratingBar2) SimpleRatingBar ratingBar2;
+  //@Bind(R.id.ratingBar3) SimpleRatingBar ratingBar3;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

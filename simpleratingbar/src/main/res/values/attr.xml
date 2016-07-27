@@ -5,6 +5,7 @@
     <attr name="starsColor" format="color" />
     <attr name="numberOfStars" format="integer" />
     <attr name="maxStarSize" format="dimension" />
+    <attr name="starSize" format="dimension" />
     <attr name="starsSeparation" format="dimension" />
     <attr name="isIndicator" format="boolean" />
     <attr name="rating" format="float" />

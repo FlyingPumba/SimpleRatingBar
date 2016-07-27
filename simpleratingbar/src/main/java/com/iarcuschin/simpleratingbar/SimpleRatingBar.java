@@ -27,6 +27,7 @@ public class SimpleRatingBar extends View {
   @ColorInt int backgroundColor;
   int numberOfStars;
   float starsSeparation;
+  float starSize;
   float maxStarSize;
   float rating;
   boolean isIndicator;
@@ -35,7 +36,7 @@ public class SimpleRatingBar extends View {
   private Paint paintStar;
   private Paint paintBackground;
   private Path path;
-  private float starSize;
+  private float defaultStarSize;
   // Internal variables used to speed up drawing. They all depend on  the value of starSize
   private float bottomFromMargin;
   private float triangleSide;
@@ -90,6 +91,8 @@ public class SimpleRatingBar extends View {
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
+
+    defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
   }
 
   private void parseAttrs(AttributeSet attrs) {
@@ -101,8 +104,8 @@ public class SimpleRatingBar extends View {
 
     float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_starsSeparation, 4);
     starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
-    float maxStarSizeDp = arr.getDimension(R.styleable.SimpleRatingBar_maxStarSize, 35);
-    maxStarSize = applyDimension(COMPLEX_UNIT_DIP, maxStarSizeDp, getResources().getDisplayMetrics());
+    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, -1);
+    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, -1);
 
     rating = arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f);
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
@@ -112,9 +115,6 @@ public class SimpleRatingBar extends View {
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
-    int desiredHeight = Math.round(maxStarSize);
-
     int widthMode = MeasureSpec.getMode(widthMeasureSpec);
     int widthSize = MeasureSpec.getSize(widthMeasureSpec);
     int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -129,10 +129,34 @@ public class SimpleRatingBar extends View {
       width = widthSize;
     } else if (widthMode == MeasureSpec.AT_MOST) {
       //Can't be bigger than...
-      width = Math.min(desiredWidth, widthSize);
+      if (starSize != -1) {
+        // user specified a specific star size, so there is a desired width
+        int desiredWidth = Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        width = Math.min(desiredWidth, widthSize);
+      } else if (maxStarSize != -1) {
+        // user specified a max star size, so there is a desired width
+        int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        width = Math.min(desiredWidth, widthSize);
+      } else {
+        // using defaults
+        int desiredWidth = Math.round(defaultStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        width = Math.min(desiredWidth, widthSize);
+      }
     } else {
       //Be whatever you want
-      width = desiredWidth;
+      if (starSize != -1) {
+        // user specified a specific star size, so there is a desired width
+        int desiredWidth = Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        width = desiredWidth;
+      } else if (maxStarSize != -1) {
+        // user specified a max star size, so there is a desired width
+        int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        width = desiredWidth;
+      } else {
+        // using defaults
+        int desiredWidth = Math.round(defaultStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        width = desiredWidth;
+      }
     }
 
     //Measure Height
@@ -141,25 +165,56 @@ public class SimpleRatingBar extends View {
       height = heightSize;
     } else if (heightMode == MeasureSpec.AT_MOST) {
       //Can't be bigger than...
-      height = Math.min(desiredHeight, heightSize);
+      if (starSize != -1) {
+        // user specified a specific star size, so there is a desired width
+        int desiredHeight = Math.round(starSize);
+        height = Math.min(desiredHeight, heightSize);
+      } else if (maxStarSize != -1) {
+        // user specified a max star size, so there is a desired width
+        int desiredHeight = Math.round(maxStarSize);
+        height = Math.min(desiredHeight, heightSize);
+      } else {
+        // using defaults
+        int desiredHeight = Math.round(defaultStarSize);
+        height = Math.min(desiredHeight, heightSize);
+      }
     } else {
       //Be whatever you want
-      height = desiredHeight;
+      if (starSize != -1) {
+        // user specified a specific star size, so there is a desired width
+        int desiredHeight = Math.round(starSize);
+        height = desiredHeight;
+      } else if (maxStarSize != -1) {
+        // user specified a max star size, so there is a desired width
+        int desiredHeight = Math.round(maxStarSize);
+        height = desiredHeight;
+      } else {
+        // using defaults
+        int desiredHeight = Math.round(defaultStarSize);
+        height = desiredHeight;
+      }
     }
 
-    starSize = calculateBestStarSize(width, height);
+    if (starSize == -1) {
+      starSize = calculateBestStarSize(width, height);
+    }
     performStarSizeAssociatedCalculations(width, height);
     //MUST CALL THIS
     setMeasuredDimension(width, height);
   }
 
   private float calculateBestStarSize(int width, int height) {
-    float desiredTotalSize = maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1);
-    if (desiredTotalSize > width) {
-      // we need to shrink the size of the stars
-      return (width - starsSeparation * (numberOfStars -1))/numberOfStars;
+    if (maxStarSize != -1) {
+      float desiredTotalSize = maxStarSize * numberOfStars + starsSeparation * (numberOfStars - 1);
+      if (desiredTotalSize > width) {
+        // we need to shrink the size of the stars
+        return (width - starsSeparation * (numberOfStars - 1)) / numberOfStars;
+      } else {
+        return maxStarSize;
+      }
     } else {
-      return maxStarSize;
+      // expand the most we can
+      return (width - starsSeparation * (numberOfStars - 1)) / numberOfStars;
     }
   }
 
