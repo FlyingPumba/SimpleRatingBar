@@ -1,5 +1,8 @@
 package com.iarcuschin.simpleratingbar;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -15,6 +18,8 @@ import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.applyDimension;
@@ -58,6 +63,7 @@ public class SimpleRatingBar extends View {
   private Paint paintBackground;
   private Path path;
   private float defaultStarSize;
+  private ValueAnimator ratingAnimator;
   private OnRatingBarChangeListener listener;
   // Internal variables used to speed up drawing. They all depend on  the value of starSize
   private float bottomFromMargin;
@@ -141,7 +147,7 @@ public class SimpleRatingBar extends View {
     starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, -1);
     borderWidth = arr.getInteger(R.styleable.SimpleRatingBar_borderWidth, 5);
 
-    rating = arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f);
+    rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
     gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_gravity, Gravity.Left.id));
 
@@ -442,7 +448,6 @@ public class SimpleRatingBar extends View {
     rating = (float)numberOfStars / starsDrawingSpace.width() * x;
   }
 
-
   /* ----------- GETTERS AND SETTERS ----------- */
 
   /**
@@ -450,12 +455,9 @@ public class SimpleRatingBar extends View {
    * @param rating value between 0 and numberOfStars
    */
   public void setRating(float rating) {
-    if (rating > numberOfStars) {
-      throw new IllegalArgumentException("rating must be between 0 and numberOfStars");
-    }
-    this.rating = rating;
+    this.rating = normalizeRating(rating);
     invalidate();
-    if (listener != null) {
+    if (listener != null && (ratingAnimator == null || !ratingAnimator.isRunning())) {
       listener.onRatingChanged(this, rating, false);
     }
   }
@@ -463,8 +465,6 @@ public class SimpleRatingBar extends View {
   public float getRating(){
     return rating;
   }
-
-
 
   public boolean isIndicator() {
     return isIndicator;
@@ -557,6 +557,68 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  private void animateRating(AnimationBuilder builder) {
+    builder.ratingTarget = normalizeRating(builder.ratingTarget);
+    ratingAnimator = ValueAnimator.ofFloat(0, builder.ratingTarget);
+    ratingAnimator.setDuration(builder.duration);
+    ratingAnimator.setRepeatCount(builder.repeatCount);
+    ratingAnimator.setRepeatMode(builder.repeatMode);
+
+    // Callback that executes on animation steps.
+    ratingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+      @Override
+      public void onAnimationUpdate(ValueAnimator animation) {
+        float value = ((Float) (animation.getAnimatedValue())).floatValue();
+        setRating(value);
+      }
+    });
+
+    if (builder.interpolator != null) {
+      ratingAnimator.setInterpolator(builder.interpolator);
+    }
+    if (builder.animatorListener != null) {
+      ratingAnimator.addListener(builder.animatorListener);
+    }
+    ratingAnimator.addListener(new AnimatorListener() {
+      @Override
+      public void onAnimationStart(Animator animator) {
+
+      }
+
+      @Override
+      public void onAnimationEnd(Animator animator) {
+        if (listener != null) {
+          listener.onRatingChanged(SimpleRatingBar.this, rating, false);
+        }
+      }
+
+      @Override
+      public void onAnimationCancel(Animator animator) {
+
+      }
+
+      @Override
+      public void onAnimationRepeat(Animator animator) {
+
+      }
+    });
+    ratingAnimator.start();
+  }
+
+  public AnimationBuilder getAnimationBuilder() {
+    return new AnimationBuilder(this);
+  }
+
+  private float normalizeRating(float rating) {
+    if (rating < 0) {
+      return 0;
+    } else if (rating > numberOfStars) {
+      return numberOfStars;
+    } else {
+      return rating;
+    }
+  }
+
   public void setOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
     this.listener = listener;
   }
@@ -578,5 +640,63 @@ public class SimpleRatingBar extends View {
      */
     void onRatingChanged(SimpleRatingBar simpleRatingBar, float rating, boolean fromUser);
 
+  }
+
+  public class AnimationParameters {
+    private long duration;
+    private Interpolator interpolator;
+  }
+
+  public class AnimationBuilder {
+    private SimpleRatingBar ratingBar;
+    private long duration;
+    private Interpolator interpolator;
+    private float ratingTarget;
+    private int repeatCount;
+    private int repeatMode;
+    private AnimatorListener animatorListener;
+
+    private AnimationBuilder(SimpleRatingBar ratingBar) {
+      this.ratingBar = ratingBar;
+      this.duration = 2000;
+      this.interpolator = new BounceInterpolator();
+      this.ratingTarget = ratingBar.getNumberOfStars();
+      this.repeatCount = 1;
+      this.repeatMode = ValueAnimator.REVERSE;
+    }
+
+    public AnimationBuilder setDuration(long duration) {
+      this.duration = duration;
+      return this;
+    }
+
+    public AnimationBuilder setInterpolator(Interpolator interpolator) {
+      this.interpolator = interpolator;
+      return this;
+    }
+
+    public AnimationBuilder setRatingTarget(float ratingTarget) {
+      this.ratingTarget = ratingTarget;
+      return this;
+    }
+
+    public AnimationBuilder setRepeatCount(int repeatCount) {
+      this.repeatCount = repeatCount;
+      return this;
+    }
+
+    public AnimationBuilder setRepeatMode(int repeatMode) {
+      this.repeatMode = repeatMode;
+      return this;
+    }
+
+    public AnimationBuilder setAnimatorListener(AnimatorListener animatorListener) {
+      this.animatorListener = animatorListener;
+      return this;
+    }
+
+    public void start() {
+      ratingBar.animateRating(this);
+    }
   }
 }
