@@ -530,6 +530,30 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public float getBorderWidth() {
+    return borderWidth;
+  }
+
+  public void setBorderWidth(float borderWidth) {
+    this.borderWidth = borderWidth;
+  }
+
+  public @ColorInt int getFillColor() {
+    return fillColor;
+  }
+
+  public void setFillColor(@ColorInt int fillColor) {
+    this.fillColor = fillColor;
+  }
+
+  public Gravity getGravity() {
+    return gravity;
+  }
+
+  public void setGravity(Gravity gravity) {
+    this.gravity = gravity;
+  }
+
   public void setOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
     this.listener = listener;
   }
