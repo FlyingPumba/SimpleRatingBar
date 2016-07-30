@@ -409,7 +409,7 @@ public class SimpleRatingBar extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    if (isIndicator) {
+    if (isIndicator  || (ratingAnimator != null && ratingAnimator.isRunning())) {
       return false;
     }
 
