@@ -32,6 +32,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="8dp"
       app:maxStarSize="40dp"
+      app:borderWidth="8"
       app:starsColor="@color/material_blue500" />
 
   <com.iarcuschin.simpleratingbar.SimpleRatingBar

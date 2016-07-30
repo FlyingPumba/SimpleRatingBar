@@ -8,6 +8,7 @@
     <attr name="starSize" format="dimension" />
     <attr name="maxStarSize" format="dimension" />
     <attr name="starsSeparation" format="dimension" />
+    <attr name="borderWidth" format="integer" />
     <attr name="isIndicator" format="boolean" />
     <attr name="rating" format="float" />
     <attr name="gravity" format="enum">

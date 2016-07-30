@@ -50,6 +50,7 @@ public class SimpleRatingBar extends View {
   float rating;
   boolean isIndicator;
   Gravity gravity;
+  float borderWidth;
 
   // Internal variables
   private Paint paintStar;
@@ -107,7 +108,7 @@ public class SimpleRatingBar extends View {
     paintStar.setStrokeJoin(Paint.Join.ROUND);
     paintStar.setStrokeCap(Paint.Cap.ROUND);
     paintStar.setPathEffect(new CornerPathEffect(6));
-    paintStar.setStrokeWidth(5);
+    paintStar.setStrokeWidth(borderWidth);
     paintStar.setColor(starsColor);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -138,6 +139,7 @@ public class SimpleRatingBar extends View {
     starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, -1);
     starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, -1);
+    borderWidth = arr.getInteger(R.styleable.SimpleRatingBar_borderWidth, 5);
 
     rating = arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f);
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
