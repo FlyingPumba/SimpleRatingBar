@@ -23,6 +23,7 @@ public class SimpleRatingBar extends View {
 
   // Configurable variables
   @ColorInt int starsColor;
+  @ColorInt int fillColor;
   @ColorInt int backgroundColor;
   int numberOfStars;
   float starsSeparation;
@@ -33,6 +34,7 @@ public class SimpleRatingBar extends View {
 
   // Internal variables
   private Paint paintStar;
+  private Paint paintStarFill;
   private Paint paintBackground;
   private Path path;
   private float defaultStarSize;
@@ -91,6 +93,14 @@ public class SimpleRatingBar extends View {
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
+    paintBackground.setColor(backgroundColor);
+    if (backgroundColor == Color.TRANSPARENT) {
+      paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+    }
+
+    paintStarFill = new Paint(Paint.ANTI_ALIAS_FLAG);
+    paintStarFill.setStyle(Paint.Style.FILL_AND_STROKE);
+    paintStarFill.setColor(fillColor);
 
     defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
   }
@@ -99,6 +109,7 @@ public class SimpleRatingBar extends View {
     TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleRatingBar);
 
     starsColor = arr.getColor(R.styleable.SimpleRatingBar_starsColor, getResources().getColor(R.color.golden_stars));
+    fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, starsColor);
     backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_backgroundColor, Color.TRANSPARENT);
     numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_numberOfStars, 5);
 
@@ -298,20 +309,11 @@ public class SimpleRatingBar extends View {
   }
 
   private void drawStar(Canvas canvas, float x, float y, float filled) {
-    path.reset();
-
     // draw fill
-    if (backgroundColor == Color.TRANSPARENT) {
-      paintBackground.setXfermode(null);
-    }
-    paintBackground.setColor(starsColor);
-    paintBackground.setStrokeWidth(0);
-    canvas.drawRect(x, y, x + starSize * filled, y + starSize, paintBackground);
-    paintBackground.setColor(backgroundColor);
+    paintStarFill.setStrokeWidth(0);
+    canvas.drawRect(x, y, x + starSize * filled, y + starSize, paintStarFill);
+
     paintBackground.setStrokeWidth(1);
-    if (backgroundColor == Color.TRANSPARENT) {
-      paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-    }
     canvas.drawRect(x + starSize * filled, y, x + starSize, y + starSize, paintBackground);
 
     // clean outside of star

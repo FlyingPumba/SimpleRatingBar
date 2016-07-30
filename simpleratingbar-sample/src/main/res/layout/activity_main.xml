@@ -42,4 +42,13 @@
       app:backgroundColor="@color/material_blue200"
       app:starsColor="@color/material_blue500" />
 
+  <com.iarcuschin.simpleratingbar.SimpleRatingBar
+      android:id="@+id/ratingBar5"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:numberOfStars="10"
+      app:starsColor="@color/material_purple500"
+      app:fillColor="@color/material_purple300"
+      android:layout_margin="8dp"/>
+
 </LinearLayout>
