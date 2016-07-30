@@ -54,4 +54,13 @@
       app:fillColor="@color/material_purple300"
       android:layout_margin="8dp"/>
 
+  <com.iarcuschin.simpleratingbar.SimpleRatingBar
+      android:id="@+id/ratingBar6"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      app:numberOfStars="1"
+      app:starsColor="@color/material_green500"
+      app:fillColor="@color/material_green300"
+      android:layout_margin="8dp"/>
+
 </LinearLayout>
