@@ -21,6 +21,24 @@ import static android.util.TypedValue.applyDimension;
 
 public class SimpleRatingBar extends View {
 
+  public enum Gravity {
+    Left(0),
+    Right(1);
+
+    int id;
+    Gravity(int id) {
+      this.id = id;
+    }
+
+    static Gravity fromId(int id) {
+      for (Gravity f : values()) {
+        if (f.id == id) return f;
+      }
+      // default value
+      return Left;
+    }
+  }
+
   // Configurable variables
   @ColorInt int starsColor;
   @ColorInt int fillColor;
@@ -31,6 +49,7 @@ public class SimpleRatingBar extends View {
   float maxStarSize;
   float rating;
   boolean isIndicator;
+  Gravity gravity;
 
   // Internal variables
   private Paint paintStar;
@@ -93,6 +112,7 @@ public class SimpleRatingBar extends View {
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
+    paintBackground.setStrokeWidth(1);
     paintBackground.setColor(backgroundColor);
     if (backgroundColor == Color.TRANSPARENT) {
       paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -100,6 +120,7 @@ public class SimpleRatingBar extends View {
 
     paintStarFill = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintStarFill.setStyle(Paint.Style.FILL_AND_STROKE);
+    paintStarFill.setStrokeWidth(0);
     paintStarFill.setColor(fillColor);
 
     defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
@@ -120,6 +141,7 @@ public class SimpleRatingBar extends View {
 
     rating = arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f);
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
+    gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_gravity, Gravity.Left.id));
 
     arr.recycle();
   }
@@ -289,32 +311,55 @@ public class SimpleRatingBar extends View {
     internalCanvas.drawColor(Color.argb(0, 0, 0, 0));
 
     float remainingTotalRaiting = rating;
-    float startingX = starsDrawingSpace.left;
-    float startingY = starsDrawingSpace.top;
-    for (int i = 0; i < numberOfStars; i++) {
-      if (remainingTotalRaiting >= 1) {
-        drawStar(internalCanvas, startingX, startingY, 1f);
-        remainingTotalRaiting -= 1;
-      } else {
-        drawStar(internalCanvas, startingX, startingY, remainingTotalRaiting);
-        remainingTotalRaiting = 0;
+    if (gravity == Gravity.Left) {
+      float startingX = starsDrawingSpace.left;
+      float startingY = starsDrawingSpace.top;
+      for (int i = 0; i < numberOfStars; i++) {
+        if (remainingTotalRaiting >= 1) {
+          drawStar(internalCanvas, startingX, startingY, 1f, gravity);
+          remainingTotalRaiting -= 1;
+        } else {
+          drawStar(internalCanvas, startingX, startingY, remainingTotalRaiting, gravity);
+          remainingTotalRaiting = 0;
+        }
+        startingX += starSize;
+        if (i < numberOfStars -1) {
+          drawSeparator(internalCanvas, startingX, startingY);
+          startingX += starsSeparation;
+        }
       }
-      startingX += starSize;
-      if (i < numberOfStars -1) {
-        drawSeparator(internalCanvas, startingX, startingY);
-        startingX += starsSeparation;
+    } else {
+      float startingX = starsDrawingSpace.right - starSize;
+      float startingY = starsDrawingSpace.top;
+      for (int i = 0; i < numberOfStars; i++) {
+        if (remainingTotalRaiting >= 1) {
+          drawStar(internalCanvas, startingX, startingY, 1f, gravity);
+          remainingTotalRaiting -= 1;
+        } else {
+          drawStar(internalCanvas, startingX, startingY, remainingTotalRaiting, gravity);
+          remainingTotalRaiting = 0;
+        }
+        if (i < numberOfStars -1) {
+          startingX -= starsSeparation;
+          drawSeparator(internalCanvas, startingX, startingY);
+        }
+        startingX -= starSize;
       }
     }
+
     canvas.drawBitmap(internalBitmap, 0, 0, null);
   }
 
-  private void drawStar(Canvas canvas, float x, float y, float filled) {
+  private void drawStar(Canvas canvas, float x, float y, float filled, Gravity gravity) {
     // draw fill
-    paintStarFill.setStrokeWidth(0);
-    canvas.drawRect(x, y, x + starSize * filled, y + starSize, paintStarFill);
-
-    paintBackground.setStrokeWidth(1);
-    canvas.drawRect(x + starSize * filled, y, x + starSize, y + starSize, paintBackground);
+    float fill = starSize * filled;
+    if (gravity == Gravity.Left) {
+      canvas.drawRect(x, y, x + fill, y + starSize, paintStarFill);
+      canvas.drawRect(x + fill, y, x + starSize, y + starSize, paintBackground);
+    } else {
+      canvas.drawRect(x, y, x + starSize - fill, y + starSize, paintBackground);
+      canvas.drawRect(x + starSize - fill, y, x + starSize, y + starSize, paintStarFill);
+    }
 
     // clean outside of star
     path.reset();
@@ -351,11 +396,6 @@ public class SimpleRatingBar extends View {
   }
 
   private void drawSeparator(Canvas canvas, float x, float y) {
-    paintBackground.setColor(backgroundColor);
-    paintBackground.setStrokeWidth(1);
-    if (backgroundColor == Color.TRANSPARENT) {
-      paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-    }
     canvas.drawRect(x, y, x + starsSeparation, y + starSize, paintBackground);
   }
 
@@ -393,6 +433,9 @@ public class SimpleRatingBar extends View {
 
   private void setNewRatingFromTouch(float x, float y) {
     // normalize x to inside starsDrawinSpace
+    if (gravity != Gravity.Left) {
+      x = getWidth() - x;
+    }
     x = x - starsDrawingSpace.left;
     rating = (float)numberOfStars / starsDrawingSpace.width() * x;
   }

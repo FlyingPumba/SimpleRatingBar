@@ -10,5 +10,9 @@
     <attr name="starsSeparation" format="dimension" />
     <attr name="isIndicator" format="boolean" />
     <attr name="rating" format="float" />
+    <attr name="gravity" format="enum">
+      <enum name="left" value="0"/>
+      <enum name="right" value="1"/>
+    </attr>
   </declare-styleable>
 </resources>

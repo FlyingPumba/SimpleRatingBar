@@ -40,7 +40,9 @@
       android:layout_height="wrap_content"
       android:layout_margin="8dp"
       app:backgroundColor="@color/material_blue200"
-      app:starsColor="@color/material_blue500" />
+      app:starsColor="@color/material_blue500"
+      app:fillColor="@color/material_red300"
+      app:gravity="right"/>
 
   <com.iarcuschin.simpleratingbar.SimpleRatingBar
       android:id="@+id/ratingBar5"
