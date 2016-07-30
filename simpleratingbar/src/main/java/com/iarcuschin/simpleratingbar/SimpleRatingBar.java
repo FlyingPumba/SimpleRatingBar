@@ -536,6 +536,7 @@ public class SimpleRatingBar extends View {
 
   public void setBorderWidth(float borderWidth) {
     this.borderWidth = borderWidth;
+    invalidate();
   }
 
   public @ColorInt int getFillColor() {
@@ -544,6 +545,7 @@ public class SimpleRatingBar extends View {
 
   public void setFillColor(@ColorInt int fillColor) {
     this.fillColor = fillColor;
+    invalidate();
   }
 
   public Gravity getGravity() {
@@ -552,6 +554,7 @@ public class SimpleRatingBar extends View {
 
   public void setGravity(Gravity gravity) {
     this.gravity = gravity;
+    invalidate();
   }
 
   public void setOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
