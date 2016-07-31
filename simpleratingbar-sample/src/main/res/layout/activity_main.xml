@@ -72,7 +72,7 @@
         android:layout_margin="8dp"
         app:borderWidth="8"
         app:maxStarSize="40dp"
-        app:starsColor="@color/material_blue500"
+        app:borderColor="@color/material_blue500"
         />
 
     <TextView
@@ -93,7 +93,7 @@
         app:backgroundColor="@color/material_blue200"
         app:fillColor="@color/material_blue800"
         app:gravity="right"
-        app:starsColor="@color/material_blue500"
+        app:borderColor="@color/material_blue500"
         />
 
     <TextView
@@ -113,7 +113,7 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_purple300"
         app:numberOfStars="10"
-        app:starsColor="@color/material_purple500"
+        app:borderColor="@color/material_purple500"
         />
 
     <TextView
@@ -133,7 +133,7 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_green300"
         app:numberOfStars="1"
-        app:starsColor="@color/material_green500"
+        app:borderColor="@color/material_green500"
         />
 
   </LinearLayout>

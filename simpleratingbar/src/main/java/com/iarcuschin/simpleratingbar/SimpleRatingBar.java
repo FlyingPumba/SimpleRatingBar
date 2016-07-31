@@ -47,7 +47,7 @@ public class SimpleRatingBar extends View {
   }
 
   // Configurable variables
-  @ColorInt int starsColor;
+  @ColorInt int borderColor;
   @ColorInt int fillColor;
   @ColorInt int backgroundColor;
   int numberOfStars;
@@ -120,7 +120,7 @@ public class SimpleRatingBar extends View {
     paintStar.setStrokeCap(Paint.Cap.ROUND);
     paintStar.setPathEffect(new CornerPathEffect(6));
     paintStar.setStrokeWidth(borderWidth);
-    paintStar.setColor(starsColor);
+    paintStar.setColor(borderColor);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -141,8 +141,8 @@ public class SimpleRatingBar extends View {
   private void parseAttrs(AttributeSet attrs) {
     TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleRatingBar);
 
-    starsColor = arr.getColor(R.styleable.SimpleRatingBar_starsColor, getResources().getColor(R.color.golden_stars));
-    fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, starsColor);
+    borderColor = arr.getColor(R.styleable.SimpleRatingBar_borderColor, getResources().getColor(R.color.golden_stars));
+    fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, borderColor);
     backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_backgroundColor, Color.TRANSPARENT);
     numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_numberOfStars, 5);
 
@@ -593,12 +593,12 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
-  public @ColorInt int getStarsColor() {
-    return starsColor;
+  public @ColorInt int getBorderColor() {
+    return borderColor;
   }
 
-  public void setStarsColor(@ColorInt int starsColor) {
-    this.starsColor = starsColor;
+  public void setBorderColor(@ColorInt int borderColor) {
+    this.borderColor = borderColor;
     invalidate();
   }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="SimpleRatingBar">
-    <attr name="starsColor" format="color" />
+    <attr name="borderColor" format="color" />
     <attr name="fillColor" format="color" />
     <attr name="backgroundColor" format="color" />
     <attr name="numberOfStars" format="integer" />
