@@ -16,6 +16,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
@@ -40,6 +41,7 @@ public class SimpleRatingBar extends View {
         if (f.id == id) return f;
       }
       // default value
+      Log.w("SimpleRatingBar", String.format("Gravity chosen is neither 'left' nor 'right', I will set it to Left"));
       return Left;
     }
   }
@@ -154,6 +156,23 @@ public class SimpleRatingBar extends View {
     gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_gravity, Gravity.Left.id));
 
     arr.recycle();
+
+    validateAttrs();
+  }
+
+  private void validateAttrs() {
+    if (numberOfStars <= 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for numberOfStars. Found %d, but should be greater than 0", numberOfStars));
+    }
+    if (starSize != -1 && maxStarSize != -1 && starSize > maxStarSize) {
+      Log.w("SimpleRatingBar", String.format("Initialized with conflicting values: starSize is greater than maxStarSize (%f > %f). I will ignore maxStarSize", starSize, maxStarSize));
+    }
+    if (stepSize <= 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for stepSize. Found %d, but should be greater than 0", stepSize));
+    }
+    if (borderWidth <= 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for borderWidth. Found %d, but should be greater than 0", borderWidth));
+    }
   }
 
   @Override
@@ -630,8 +649,10 @@ public class SimpleRatingBar extends View {
 
   private float normalizeRating(float rating) {
     if (rating < 0) {
+      Log.w("SimpleRatingBar", String.format("Assigned rating is less than 0 (%f < 0), I will set it to exactly 0", rating));
       return 0;
     } else if (rating > numberOfStars) {
+      Log.w("SimpleRatingBar", String.format("Assigned rating is greater than numberOfStars (%f > %d), I will set it to exactly numberOfStars", rating, numberOfStars));
       return numberOfStars;
     } else {
       return rating;
