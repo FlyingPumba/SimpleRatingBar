@@ -557,6 +557,15 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public float getStepSize() {
+    return stepSize;
+  }
+
+  public void setStepSize(float stepSize) {
+    this.stepSize = stepSize;
+    invalidate();
+  }
+
   public float getStarsSeparation() {
     return starsSeparation;
   }
