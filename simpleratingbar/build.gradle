@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = 'simpleratingbar'
+
+  publishedGroupId = 'com.iarcuschin'
+  libraryName = 'simpleratingbar'
+  artifact = 'simpleratingbar'
+
+  libraryDescription = 'A simple RatingBar for Android'
+
+  siteUrl = 'https://github.com/FlyingPumba/SimpleRatingBar'
+  gitUrl = 'https://github.com/FlyingPumba/SimpleRatingBar.git'
+
+  libraryVersion = '0.0.1'
+
+  developerId = 'flyingpumba'
+  developerName = 'Ivan Arcuschin'
+  developerEmail = 'iarcuschin@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
+
 buildscript {
   repositories {
     mavenCentral()
@@ -31,3 +55,6 @@ android {
 dependencies {
   compile 'com.android.support:support-v4:23.2.1'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
