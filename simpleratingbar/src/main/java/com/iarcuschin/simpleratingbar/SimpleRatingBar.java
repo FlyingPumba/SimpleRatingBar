@@ -68,6 +68,7 @@ public class SimpleRatingBar extends View {
   private float defaultStarSize;
   private ValueAnimator ratingAnimator;
   private OnRatingBarChangeListener listener;
+  private boolean touchInProgress;
   // Internal variables used to speed up drawing. They all depend on  the value of starSize
   private float bottomFromMargin;
   private float triangleSide;
@@ -80,6 +81,7 @@ public class SimpleRatingBar extends View {
   private float innerCenterVerticalMargin;
   private float[] starVertex;
   private RectF starsDrawingSpace;
+  private RectF starsTouchSpace;
 
   // in order to delete some drawing, and keep transparency
   // http://stackoverflow.com/a/21865858/2271834
@@ -146,9 +148,9 @@ public class SimpleRatingBar extends View {
 
     float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_starsSeparation, 4);
     starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
-    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, -1);
-    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, -1);
-    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, -1);
+    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, Integer.MAX_VALUE);
+    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, Integer.MAX_VALUE);
+    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, Float.MAX_VALUE);
     borderWidth = arr.getInteger(R.styleable.SimpleRatingBar_borderWidth, 5);
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
@@ -164,14 +166,14 @@ public class SimpleRatingBar extends View {
     if (numberOfStars <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for numberOfStars. Found %d, but should be greater than 0", numberOfStars));
     }
-    if (starSize != -1 && maxStarSize != -1 && starSize > maxStarSize) {
+    if (starSize != Integer.MAX_VALUE && maxStarSize != Integer.MAX_VALUE && starSize > maxStarSize) {
       Log.w("SimpleRatingBar", String.format("Initialized with conflicting values: starSize is greater than maxStarSize (%f > %f). I will ignore maxStarSize", starSize, maxStarSize));
     }
     if (stepSize <= 0) {
-      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for stepSize. Found %d, but should be greater than 0", stepSize));
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for stepSize. Found %f, but should be greater than 0", stepSize));
     }
     if (borderWidth <= 0) {
-      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for borderWidth. Found %d, but should be greater than 0", borderWidth));
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for borderWidth. Found %f, but should be greater than 0", borderWidth));
     }
   }
 
@@ -191,11 +193,11 @@ public class SimpleRatingBar extends View {
       width = widthSize;
     } else if (widthMode == MeasureSpec.AT_MOST) {
       //Can't be bigger than...
-      if (starSize != -1) {
+      if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
         int desiredWidth = Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1));
         width = Math.min(desiredWidth, widthSize);
-      } else if (maxStarSize != -1) {
+      } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
         int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
         width = Math.min(desiredWidth, widthSize);
@@ -206,11 +208,11 @@ public class SimpleRatingBar extends View {
       }
     } else {
       //Be whatever you want
-      if (starSize != -1) {
+      if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
         int desiredWidth = Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1));
         width = desiredWidth;
-      } else if (maxStarSize != -1) {
+      } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
         int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
         width = desiredWidth;
@@ -227,11 +229,11 @@ public class SimpleRatingBar extends View {
       height = heightSize;
     } else if (heightMode == MeasureSpec.AT_MOST) {
       //Can't be bigger than...
-      if (starSize != -1) {
+      if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
         int desiredHeight = Math.round(starSize);
         height = Math.min(desiredHeight, heightSize);
-      } else if (maxStarSize != -1) {
+      } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
         int desiredHeight = Math.round(maxStarSize);
         height = Math.min(desiredHeight, heightSize);
@@ -242,11 +244,11 @@ public class SimpleRatingBar extends View {
       }
     } else {
       //Be whatever you want
-      if (starSize != -1) {
+      if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
         int desiredHeight = Math.round(starSize);
         height = desiredHeight;
-      } else if (maxStarSize != -1) {
+      } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
         int desiredHeight = Math.round(maxStarSize);
         height = desiredHeight;
@@ -257,7 +259,7 @@ public class SimpleRatingBar extends View {
       }
     }
 
-    if (starSize == -1) {
+    if (starSize == Integer.MAX_VALUE) {
       starSize = calculateBestStarSize(width, height);
     }
     performStarSizeAssociatedCalculations(width, height);
@@ -266,7 +268,7 @@ public class SimpleRatingBar extends View {
   }
 
   private float calculateBestStarSize(int width, int height) {
-    if (maxStarSize != -1) {
+    if (maxStarSize != Integer.MAX_VALUE) {
       float desiredTotalSize = maxStarSize * numberOfStars + starsSeparation * (numberOfStars - 1);
       if (desiredTotalSize > width) {
         // we need to shrink the size of the stars
@@ -285,6 +287,8 @@ public class SimpleRatingBar extends View {
     float startingX = width/2 - totalStarsSize/2;
     float startingY = 0;
     starsDrawingSpace = new RectF(startingX, startingY, startingX + totalStarsSize, startingY + starSize);
+    float aux = starsDrawingSpace.width() * 0.05f;
+    starsTouchSpace = new RectF(starsDrawingSpace.left - aux, starsDrawingSpace.top, starsDrawingSpace.right + aux, starsDrawingSpace.bottom);
 
     bottomFromMargin = starSize*0.2f;
     triangleSide = starSize*0.35f;
@@ -389,7 +393,7 @@ public class SimpleRatingBar extends View {
   }
 
   private float getRatingToDraw() {
-    if (stepSize != -1) {
+    if (stepSize != Float.MAX_VALUE) {
       return rating - (rating % stepSize);
     } else {
       return rating;
@@ -451,24 +455,29 @@ public class SimpleRatingBar extends View {
       return false;
     }
 
-    // check if action is performed above stars
-    if (!starsDrawingSpace.contains(event.getX(), event.getY())) {
-      return false;
-    }
-
     int action = event.getAction() & MotionEvent.ACTION_MASK;
     switch(action) {
       case MotionEvent.ACTION_DOWN:
-        setNewRatingFromTouch(event.getX(), event.getY());
-        break;
       case MotionEvent.ACTION_MOVE:
-        setNewRatingFromTouch(event.getX(), event.getY());
+        // check if action is performed on stars
+        if (starsTouchSpace.contains(event.getX(), event.getY())) {
+          touchInProgress = true;
+          setNewRatingFromTouch(event.getX(), event.getY());
+        } else {
+          if (touchInProgress && listener != null) {
+            listener.onRatingChanged(this, rating, false);
+          }
+          touchInProgress = false;
+          return false;
+        }
         break;
       case MotionEvent.ACTION_UP:
         setNewRatingFromTouch(event.getX(), event.getY());
+      case MotionEvent.ACTION_CANCEL:
         if (listener != null) {
           listener.onRatingChanged(this, rating, false);
         }
+        touchInProgress = false;
         break;
 
     }
@@ -482,8 +491,21 @@ public class SimpleRatingBar extends View {
     if (gravity != Gravity.Left) {
       x = getWidth() - x;
     }
+
+    if (x < starsDrawingSpace.left) {
+      rating = 0;
+      return;
+    } else if (x >  starsDrawingSpace.right) {
+      rating = numberOfStars;
+      return;
+    }
+
     x = x - starsDrawingSpace.left;
+    // reduce the width to allow the user reach the top and bottom values of rating (0 and numberOfStars)
     rating = (float)numberOfStars / starsDrawingSpace.width() * x;
+    if (stepSize != Float.MAX_VALUE) {
+      rating -= rating % stepSize;
+    }
   }
 
   /* ----------- GETTERS AND SETTERS ----------- */
@@ -494,6 +516,9 @@ public class SimpleRatingBar extends View {
    */
   public void setRating(float rating) {
     this.rating = normalizeRating(rating);
+    if (stepSize != Float.MAX_VALUE) {
+      rating -= rating % stepSize;
+    }
     invalidate();
     if (listener != null && (ratingAnimator == null || !ratingAnimator.isRunning())) {
       listener.onRatingChanged(this, rating, false);

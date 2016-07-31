@@ -51,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        app:maxStarSize="45dp"
         app:stepSize="0.5"
         />
 
