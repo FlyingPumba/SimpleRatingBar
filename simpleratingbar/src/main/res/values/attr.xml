@@ -11,6 +11,7 @@
     <attr name="borderWidth" format="integer" />
     <attr name="isIndicator" format="boolean" />
     <attr name="rating" format="float" />
+    <attr name="stepSize" format="float" />
     <attr name="gravity" format="enum">
       <enum name="left" value="0"/>
       <enum name="right" value="1"/>

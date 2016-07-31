@@ -52,6 +52,7 @@ public class SimpleRatingBar extends View {
   float starsSeparation;
   float starSize;
   float maxStarSize;
+  float stepSize;
   float rating;
   boolean isIndicator;
   Gravity gravity;
@@ -145,6 +146,7 @@ public class SimpleRatingBar extends View {
     starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, -1);
     starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, -1);
+    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, -1);
     borderWidth = arr.getInteger(R.styleable.SimpleRatingBar_borderWidth, 5);
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
@@ -318,44 +320,61 @@ public class SimpleRatingBar extends View {
 
     internalCanvas.drawColor(Color.argb(0, 0, 0, 0));
 
-    float remainingTotalRaiting = rating;
     if (gravity == Gravity.Left) {
-      float startingX = starsDrawingSpace.left;
-      float startingY = starsDrawingSpace.top;
-      for (int i = 0; i < numberOfStars; i++) {
-        if (remainingTotalRaiting >= 1) {
-          drawStar(internalCanvas, startingX, startingY, 1f, gravity);
-          remainingTotalRaiting -= 1;
-        } else {
-          drawStar(internalCanvas, startingX, startingY, remainingTotalRaiting, gravity);
-          remainingTotalRaiting = 0;
-        }
-        startingX += starSize;
-        if (i < numberOfStars -1) {
-          drawSeparator(internalCanvas, startingX, startingY);
-          startingX += starsSeparation;
-        }
-      }
+      drawFromLeftToRight(internalCanvas);
     } else {
-      float startingX = starsDrawingSpace.right - starSize;
-      float startingY = starsDrawingSpace.top;
-      for (int i = 0; i < numberOfStars; i++) {
-        if (remainingTotalRaiting >= 1) {
-          drawStar(internalCanvas, startingX, startingY, 1f, gravity);
-          remainingTotalRaiting -= 1;
-        } else {
-          drawStar(internalCanvas, startingX, startingY, remainingTotalRaiting, gravity);
-          remainingTotalRaiting = 0;
-        }
-        if (i < numberOfStars -1) {
-          startingX -= starsSeparation;
-          drawSeparator(internalCanvas, startingX, startingY);
-        }
-        startingX -= starSize;
-      }
+      drawFromRightToLeft(internalCanvas);
     }
 
     canvas.drawBitmap(internalBitmap, 0, 0, null);
+  }
+
+  private void drawFromLeftToRight(Canvas internalCanvas) {
+    float remainingTotalRating = getRatingToDraw();
+    float startingX = starsDrawingSpace.left;
+    float startingY = starsDrawingSpace.top;
+    for (int i = 0; i < numberOfStars; i++) {
+      if (remainingTotalRating >= 1) {
+        drawStar(internalCanvas, startingX, startingY, 1f, gravity);
+        remainingTotalRating -= 1;
+      } else {
+        drawStar(internalCanvas, startingX, startingY, remainingTotalRating, gravity);
+        remainingTotalRating = 0;
+      }
+      startingX += starSize;
+      if (i < numberOfStars -1) {
+        drawSeparator(internalCanvas, startingX, startingY);
+        startingX += starsSeparation;
+      }
+    }
+  }
+
+  private void drawFromRightToLeft(Canvas internalCanvas) {
+    float remainingTotalRating = getRatingToDraw();
+    float startingX = starsDrawingSpace.right - starSize;
+    float startingY = starsDrawingSpace.top;
+    for (int i = 0; i < numberOfStars; i++) {
+      if (remainingTotalRating >= 1) {
+        drawStar(internalCanvas, startingX, startingY, 1f, gravity);
+        remainingTotalRating -= 1;
+      } else {
+        drawStar(internalCanvas, startingX, startingY, remainingTotalRating, gravity);
+        remainingTotalRating = 0;
+      }
+      if (i < numberOfStars -1) {
+        startingX -= starsSeparation;
+        drawSeparator(internalCanvas, startingX, startingY);
+      }
+      startingX -= starSize;
+    }
+  }
+
+  private float getRatingToDraw() {
+    if (stepSize != -1) {
+      return rating - (rating % stepSize);
+    } else {
+      return rating;
+    }
   }
 
   private void drawStar(Canvas canvas, float x, float y, float filled, Gravity gravity) {
