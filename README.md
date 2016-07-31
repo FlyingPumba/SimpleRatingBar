@@ -3,15 +3,37 @@ SimpleRatingBar
 
 A simple RatingBar for Android.
 
+![](images/sample.gif)
+
 Features
 ----
-* Set the number of stars with `app:numberOfStars` / `setNumberOfStars(int)`
+* Fully working `android:layout_width`: it can be set to `wrap_content`, `match_parent` or abritary dp.
+* Arbitrary number of stars.
+* Arbitrary step size.
+* Size of stars can be controlled exactly or by setting a maximum size.
+* Customizable colors (border, fill and background of stars).
+* Customizable size separation between stars.
+* Customizable border width of stars.
+* Allows to set OnRatingBarChangeListener
+* Stars fill can be set to start from left to right or from right to left (RTL language support).
+* AnimationBuilder integrated in the view to set rating programatically with animation. 
 
 Configuration
 ----
 The view can be configured as follows:
 
 * Set the number of stars with `app:numberOfStars` / `setNumberOfStars(int)`
+* Set the rating with `app:rating` / `setRating(float)`
+* Set step size with `app:stepSize` / `setStepSize(float)`
+* Set star size with `app:starSize` / `setStarSize(float)`
+* Set max star size with `app:maxStarSize` / `setMaxStarSize(float)`
+* Set separation between stars with `app:starsSeparation` / `setStarsSeparation(float)`
+* Set border width with `app:borderWidth` / `setBorderWidth(float)`
+* Set stars border color with `app:borderColor` / `setBorderColor(@ColorInt int)`
+* Set stars fill color with `app:fillColor` / `setFillColor(@ColorInt int)`
+* Set background color with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`
+* Set is indicator with `app:isIndicator` / `setIsIndicator(boolean)`
+* Set gravity of fil (left or right) with `app:garvity` / `setGravity(Gravity)`
 
 Download
 ----
