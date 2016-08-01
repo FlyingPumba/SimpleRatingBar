@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:borderWidth="8"
+        app:starBorderWidth="8"
         app:maxStarSize="40dp"
         app:borderColor="@color/material_blue500"
         />

@@ -28,7 +28,7 @@ The view can be configured as follows:
 * Set star size with `app:starSize` / `setStarSize(float)`
 * Set max star size with `app:maxStarSize` / `setMaxStarSize(float)`
 * Set separation between stars with `app:starsSeparation` / `setStarsSeparation(float)`
-* Set border width with `app:borderWidth` / `setBorderWidth(float)`
+* Set border width with `app:starBorderWidth` / `setStarBorderWidth(float)`
 * Set stars border color with `app:borderColor` / `setBorderColor(@ColorInt int)`
 * Set stars fill color with `app:fillColor` / `setFillColor(@ColorInt int)`
 * Set background color with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`

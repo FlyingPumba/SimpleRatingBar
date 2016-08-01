@@ -58,7 +58,7 @@ public class SimpleRatingBar extends View {
   float rating;
   boolean isIndicator;
   Gravity gravity;
-  float borderWidth;
+  float starBorderWidth;
 
   // Internal variables
   private Paint paintStar;
@@ -119,7 +119,7 @@ public class SimpleRatingBar extends View {
     paintStar.setStrokeJoin(Paint.Join.ROUND);
     paintStar.setStrokeCap(Paint.Cap.ROUND);
     paintStar.setPathEffect(new CornerPathEffect(6));
-    paintStar.setStrokeWidth(borderWidth);
+    paintStar.setStrokeWidth(starBorderWidth);
     paintStar.setColor(borderColor);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -151,7 +151,7 @@ public class SimpleRatingBar extends View {
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, Integer.MAX_VALUE);
     starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, Integer.MAX_VALUE);
     stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, Float.MAX_VALUE);
-    borderWidth = arr.getInteger(R.styleable.SimpleRatingBar_borderWidth, 5);
+    starBorderWidth = arr.getInteger(R.styleable.SimpleRatingBar_starBorderWidth, 5);
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
@@ -172,8 +172,9 @@ public class SimpleRatingBar extends View {
     if (stepSize <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for stepSize. Found %f, but should be greater than 0", stepSize));
     }
-    if (borderWidth <= 0) {
-      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for borderWidth. Found %f, but should be greater than 0", borderWidth));
+    if (starBorderWidth <= 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starBorderWidth. Found %f, but should be greater than 0",
+          starBorderWidth));
     }
   }
 
@@ -602,12 +603,12 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
-  public float getBorderWidth() {
-    return borderWidth;
+  public float getStarBorderWidth() {
+    return starBorderWidth;
   }
 
-  public void setBorderWidth(float borderWidth) {
-    this.borderWidth = borderWidth;
+  public void setStarBorderWidth(float starBorderWidth) {
+    this.starBorderWidth = starBorderWidth;
     invalidate();
   }
 
