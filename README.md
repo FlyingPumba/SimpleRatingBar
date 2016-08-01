@@ -38,16 +38,18 @@ The view can be configured as follows:
 Download
 ----
 
+Available in `jcenter`.
+
 Gradle:
 ```groovy
-compile 'com.iarcuschin:simpleratingbar:0.0.1'
+compile 'com.iarcuschin:simpleratingbar:0.0.2'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <type>apklib</type>
 </dependency>
 ```
