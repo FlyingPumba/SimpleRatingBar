@@ -1,6 +1,8 @@
 SimpleRatingBar
 ====
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-%20SimpleRatingBar-green.svg?style=true)](https://android-arsenal.com/details/1/4027)
+
 A simple RatingBar for Android.
 
 ![](images/sample.gif)
