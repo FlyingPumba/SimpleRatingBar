@@ -578,7 +578,7 @@ public class SimpleRatingBar extends View {
    */
   public void setRating(float rating) {
     this.rating = normalizeRating(rating);
-    if (stepSize != Float.MAX_VALUE) {
+    if (stepSize != Float.MAX_VALUE && (ratingAnimator == null || !ratingAnimator.isRunning())) {
       rating -= rating % stepSize;
     }
     invalidate();
