@@ -2,6 +2,8 @@ SimpleRatingBar
 ====
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-%20SimpleRatingBar-green.svg?style=true)](https://android-arsenal.com/details/1/4027)
+[![Download](https://api.bintray.com/packages/flyingpumba/maven/simpleratingbar/images/download.svg) ](https://bintray.com/flyingpumba/maven/simpleratingbar/_latestVersion)
+[![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/LICENSE.txt)
 
 A simple RatingBar for Android.
 
@@ -18,7 +20,38 @@ Features
 * Customizable border width of stars.
 * Allows to set OnRatingBarChangeListener
 * Stars fill can be set to start from left to right or from right to left (RTL language support).
-* AnimationBuilder integrated in the view to set rating programatically with animation. 
+* AnimationBuilder integrated in the view to set rating programatically with animation.
+
+Usage
+----
+
+In your layout file:
+
+```xml
+<com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:starSize="40dp"
+        app:numberOfStars="5"
+        app:rating="3"
+        app:stepSize="0.5"
+        app:borderColor="@color/blue"
+        app:fillColor="@color/light_blue"
+        />
+```
+
+More examples in the [sample app layout](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/simpleratingbar-sample/src/main/res/layout/activity_main.xml).
+
+Example of setting rating with animation:
+
+```java
+SimpleRatingBar.AnimationBuilder builder = myRatingBar.getAnimationBuilder()
+        .setRatingTarget(3)
+        .setDuration(2000)
+        .setInterpolator(new BounceInterpolator());
+    builder.start();
+```
+
 
 Configuration
 ----
@@ -40,13 +73,29 @@ The view can be configured as follows:
 Download
 ----
 
-Available in `jcenter`.
+Using `Gradle` from `jcenter`:
 
-Gradle:
 ```groovy
-compile 'com.iarcuschin:simpleratingbar:0.0.2'
+repositories {
+    jcenter()
+}
+dependencies {
+    compile 'com.iarcuschin:simpleratingbar:0.0.2'
+}
 ```
-or Maven:
+
+Using `Gradle` from `Maven Central`:
+
+```groovy
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.iarcuschin:simpleratingbar:0.0.2'
+}
+```
+
+Using `Maven`:
 ```xml
 <dependency>
   <groupId>com.iarcuschin</groupId>
@@ -71,4 +120,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
