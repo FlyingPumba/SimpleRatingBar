@@ -67,7 +67,7 @@ The view can be configured as follows:
 * Set stars border color with `app:borderColor` / `setBorderColor(@ColorInt int)`
 * Set stars fill color with `app:fillColor` / `setFillColor(@ColorInt int)`
 * Set background color with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`
-* Set is indicator with `app:isIndicator` / `setIsIndicator(boolean)`
+* Enabled/disable user interaction with `app:isIndicator` / `setIsIndicator(boolean)`
 * Set gravity of fil (left or right) with `app:garvity` / `setGravity(Gravity)`
 
 Download
