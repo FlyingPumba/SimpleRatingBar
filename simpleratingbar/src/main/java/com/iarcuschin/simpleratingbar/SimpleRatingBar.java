@@ -73,7 +73,7 @@ public class SimpleRatingBar extends View {
   private float starBorderWidth;
 
   // Internal variables
-  private Paint paintStar;
+  private Paint paintStarBorder;
   private Paint paintStarFill;
   private Paint paintBackground;
   private Path path;
@@ -111,16 +111,16 @@ public class SimpleRatingBar extends View {
    * Inits paint objects and default values.
    */
   private void initView() {
-    paintStar = new Paint(Paint.ANTI_ALIAS_FLAG);
+    paintStarBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
     path = new Path();
-    paintStar.setAntiAlias(true);
-    paintStar.setDither(true);
-    paintStar.setStyle(Paint.Style.STROKE);
-    paintStar.setStrokeJoin(Paint.Join.ROUND);
-    paintStar.setStrokeCap(Paint.Cap.ROUND);
-    paintStar.setPathEffect(new CornerPathEffect(6));
-    paintStar.setStrokeWidth(starBorderWidth);
-    paintStar.setColor(borderColor);
+    paintStarBorder.setAntiAlias(true);
+    paintStarBorder.setDither(true);
+    paintStarBorder.setStyle(Paint.Style.STROKE);
+    paintStarBorder.setStrokeJoin(Paint.Join.ROUND);
+    paintStarBorder.setStrokeCap(Paint.Cap.ROUND);
+    paintStarBorder.setPathEffect(new CornerPathEffect(6));
+    paintStarBorder.setStrokeWidth(starBorderWidth);
+    paintStarBorder.setColor(borderColor);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -484,7 +484,7 @@ public class SimpleRatingBar extends View {
       path.lineTo(x + starVertex[i], y + starVertex[i+1]);
     }
     path.close();
-    canvas.drawPath(path, paintStar);
+    canvas.drawPath(path, paintStarBorder);
   }
 
   /**
@@ -581,6 +581,7 @@ public class SimpleRatingBar extends View {
     if (stepSize != Float.MAX_VALUE && (ratingAnimator == null || !ratingAnimator.isRunning())) {
       rating -= rating % stepSize;
     }
+    // request redraw of the view
     invalidate();
     if (listener != null && (ratingAnimator == null || !ratingAnimator.isRunning())) {
       listener.onRatingChanged(this, rating, false);
@@ -598,6 +599,7 @@ public class SimpleRatingBar extends View {
    */
   public void setIndicator(boolean indicator) {
     isIndicator = indicator;
+    touchInProgress = false;
   }
 
   public float getMaxStarSize() {
@@ -612,6 +614,9 @@ public class SimpleRatingBar extends View {
   public void setMaxStarSize(float maxStarSize) {
     this.maxStarSize = maxStarSize;
     if (starSize > maxStarSize) {
+      // force re-calculating the layout dimension
+      requestLayout();
+      // request redraw of the view
       invalidate();
     }
   }
@@ -629,6 +634,9 @@ public class SimpleRatingBar extends View {
     if (starSize != Integer.MAX_VALUE && maxStarSize != Integer.MAX_VALUE && starSize > maxStarSize) {
       Log.w("SimpleRatingBar", String.format("Initialized with conflicting values: starSize is greater than maxStarSize (%f > %f). I will ignore maxStarSize", starSize, maxStarSize));
     }
+    // force re-calculating the layout dimension
+    requestLayout();
+    // request redraw of the view
     invalidate();
   }
 
@@ -646,6 +654,7 @@ public class SimpleRatingBar extends View {
     if (stepSize <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for stepSize. Found %f, but should be greater than 0", stepSize));
     }
+    // request redraw of the view
     invalidate();
   }
 
@@ -659,6 +668,9 @@ public class SimpleRatingBar extends View {
    */
   public void setStarsSeparation(float starsSeparation) {
     this.starsSeparation = starsSeparation;
+    // force re-calculating the layout dimension
+    requestLayout();
+    // request redraw of the view
     invalidate();
   }
 
@@ -676,6 +688,9 @@ public class SimpleRatingBar extends View {
     if (numberOfStars <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for numberOfStars. Found %d, but should be greater than 0", numberOfStars));
     }
+    // force re-calculating the layout dimension
+    requestLayout();
+    // request redraw of the view
     invalidate();
   }
 
@@ -689,6 +704,8 @@ public class SimpleRatingBar extends View {
    */
   @Override public void setBackgroundColor(@ColorInt int backgroundColor) {
     this.backgroundColor = backgroundColor;
+    paintBackground.setColor(backgroundColor);
+    // request redraw of the view
     invalidate();
   }
 
@@ -702,6 +719,8 @@ public class SimpleRatingBar extends View {
    */
   public void setBorderColor(@ColorInt int borderColor) {
     this.borderColor = borderColor;
+    paintStarBorder.setColor(borderColor);
+    // request redraw of the view
     invalidate();
   }
 
@@ -719,6 +738,8 @@ public class SimpleRatingBar extends View {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starBorderWidth. Found %f, but should be greater than 0",
           starBorderWidth));
     }
+    paintStarBorder.setStrokeWidth(starBorderWidth);
+    // request redraw of the view
     invalidate();
   }
 
@@ -732,6 +753,8 @@ public class SimpleRatingBar extends View {
    */
   public void setFillColor(@ColorInt int fillColor) {
     this.fillColor = fillColor;
+    paintStarFill.setColor(fillColor);
+    // request redraw of the view
     invalidate();
   }
 
@@ -745,6 +768,7 @@ public class SimpleRatingBar extends View {
    */
   public void setGravity(Gravity gravity) {
     this.gravity = gravity;
+    // request redraw of the view
     invalidate();
   }
 
