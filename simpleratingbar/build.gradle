@@ -13,7 +13,7 @@ ext {
   siteUrl = 'https://github.com/FlyingPumba/SimpleRatingBar'
   gitUrl = 'https://github.com/FlyingPumba/SimpleRatingBar.git'
 
-  libraryVersion = '0.0.2'
+  libraryVersion = '0.0.3'
 
   developerId = 'flyingpumba'
   developerName = 'Ivan Arcuschin'
@@ -41,8 +41,8 @@ android {
   defaultConfig {
     minSdkVersion 14
     targetSdkVersion 23
-    versionCode 2
-    versionName "0.0.2"
+    versionCode 3
+    versionName "0.0.3"
   }
   buildTypes {
     release {
