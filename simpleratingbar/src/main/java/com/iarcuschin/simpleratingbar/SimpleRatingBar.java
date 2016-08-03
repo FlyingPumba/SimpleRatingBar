@@ -203,33 +203,35 @@ public class SimpleRatingBar extends View {
       //Can't be bigger than...
       if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
-        int desiredWidth = Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        int desiredWidth = calculateTotalWidth(starSize, numberOfStars, starsSeparation, true);
         width = Math.min(desiredWidth, widthSize);
       } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
-        int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        int desiredWidth = calculateTotalWidth(maxStarSize, numberOfStars, starsSeparation, true);
         width = Math.min(desiredWidth, widthSize);
       } else {
         // using defaults
-        int desiredWidth = Math.round(defaultStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        int desiredWidth = calculateTotalWidth(defaultStarSize, numberOfStars, starsSeparation, true);
         width = Math.min(desiredWidth, widthSize);
       }
     } else {
       //Be whatever you want
       if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
-        int desiredWidth = Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        int desiredWidth = calculateTotalWidth(starSize, numberOfStars, starsSeparation, true);
         width = desiredWidth;
       } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
-        int desiredWidth = Math.round(maxStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        int desiredWidth = calculateTotalWidth(maxStarSize, numberOfStars, starsSeparation, true);
         width = desiredWidth;
       } else {
         // using defaults
-        int desiredWidth = Math.round(defaultStarSize * numberOfStars + starsSeparation * (numberOfStars -1));
+        int desiredWidth = calculateTotalWidth(defaultStarSize, numberOfStars, starsSeparation, true);
         width = desiredWidth;
       }
     }
+
+    float tentativeStarSize = (width - getPaddingLeft() - getPaddingRight() - starsSeparation * (numberOfStars - 1)) / numberOfStars;
 
     //Measure Height
     if (heightMode == MeasureSpec.EXACTLY) {
@@ -239,40 +241,47 @@ public class SimpleRatingBar extends View {
       //Can't be bigger than...
       if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
-        int desiredHeight = Math.round(starSize);
+        int desiredHeight = calculateTotalHeight(starSize, numberOfStars, starsSeparation, true);
         height = Math.min(desiredHeight, heightSize);
       } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
-        int desiredHeight = Math.round(maxStarSize);
+        int desiredHeight = calculateTotalHeight(maxStarSize, numberOfStars, starsSeparation, true);
         height = Math.min(desiredHeight, heightSize);
       } else {
         // using defaults
-        int desiredHeight = Math.round(defaultStarSize);
+        int desiredHeight = calculateTotalHeight(tentativeStarSize, numberOfStars, starsSeparation, true);
         height = Math.min(desiredHeight, heightSize);
       }
     } else {
       //Be whatever you want
       if (starSize != Integer.MAX_VALUE) {
         // user specified a specific star size, so there is a desired width
-        int desiredHeight = Math.round(starSize);
+        int desiredHeight = calculateTotalHeight(starSize, numberOfStars, starsSeparation, true);
         height = desiredHeight;
       } else if (maxStarSize != Integer.MAX_VALUE) {
         // user specified a max star size, so there is a desired width
-        int desiredHeight = Math.round(maxStarSize);
+        int desiredHeight = calculateTotalHeight(maxStarSize, numberOfStars, starsSeparation, true);
         height = desiredHeight;
       } else {
         // using defaults
-        int desiredHeight = Math.round(defaultStarSize);
+        int desiredHeight = calculateTotalHeight(tentativeStarSize, numberOfStars, starsSeparation, true);
         height = desiredHeight;
       }
     }
 
+    //MUST CALL THIS
+    setMeasuredDimension(width, height);
+  }
+
+  @Override protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    super.onLayout(changed, left, top, right, bottom);
+
+    int width = getWidth();
+    int height = getHeight();
     if (starSize == Integer.MAX_VALUE) {
       starSize = calculateBestStarSize(width, height);
     }
     performStarSizeAssociatedCalculations(width, height);
-    //MUST CALL THIS
-    setMeasuredDimension(width, height);
   }
 
   /**
@@ -280,20 +289,24 @@ public class SimpleRatingBar extends View {
    * If maxStarSize is present, it will be considered and star size will not be greater than this value.
    * @param width
    * @param height
-   * @return
-   */
+   * */
   private float calculateBestStarSize(int width, int height) {
     if (maxStarSize != Integer.MAX_VALUE) {
-      float desiredTotalSize = maxStarSize * numberOfStars + starsSeparation * (numberOfStars - 1);
-      if (desiredTotalSize > width) {
+      float desiredTotalWidth = calculateTotalWidth(maxStarSize, numberOfStars, starsSeparation, true);
+      float desiredTotalHeight = calculateTotalHeight(maxStarSize, numberOfStars, starsSeparation, true);
+      if (desiredTotalWidth >= width || desiredTotalHeight >= height) {
         // we need to shrink the size of the stars
-        return (width - starsSeparation * (numberOfStars - 1)) / numberOfStars;
+        float sizeBasedOnWidth = (width - getPaddingLeft() - getPaddingRight() - starsSeparation * (numberOfStars - 1)) / numberOfStars;
+        float sizeBasedOnHeight = height - getPaddingTop() - getPaddingBottom();
+        return Math.min(sizeBasedOnWidth, sizeBasedOnHeight);
       } else {
         return maxStarSize;
       }
     } else {
       // expand the most we can
-      return (width - starsSeparation * (numberOfStars - 1)) / numberOfStars;
+      float sizeBasedOnWidth = (width - getPaddingLeft() - getPaddingRight() - starsSeparation * (numberOfStars - 1)) / numberOfStars;
+      float sizeBasedOnHeight = height - getPaddingTop() - getPaddingBottom();
+      return Math.min(sizeBasedOnWidth, sizeBasedOnHeight);
     }
   }
 
@@ -303,10 +316,11 @@ public class SimpleRatingBar extends View {
    * @param height
    */
   private void performStarSizeAssociatedCalculations(int width, int height) {
-    float totalStarsSize = starSize * numberOfStars + starsSeparation * (numberOfStars -1);
-    float startingX = width/2 - totalStarsSize/2;
-    float startingY = 0;
-    starsDrawingSpace = new RectF(startingX, startingY, startingX + totalStarsSize, startingY + starSize);
+    float totalStarsWidth = calculateTotalWidth(starSize, numberOfStars, starsSeparation, false);
+    float totalStarsHeight = calculateTotalHeight(starSize, numberOfStars, starsSeparation, false);
+    float startingX = (width - getPaddingLeft() - getPaddingRight())/2 - totalStarsWidth/2 + getPaddingLeft();
+    float startingY = (height - getPaddingTop() - getPaddingBottom())/2 - totalStarsHeight/2 + getPaddingTop();
+    starsDrawingSpace = new RectF(startingX, startingY, startingX + totalStarsWidth, startingY + totalStarsHeight);
     float aux = starsDrawingSpace.width() * 0.05f;
     starsTouchSpace = new RectF(starsDrawingSpace.left - aux, starsDrawingSpace.top, starsDrawingSpace.right + aux, starsDrawingSpace.bottom);
 
@@ -331,6 +345,31 @@ public class SimpleRatingBar extends View {
         innerBottomHorizontalMargin, innerBottomVerticalMargin, tipHorizontalMargin,
         innerUpHorizontalMargin, // top left
     };
+  }
+
+  /**
+   * Calculates total width to occupy based on several parameters
+   * @param starSize
+   * @param numberOfStars
+   * @param starsSeparation
+   * @param padding
+   * @return
+   */
+  private int calculateTotalWidth(float starSize, int numberOfStars, float starsSeparation, boolean padding) {
+    return Math.round(starSize * numberOfStars + starsSeparation * (numberOfStars -1))
+        +  (padding ? getPaddingLeft() + getPaddingRight() : 0);
+  }
+
+  /**
+   * Calculates total height to occupy based on several parameters
+   * @param starSize
+   * @param numberOfStars
+   * @param starsSeparation
+   * @param padding
+   * @return
+   */
+  private int calculateTotalHeight(float starSize, int numberOfStars, float starsSeparation, boolean padding) {
+    return Math.round(starSize) + (padding ? getPaddingTop() + getPaddingBottom() : 0);
   }
 
   @Override
