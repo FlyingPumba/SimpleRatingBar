@@ -976,7 +976,7 @@ public class SimpleRatingBar extends View {
 
     /**
      * Sets repeat count for animation.
-     * @param repeatCount
+     * @param repeatCount must be a positive value or ValueAnimator.INFINITE
      * @return
      */
     public AnimationBuilder setRepeatCount(int repeatCount) {
@@ -986,8 +986,7 @@ public class SimpleRatingBar extends View {
 
     /**
      * Sets repeat mode for animation.
-     * Possible values are: ValueAnimator.INFINITE, ValueAnimator.RESTART or ValueAnimator.REVERSE
-     * @param repeatMode
+     * @param repeatMode must be ValueAnimator.RESTART or ValueAnimator.REVERSE
      * @return
      */
     public AnimationBuilder setRepeatMode(int repeatMode) {
