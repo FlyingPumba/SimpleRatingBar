@@ -376,6 +376,15 @@ public class SimpleRatingBar extends View {
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
 
+    generateInternalCanvas(w, h);
+  }
+
+  /**
+   * Generates internal canvas on which the ratingbar will be drawn.
+   * @param w
+   * @param h
+   */
+  private void generateInternalCanvas(int w, int h) {
     if (internalBitmap != null) {
       // avoid leaking memory after losing the reference
       internalBitmap.recycle();
@@ -655,6 +664,7 @@ public class SimpleRatingBar extends View {
     if (starSize > maxStarSize) {
       // force re-calculating the layout dimension
       requestLayout();
+      generateInternalCanvas(getWidth(), getHeight());
       // request redraw of the view
       invalidate();
     }
@@ -675,6 +685,7 @@ public class SimpleRatingBar extends View {
     }
     // force re-calculating the layout dimension
     requestLayout();
+    generateInternalCanvas(getWidth(), getHeight());
     // request redraw of the view
     invalidate();
   }
@@ -709,6 +720,7 @@ public class SimpleRatingBar extends View {
     this.starsSeparation = starsSeparation;
     // force re-calculating the layout dimension
     requestLayout();
+    generateInternalCanvas(getWidth(), getHeight());
     // request redraw of the view
     invalidate();
   }
@@ -719,6 +731,7 @@ public class SimpleRatingBar extends View {
 
   /**
    * Sets number of stars.
+   * It also sets the rating to zero.
    * Throws IllegalArgumentException if provided value is less or equal than zero.
    * @param numberOfStars
    */
@@ -727,8 +740,10 @@ public class SimpleRatingBar extends View {
     if (numberOfStars <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for numberOfStars. Found %d, but should be greater than 0", numberOfStars));
     }
+    this.rating = 0;
     // force re-calculating the layout dimension
     requestLayout();
+    generateInternalCanvas(getWidth(), getHeight());
     // request redraw of the view
     invalidate();
   }
