@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:orientation="vertical"
+      android:animateLayoutChanges="true"
+      >
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:fillColor="@color/material_red300"
+        app:borderColor="@color/material_red500"
+        app:starBorderWidth="5"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:fillColor="@color/material_blue300"
+        app:borderColor="@color/material_blue500"
+        app:starBorderWidth="6"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:fillColor="@color/material_green300"
+        app:borderColor="@color/material_green500"
+        app:starBorderWidth="7"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:fillColor="@color/material_amber300"
+        app:borderColor="@color/material_amber500"
+        app:starBorderWidth="8"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:fillColor="@color/material_purple300"
+        app:borderColor="@color/material_purple500"
+        app:starBorderWidth="9"
+        />
+
+  </LinearLayout>
+
+</ScrollView>
