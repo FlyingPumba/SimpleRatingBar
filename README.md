@@ -7,7 +7,7 @@ SimpleRatingBar
 
 A simple RatingBar for Android.
 
-![](images/sample.gif)
+![](images/sample2.gif)
 
 Features
 ----
