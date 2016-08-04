@@ -40,7 +40,7 @@ In your layout file:
         />
 ```
 
-More examples in the [sample app layout](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/simpleratingbar-sample/src/main/res/layout/activity_main.xml).
+More examples in the [sample app layouts](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/simpleratingbar-sample/src/main/res/layout).
 
 Example of setting rating with animation:
 
