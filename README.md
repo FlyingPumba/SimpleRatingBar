@@ -18,6 +18,7 @@ Features
 * Customizable colors (border, fill and background of stars).
 * Customizable size separation between stars.
 * Customizable border width of stars.
+* Customizable stars corner radius.
 * Allows to set OnRatingBarChangeListener
 * Stars fill can be set to start from left to right or from right to left (RTL language support).
 * AnimationBuilder integrated in the view to set rating programatically with animation.
@@ -64,6 +65,7 @@ The view can be configured as follows:
 * Set max star size with `app:maxStarSize` / `setMaxStarSize(float)`
 * Set separation between stars with `app:starsSeparation` / `setStarsSeparation(float)`
 * Set border width with `app:starBorderWidth` / `setStarBorderWidth(float)`
+* Set stars corner radius with `app:starCornerRadius` / `setStarCornerRadius(float)`
 * Set stars border color with `app:borderColor` / `setBorderColor(@ColorInt int)`
 * Set stars fill color with `app:fillColor` / `setFillColor(@ColorInt int)`
 * Set background color with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`

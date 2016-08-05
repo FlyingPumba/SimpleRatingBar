@@ -71,11 +71,13 @@ public class SimpleRatingBar extends View {
   private boolean isIndicator;
   private Gravity gravity;
   private float starBorderWidth;
+  private float starCornerRadius;
 
   // Internal variables
   private Paint paintStarBorder;
   private Paint paintStarFill;
   private Paint paintBackground;
+  private CornerPathEffect cornerPathEffect;
   private Path path;
   private float defaultStarSize;
   private ValueAnimator ratingAnimator;
@@ -111,20 +113,21 @@ public class SimpleRatingBar extends View {
    * Inits paint objects and default values.
    */
   private void initView() {
-    paintStarBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
     path = new Path();
+    cornerPathEffect = new CornerPathEffect(starCornerRadius);
+
+    paintStarBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
+    paintStarBorder.setStyle(Paint.Style.STROKE);
     paintStarBorder.setAntiAlias(true);
     paintStarBorder.setDither(true);
-    paintStarBorder.setStyle(Paint.Style.STROKE);
     paintStarBorder.setStrokeJoin(Paint.Join.ROUND);
     paintStarBorder.setStrokeCap(Paint.Cap.ROUND);
-    paintStarBorder.setPathEffect(new CornerPathEffect(6));
     paintStarBorder.setStrokeWidth(starBorderWidth);
+    paintStarBorder.setPathEffect(cornerPathEffect);
     paintStarBorder.setColor(borderColor);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
-    paintBackground.setStrokeWidth(1);
     paintBackground.setColor(backgroundColor);
     if (backgroundColor == Color.TRANSPARENT) {
       paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -132,7 +135,12 @@ public class SimpleRatingBar extends View {
 
     paintStarFill = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintStarFill.setStyle(Paint.Style.FILL_AND_STROKE);
-    paintStarFill.setStrokeWidth(0);
+    paintStarFill.setAntiAlias(true);
+    paintStarFill.setDither(true);
+    paintStarFill.setStrokeJoin(Paint.Join.ROUND);
+    paintStarFill.setStrokeCap(Paint.Cap.ROUND);
+    paintStarFill.setStrokeWidth(starBorderWidth);
+    paintStarFill.setPathEffect(cornerPathEffect);
     paintStarFill.setColor(fillColor);
 
     defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
@@ -154,7 +162,8 @@ public class SimpleRatingBar extends View {
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, Integer.MAX_VALUE);
     starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, Integer.MAX_VALUE);
     stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, Float.MAX_VALUE);
-    starBorderWidth = arr.getInteger(R.styleable.SimpleRatingBar_starBorderWidth, 5);
+    starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_starBorderWidth, 5f);
+    starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_starCornerRadius, 6f);
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
@@ -182,6 +191,10 @@ public class SimpleRatingBar extends View {
     if (starBorderWidth <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starBorderWidth. Found %f, but should be greater than 0",
           starBorderWidth));
+    }
+    if (starCornerRadius < 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starCornerRadius. Found %f, but should be greater or equal than 0",
+              starBorderWidth));
     }
   }
 
@@ -342,8 +355,7 @@ public class SimpleRatingBar extends View {
         starSize - innerBottomHorizontalMargin, innerBottomVerticalMargin,
         starSize - bottomFromMargin, starSize - tipVerticalMargin, // bottom right
         half, starSize - innerCenterVerticalMargin, bottomFromMargin, starSize - tipVerticalMargin, // bottom left
-        innerBottomHorizontalMargin, innerBottomVerticalMargin, tipHorizontalMargin,
-        innerUpHorizontalMargin, // top left
+        innerBottomHorizontalMargin, innerBottomVerticalMargin
     };
   }
 
@@ -491,39 +503,25 @@ public class SimpleRatingBar extends View {
    * @param gravity Left or Right
    */
   private void drawStar(Canvas canvas, float x, float y, float filled, Gravity gravity) {
+    // draw background
+    canvas.drawRect(x, y, x + starSize, y + starSize, paintBackground);
+
     // draw fill of star
+    path.reset();
+    path.moveTo(x + starVertex[0], y + starVertex[1]);
+    for(int i = 2; i < starVertex.length; i=i+2) {
+      path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+    }
+    path.close();
+    canvas.drawPath(path, paintStarFill);
+
+    // clean fill that doesn't have to be drawn
     float fill = starSize * filled;
     if (gravity == Gravity.Left) {
-      canvas.drawRect(x, y, x + fill, y + starSize, paintStarFill);
       canvas.drawRect(x + fill, y, x + starSize, y + starSize, paintBackground);
     } else {
       canvas.drawRect(x, y, x + starSize - fill, y + starSize, paintBackground);
-      canvas.drawRect(x + starSize - fill, y, x + starSize, y + starSize, paintStarFill);
     }
-
-    // clean outside of star
-    path.reset();
-    path.moveTo(x + starVertex[0], y + starVertex[1]);
-    for (int i = 2; i < starVertex.length - 2; i = i + 2) {
-      path.lineTo(x + starVertex[i], y + starVertex[i + 1]);
-    }
-    path.lineTo(x, y + starVertex[starVertex.length - 3]); // reach the closest border
-    path.lineTo(x, y + starSize); // bottom left corner
-    path.lineTo(x + starSize, y + starSize); // bottom right corner
-    path.lineTo(x + starSize, y); // top right corner
-    path.lineTo(x, y); // top left corner
-    path.lineTo(x, y + starVertex[1]);
-    path.close();
-    canvas.drawPath(path, paintBackground);
-
-    // finish clean up outside
-    path.reset();
-    path.moveTo(x + starVertex[0], y + starVertex[1]);
-    path.lineTo(x, y + starVertex[1]);
-    path.lineTo(x, y + starVertex[starVertex.length - 5]);
-    path.lineTo(x + starVertex[starVertex.length - 4], y + starVertex[starVertex.length - 3]);
-    path.close();
-    canvas.drawPath(path, paintBackground);
 
     // draw star border on top
     path.reset();
@@ -796,6 +794,28 @@ public class SimpleRatingBar extends View {
     // request redraw of the view
     invalidate();
   }
+
+  public float getStarCornerRadius() {
+    return starCornerRadius;
+  }
+
+  /**
+   * Sets radius of star corner in pixels.
+   * @param starCornerRadius
+     */
+  public void setStarCornerRadius(float starCornerRadius) {
+    this.starCornerRadius = starCornerRadius;
+    if (starCornerRadius < 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starCornerRadius. Found %f, but should be greater or equal than 0",
+              starCornerRadius));
+    }
+    cornerPathEffect = new CornerPathEffect(starCornerRadius);
+    paintStarBorder.setPathEffect(cornerPathEffect);
+    paintStarFill.setPathEffect(cornerPathEffect);
+    // request redraw of the view
+    invalidate();
+  }
+
 
   public @ColorInt int getFillColor() {
     return fillColor;

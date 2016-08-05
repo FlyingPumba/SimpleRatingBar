@@ -8,7 +8,8 @@
     <attr name="starSize" format="dimension" />
     <attr name="maxStarSize" format="dimension" />
     <attr name="starsSeparation" format="dimension" />
-    <attr name="starBorderWidth" format="integer" />
+    <attr name="starBorderWidth" format="float" />
+    <attr name="starCornerRadius" format="float" />
     <attr name="isIndicator" format="boolean" />
     <attr name="rating" format="float" />
     <attr name="stepSize" format="float" />

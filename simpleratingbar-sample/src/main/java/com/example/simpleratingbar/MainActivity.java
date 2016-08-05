@@ -33,13 +33,15 @@ public class MainActivity extends AppCompatActivity {
             return new StarsSeparationFragment();
           case 4:
             return new BorderWidthFragment();
+          case 5:
+            return new CornerRadiusFragment();
           default:
             return new StepSizeAndGravityFragment();
         }
       }
 
       @Override public int getCount() {
-        return 6;
+        return 7;
       }
 
       @Override public CharSequence getPageTitle(int position) {
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             return "Separation";
           case 4:
             return "Border width";
+          case 5:
+            return "Corner radius";
           default:
             return "Step size and Gravity";
         }
