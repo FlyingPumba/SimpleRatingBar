@@ -15,7 +15,8 @@ Features
 * Arbitrary number of stars.
 * Arbitrary step size.
 * Size of stars can be controlled exactly or by setting a maximum size.
-* Customizable colors (border, fill and background of stars).
+* Customizable colors in normal state (border, fill and background of stars).
+* Customizable colors in pressed state (border, fill and background of stars).
 * Customizable size separation between stars.
 * Customizable border width of stars.
 * Customizable stars corner radius.
@@ -66,9 +67,12 @@ The view can be configured as follows:
 * Set separation between stars with `app:starsSeparation` / `setStarsSeparation(float)`
 * Set border width with `app:starBorderWidth` / `setStarBorderWidth(float)`
 * Set stars corner radius with `app:starCornerRadius` / `setStarCornerRadius(float)`
-* Set stars border color with `app:borderColor` / `setBorderColor(@ColorInt int)`
-* Set stars fill color with `app:fillColor` / `setFillColor(@ColorInt int)`
-* Set background color with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`
+* Set stars border color in normal state with `app:borderColor` / `setBorderColor(@ColorInt int)`
+* Set stars fill color in normal state with `app:fillColor` / `setFillColor(@ColorInt int)`
+* Set background color in normal state with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`
+* Set stars border color in pressed state with `app:pressedBorderColor` / `setPressedBorderColor(@ColorInt int)`
+* Set stars fill color in pressed state with `app:pressedFillColor` / `setPressedFillColor(@ColorInt int)`
+* Set background color in pressed state with `app:pressedBackgroundColor` / `setPressedBackgroundColor(@ColorInt int)`
 * Enabled/disable user interaction with `app:isIndicator` / `setIsIndicator(boolean)`
 * Set gravity of fill (left or right) with `app:gravity` / `setGravity(Gravity)`
 
