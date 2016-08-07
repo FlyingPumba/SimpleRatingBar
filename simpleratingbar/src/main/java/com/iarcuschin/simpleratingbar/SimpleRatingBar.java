@@ -507,7 +507,11 @@ public class SimpleRatingBar extends View {
    */
   private float getRatingToDraw() {
     if (stepSize != Float.MAX_VALUE) {
-      return rating - (rating % stepSize);
+      if (rating >= numberOfStars) {
+        return numberOfStars;
+      } else {
+        return rating - (rating % stepSize);
+      }
     } else {
       return rating;
     }
