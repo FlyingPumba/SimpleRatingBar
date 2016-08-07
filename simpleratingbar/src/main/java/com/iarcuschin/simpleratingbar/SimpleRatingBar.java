@@ -62,6 +62,9 @@ public class SimpleRatingBar extends View {
   private @ColorInt int borderColor;
   private @ColorInt int fillColor;
   private @ColorInt int backgroundColor;
+  private @ColorInt int pressedBorderColor;
+  private @ColorInt int pressedFillColor;
+  private @ColorInt int pressedBackgroundColor;
   private int numberOfStars;
   private float starsSeparation;
   private float starSize;
@@ -155,6 +158,11 @@ public class SimpleRatingBar extends View {
     borderColor = arr.getColor(R.styleable.SimpleRatingBar_borderColor, getResources().getColor(R.color.golden_stars));
     fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, borderColor);
     backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_backgroundColor, Color.TRANSPARENT);
+
+    pressedBorderColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBorderColor, borderColor);
+    pressedFillColor = arr.getColor(R.styleable.SimpleRatingBar_pressedFillColor, fillColor);
+    pressedBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBackgroundColor, backgroundColor);
+
     numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_numberOfStars, 5);
 
     float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_starsSeparation, 4);
@@ -423,6 +431,17 @@ public class SimpleRatingBar extends View {
 
     // reset internal canvas
     internalCanvas.drawColor(Color.argb(0, 0, 0, 0));
+
+    // choose colors
+    if (touchInProgress) {
+      paintStarBorder.setColor(pressedBorderColor);
+      paintStarFill.setColor(pressedFillColor);
+      paintBackground.setColor(pressedBackgroundColor);
+    } else {
+      paintStarBorder.setColor(borderColor);
+      paintStarFill.setColor(fillColor);
+      paintBackground.setColor(backgroundColor);
+    }
 
     if (gravity == Gravity.Left) {
       drawFromLeftToRight(internalCanvas);
@@ -746,36 +765,6 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
-  public @ColorInt int getBackgroundColor() {
-    return backgroundColor;
-  }
-
-  /**
-   * Sets background color of view.
-   * @param backgroundColor
-   */
-  @Override public void setBackgroundColor(@ColorInt int backgroundColor) {
-    this.backgroundColor = backgroundColor;
-    paintBackground.setColor(backgroundColor);
-    // request redraw of the view
-    invalidate();
-  }
-
-  public @ColorInt int getBorderColor() {
-    return borderColor;
-  }
-
-  /**
-   * Sets border color of stars.
-   * @param borderColor
-   */
-  public void setBorderColor(@ColorInt int borderColor) {
-    this.borderColor = borderColor;
-    paintStarBorder.setColor(borderColor);
-    // request redraw of the view
-    invalidate();
-  }
-
   public float getStarBorderWidth() {
     return starBorderWidth;
   }
@@ -816,21 +805,90 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public @ColorInt int getBackgroundColor() {
+    return backgroundColor;
+  }
+
+  /**
+   * Sets background color of view in normal state.
+   * @param backgroundColor
+   */
+  @Override public void setBackgroundColor(@ColorInt int backgroundColor) {
+    this.backgroundColor = backgroundColor;
+    // request redraw of the view
+    invalidate();
+  }
+
+  public @ColorInt int getBorderColor() {
+    return borderColor;
+  }
+
+  /**
+   * Sets border color of stars in normal state.
+   * @param borderColor
+   */
+  public void setBorderColor(@ColorInt int borderColor) {
+    this.borderColor = borderColor;
+    // request redraw of the view
+    invalidate();
+  }
 
   public @ColorInt int getFillColor() {
     return fillColor;
   }
 
   /**
-   * Sets fill color of stars.
+   * Sets fill color of stars in normal state.
    * @param fillColor
    */
   public void setFillColor(@ColorInt int fillColor) {
     this.fillColor = fillColor;
-    paintStarFill.setColor(fillColor);
     // request redraw of the view
     invalidate();
   }
+
+  public @ColorInt int getPressedBorderColor() {
+    return pressedBorderColor;
+  }
+
+  /**
+   * Sets border color of stars in pressed state.
+   * @param pressedBorderColor
+   */
+  public void setPressedBorderColor(@ColorInt int pressedBorderColor) {
+    this.pressedBorderColor = pressedBorderColor;
+    // request redraw of the view
+    invalidate();
+  }
+
+  public @ColorInt int getPressedFillColor() {
+    return pressedFillColor;
+  }
+
+  /**
+   * Sets fill color of stars in pressed state.
+   * @param pressedFillColor
+   */
+  public void setPressedFillColor(@ColorInt int pressedFillColor) {
+    this.pressedFillColor = pressedFillColor;
+    // request redraw of the view
+    invalidate();
+  }
+
+  public @ColorInt int getPressedBackgroundColor() {
+    return pressedBackgroundColor;
+  }
+
+  /**
+   * Sets background color of view in pressed state.
+   * @param pressedBackgroundColor
+   */
+  public void setPressedBackgroundColor(@ColorInt int pressedBackgroundColor) {
+    this.pressedBackgroundColor = pressedBackgroundColor;
+    // request redraw of the view
+    invalidate();
+  }
+
 
   public Gravity getGravity() {
     return gravity;

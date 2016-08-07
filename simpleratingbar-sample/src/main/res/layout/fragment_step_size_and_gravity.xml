@@ -21,6 +21,8 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_red300"
         app:borderColor="@color/material_red500"
+        app:pressedFillColor="@color/material_redA200"
+        app:pressedBorderColor="@color/material_redA400"
         app:stepSize="0.25"
         app:gravity="left"
         />
@@ -32,6 +34,8 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_blue300"
         app:borderColor="@color/material_blue500"
+        app:pressedFillColor="@color/material_blueA200"
+        app:pressedBorderColor="@color/material_blueA400"
         app:stepSize="0.5"
         app:gravity="left"
         />
@@ -43,6 +47,8 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_green300"
         app:borderColor="@color/material_green500"
+        app:pressedFillColor="@color/material_greenA700"
+        app:pressedBorderColor="@color/material_green700"
         app:stepSize="0.75"
         app:gravity="left"
         />
@@ -54,6 +60,8 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_amber300"
         app:borderColor="@color/material_amber500"
+        app:pressedFillColor="@color/material_amberA400"
+        app:pressedBorderColor="@color/material_amberA700"
         app:stepSize="1"
         app:gravity="right"
         />
@@ -65,6 +73,8 @@
         android:layout_margin="8dp"
         app:fillColor="@color/material_purple300"
         app:borderColor="@color/material_purple500"
+        app:pressedFillColor="@color/material_purpleA200"
+        app:pressedBorderColor="@color/material_purpleA400"
         app:stepSize="1.25"
         app:gravity="right"
         />
