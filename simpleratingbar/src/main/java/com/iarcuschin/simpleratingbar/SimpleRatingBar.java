@@ -62,9 +62,11 @@ public class SimpleRatingBar extends View {
   private @ColorInt int borderColor;
   private @ColorInt int fillColor;
   private @ColorInt int backgroundColor;
+  private @ColorInt int starBackgroundColor;
   private @ColorInt int pressedBorderColor;
   private @ColorInt int pressedFillColor;
   private @ColorInt int pressedBackgroundColor;
+  private @ColorInt int pressedStarBackgroundColor;
   private int numberOfStars;
   private float starsSeparation;
   private float starSize;
@@ -80,6 +82,7 @@ public class SimpleRatingBar extends View {
   private Paint paintStarBorder;
   private Paint paintStarFill;
   private Paint paintBackground;
+  private Paint paintStarBackground;
   private CornerPathEffect cornerPathEffect;
   private Path path;
   private float defaultStarSize;
@@ -117,6 +120,7 @@ public class SimpleRatingBar extends View {
    */
   private void initView() {
     path = new Path();
+    //path.setFillType(Path.FillType.INVERSE_EVEN_ODD);
     cornerPathEffect = new CornerPathEffect(starCornerRadius);
 
     paintStarBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -126,15 +130,25 @@ public class SimpleRatingBar extends View {
     paintStarBorder.setStrokeJoin(Paint.Join.ROUND);
     paintStarBorder.setStrokeCap(Paint.Cap.ROUND);
     paintStarBorder.setStrokeWidth(starBorderWidth);
-    paintStarBorder.setPathEffect(cornerPathEffect);
-    paintStarBorder.setColor(borderColor);
+    //paintStarBorder.setPathEffect(cornerPathEffect);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
-    paintBackground.setColor(backgroundColor);
-    if (backgroundColor == Color.TRANSPARENT) {
-      paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-    }
+    //paintBackground.setAntiAlias(true);
+    //paintBackground.setDither(true);
+    //paintBackground.setStrokeJoin(Paint.Join.ROUND);
+    //paintBackground.setStrokeCap(Paint.Cap.ROUND);
+    //paintBackground.setStrokeWidth(starBorderWidth);
+    //paintBackground.setPathEffect(cornerPathEffect);
+
+    paintStarBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
+    paintStarBackground.setStyle(Paint.Style.FILL_AND_STROKE);
+    paintStarBackground.setAntiAlias(true);
+    paintStarBackground.setDither(true);
+    paintStarBackground.setStrokeJoin(Paint.Join.ROUND);
+    paintStarBackground.setStrokeCap(Paint.Cap.ROUND);
+    paintStarBackground.setStrokeWidth(starBorderWidth);
+    //paintStarBackground.setPathEffect(cornerPathEffect);
 
     paintStarFill = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintStarFill.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -143,8 +157,7 @@ public class SimpleRatingBar extends View {
     paintStarFill.setStrokeJoin(Paint.Join.ROUND);
     paintStarFill.setStrokeCap(Paint.Cap.ROUND);
     paintStarFill.setStrokeWidth(starBorderWidth);
-    paintStarFill.setPathEffect(cornerPathEffect);
-    paintStarFill.setColor(fillColor);
+    //paintStarFill.setPathEffect(cornerPathEffect);
 
     defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
   }
@@ -158,10 +171,12 @@ public class SimpleRatingBar extends View {
     borderColor = arr.getColor(R.styleable.SimpleRatingBar_borderColor, getResources().getColor(R.color.golden_stars));
     fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, borderColor);
     backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_backgroundColor, Color.TRANSPARENT);
+    starBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_starBackgroundColor, Color.TRANSPARENT);
 
     pressedBorderColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBorderColor, borderColor);
     pressedFillColor = arr.getColor(R.styleable.SimpleRatingBar_pressedFillColor, fillColor);
     pressedBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBackgroundColor, backgroundColor);
+    pressedStarBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_pressedStarBackgroundColor, starBackgroundColor);
 
     numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_numberOfStars, 5);
 
@@ -430,18 +445,10 @@ public class SimpleRatingBar extends View {
     }
 
     // reset internal canvas
-    internalCanvas.drawColor(Color.argb(0, 0, 0, 0));
+    internalCanvas.drawColor(Color.argb(255, 0, 0, 0));
 
     // choose colors
-    if (touchInProgress) {
-      paintStarBorder.setColor(pressedBorderColor);
-      paintStarFill.setColor(pressedFillColor);
-      paintBackground.setColor(pressedBackgroundColor);
-    } else {
-      paintStarBorder.setColor(borderColor);
-      paintStarFill.setColor(fillColor);
-      paintBackground.setColor(backgroundColor);
-    }
+    setupColorsInPaint();
 
     if (gravity == Gravity.Left) {
       drawFromLeftToRight(internalCanvas);
@@ -451,6 +458,43 @@ public class SimpleRatingBar extends View {
 
     // draw internal bitmap to definite canvas
     canvas.drawBitmap(internalBitmap, 0, 0, null);
+  }
+
+  /**
+   * Sets the color for the different paints depending on whether current state is pressed or normal.
+   */
+  private void setupColorsInPaint() {
+    if (touchInProgress) {
+      paintStarBorder.setColor(pressedBorderColor);
+      paintStarFill.setColor(pressedFillColor);
+      paintBackground.setColor(pressedBackgroundColor);
+      if (pressedBackgroundColor == Color.TRANSPARENT) {
+        paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      } else {
+        paintBackground.setXfermode(null);
+      }
+      paintStarBackground.setColor(pressedStarBackgroundColor);
+      if (pressedStarBackgroundColor == Color.TRANSPARENT) {
+        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      } else {
+        paintStarBackground.setXfermode(null);
+      }
+    } else {
+      paintStarBorder.setColor(borderColor);
+      paintStarFill.setColor(fillColor);
+      paintBackground.setColor(backgroundColor);
+      if (backgroundColor == Color.TRANSPARENT) {
+        paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      } else {
+        paintBackground.setXfermode(null);
+      }
+      paintStarBackground.setColor(starBackgroundColor);
+      if (starBackgroundColor == Color.TRANSPARENT) {
+        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      } else {
+        paintStarBackground.setXfermode(null);
+      }
+    }
   }
 
   /**
@@ -526,34 +570,71 @@ public class SimpleRatingBar extends View {
    * @param gravity Left or Right
    */
   private void drawStar(Canvas canvas, float x, float y, float filled, Gravity gravity) {
-    // draw background
-    canvas.drawRect(x, y, x + starSize, y + starSize, paintBackground);
-
-    // draw fill of star
-    path.reset();
-    path.moveTo(x + starVertex[0], y + starVertex[1]);
-    for(int i = 2; i < starVertex.length; i=i+2) {
-      path.lineTo(x + starVertex[i], y + starVertex[i+1]);
-    }
-    path.close();
-    canvas.drawPath(path, paintStarFill);
-
-    // clean fill that doesn't have to be drawn
     float fill = starSize * filled;
+
+    // draw background
+    //canvas.drawRect(x, y, x + starSize, y + starSize, paintBackground);
+
     if (gravity == Gravity.Left) {
-      canvas.drawRect(x + fill, y, x + starSize, y + starSize, paintBackground);
+      // draw fill of star
+      path.reset();
+      path.setFillType(Path.FillType.EVEN_ODD);
+      path.addRect(x, y, x + fill, y + starSize, Path.Direction.CW);
+      //path.addRect(x, y, x + starSize, y + starSize, Path.Direction.CW);
+      //path.moveTo(x + starSize, y);
+      //path.lineTo(x + fill, y);
+      //path.lineTo(x + fill, y + starSize);
+      //path.lineTo(x , y + starSize);
+      path.moveTo(x + starVertex[0], y + starVertex[1]);
+      for(int i = 2; i < starVertex.length; i=i+2) {
+        path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+      }
+      path.lineTo(x + starVertex[0], y + starVertex[1]);
+      path.close();
+      canvas.drawPath(path, paintStarFill);
+
+      // draw star background
+      //path.reset();
+      //path.moveTo(x + starVertex[0], y + starVertex[1]);
+      //for(int i = 2; i < starVertex.length; i=i+2) {
+      //  path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+      //}
+      //path.close();
+      //path.moveTo(x + fill, y);
+      //path.lineTo(x + fill, y + starSize);
+      //path.lineTo(x, y + starSize);
+      //path.lineTo(x, y);
+      //path.close();
+      //canvas.drawPath(path, paintStarBackground);
     } else {
-      canvas.drawRect(x, y, x + starSize - fill, y + starSize, paintBackground);
+      //canvas.drawRect(x, y, x + starSize - fill, y + starSize, paintStarBackground);
     }
+
+    // draw background
+    //path.reset();
+    //
+    //path.moveTo(x, y);
+    //path.lineTo(x, y + starSize);
+    //path.lineTo(x + starSize, y + starSize);
+    //path.lineTo(x + starSize, y);
+    //path.close();
+    //
+    //path.moveTo(x + starVertex[0], y + starVertex[1]);
+    //for(int i = 2; i < starVertex.length; i=i+2) {
+    //  path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+    //}
+    //path.close();
+    //
+    //canvas.drawPath(path, paintBackground);
 
     // draw star border on top
-    path.reset();
-    path.moveTo(x + starVertex[0], y + starVertex[1]);
-    for(int i = 2; i < starVertex.length; i=i+2) {
-      path.lineTo(x + starVertex[i], y + starVertex[i+1]);
-    }
-    path.close();
-    canvas.drawPath(path, paintStarBorder);
+    //path.reset();
+    //path.moveTo(x + starVertex[0], y + starVertex[1]);
+    //for(int i = 2; i < starVertex.length; i=i+2) {
+    //  path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+    //}
+    //path.close();
+    //canvas.drawPath(path, paintStarBorder);
   }
 
   /**
@@ -851,6 +932,20 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public @ColorInt int getStarBackgroundColor() {
+    return starBackgroundColor;
+  }
+
+  /**
+   * Sets background color of stars in normal state.
+   * @param starBackgroundColor
+   */
+  public void setStarBackgroundColor(@ColorInt int starBackgroundColor) {
+    this.starBackgroundColor = starBackgroundColor;
+    // request redraw of the view
+    invalidate();
+  }
+
   public @ColorInt int getPressedBorderColor() {
     return pressedBorderColor;
   }
@@ -893,6 +988,19 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public @ColorInt int getPressedStarBackgroundColor() {
+    return pressedStarBackgroundColor;
+  }
+
+  /**
+   * Sets background color of stars in pressed state.
+   * @param pressedStarBackgroundColor
+   */
+  public void setPressedStarBackgroundColor(@ColorInt int pressedStarBackgroundColor) {
+    this.pressedStarBackgroundColor = pressedStarBackgroundColor;
+    // request redraw of the view
+    invalidate();
+  }
 
   public Gravity getGravity() {
     return gravity;

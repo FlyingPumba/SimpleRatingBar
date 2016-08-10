@@ -4,9 +4,11 @@
     <attr name="borderColor" format="color" />
     <attr name="fillColor" format="color" />
     <attr name="backgroundColor" format="color" />
+    <attr name="starBackgroundColor" format="color" />
     <attr name="pressedBorderColor" format="color" />
     <attr name="pressedFillColor" format="color" />
     <attr name="pressedBackgroundColor" format="color" />
+    <attr name="pressedStarBackgroundColor" format="color" />
     <attr name="numberOfStars" format="integer" />
     <attr name="starSize" format="dimension" />
     <attr name="maxStarSize" format="dimension" />
