@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelXorXfermode;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
@@ -79,6 +80,7 @@ public class SimpleRatingBar extends View {
   private float starCornerRadius;
 
   // Internal variables
+  private Paint paintStarOutline;
   private Paint paintStarBorder;
   private Paint paintStarFill;
   private Paint paintBackground;
@@ -120,8 +122,17 @@ public class SimpleRatingBar extends View {
    */
   private void initView() {
     path = new Path();
-    //path.setFillType(Path.FillType.INVERSE_EVEN_ODD);
     cornerPathEffect = new CornerPathEffect(starCornerRadius);
+
+    paintStarOutline = new Paint(Paint.ANTI_ALIAS_FLAG);
+    paintStarOutline.setStyle(Paint.Style.FILL_AND_STROKE);
+    paintStarOutline.setAntiAlias(true);
+    paintStarOutline.setDither(true);
+    paintStarOutline.setStrokeJoin(Paint.Join.ROUND);
+    paintStarOutline.setStrokeCap(Paint.Cap.ROUND);
+    paintStarOutline.setStrokeWidth(starBorderWidth);
+    paintStarOutline.setColor(Color.argb(255, 0, 0, 0));
+    paintStarOutline.setPathEffect(cornerPathEffect);
 
     paintStarBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintStarBorder.setStyle(Paint.Style.STROKE);
@@ -130,16 +141,14 @@ public class SimpleRatingBar extends View {
     paintStarBorder.setStrokeJoin(Paint.Join.ROUND);
     paintStarBorder.setStrokeCap(Paint.Cap.ROUND);
     paintStarBorder.setStrokeWidth(starBorderWidth);
-    //paintStarBorder.setPathEffect(cornerPathEffect);
+    paintStarBorder.setPathEffect(cornerPathEffect);
 
     paintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintBackground.setStyle(Paint.Style.FILL_AND_STROKE);
-    //paintBackground.setAntiAlias(true);
-    //paintBackground.setDither(true);
-    //paintBackground.setStrokeJoin(Paint.Join.ROUND);
-    //paintBackground.setStrokeCap(Paint.Cap.ROUND);
-    //paintBackground.setStrokeWidth(starBorderWidth);
-    //paintBackground.setPathEffect(cornerPathEffect);
+    paintBackground.setAntiAlias(true);
+    paintBackground.setDither(true);
+    paintBackground.setStrokeJoin(Paint.Join.ROUND);
+    paintBackground.setStrokeCap(Paint.Cap.ROUND);
 
     paintStarBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintStarBackground.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -147,8 +156,6 @@ public class SimpleRatingBar extends View {
     paintStarBackground.setDither(true);
     paintStarBackground.setStrokeJoin(Paint.Join.ROUND);
     paintStarBackground.setStrokeCap(Paint.Cap.ROUND);
-    paintStarBackground.setStrokeWidth(starBorderWidth);
-    //paintStarBackground.setPathEffect(cornerPathEffect);
 
     paintStarFill = new Paint(Paint.ANTI_ALIAS_FLAG);
     paintStarFill.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -156,8 +163,6 @@ public class SimpleRatingBar extends View {
     paintStarFill.setDither(true);
     paintStarFill.setStrokeJoin(Paint.Join.ROUND);
     paintStarFill.setStrokeCap(Paint.Cap.ROUND);
-    paintStarFill.setStrokeWidth(starBorderWidth);
-    //paintStarFill.setPathEffect(cornerPathEffect);
 
     defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
   }
@@ -444,9 +449,6 @@ public class SimpleRatingBar extends View {
       return;
     }
 
-    // reset internal canvas
-    internalCanvas.drawColor(Color.argb(255, 0, 0, 0));
-
     // choose colors
     setupColorsInPaint();
 
@@ -467,32 +469,42 @@ public class SimpleRatingBar extends View {
     if (touchInProgress) {
       paintStarBorder.setColor(pressedBorderColor);
       paintStarFill.setColor(pressedFillColor);
-      paintBackground.setColor(pressedBackgroundColor);
-      if (pressedBackgroundColor == Color.TRANSPARENT) {
-        paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      if (pressedFillColor != Color.TRANSPARENT) {
+        paintStarFill.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
       } else {
-        paintBackground.setXfermode(null);
+        paintStarFill.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
       }
+      paintBackground.setColor(pressedBackgroundColor);
+      //if (pressedBackgroundColor == Color.TRANSPARENT) {
+      //  paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      //} else {
+      //  paintBackground.setXfermode(null);
+      //}
       paintStarBackground.setColor(pressedStarBackgroundColor);
-      if (pressedStarBackgroundColor == Color.TRANSPARENT) {
-        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      if (pressedStarBackgroundColor != Color.TRANSPARENT) {
+        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
       } else {
-        paintStarBackground.setXfermode(null);
+        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
       }
     } else {
       paintStarBorder.setColor(borderColor);
       paintStarFill.setColor(fillColor);
-      paintBackground.setColor(backgroundColor);
-      if (backgroundColor == Color.TRANSPARENT) {
-        paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      if (fillColor != Color.TRANSPARENT) {
+        paintStarFill.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
       } else {
-        paintBackground.setXfermode(null);
+        paintStarFill.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
       }
+      paintBackground.setColor(backgroundColor);
+      //if (backgroundColor == Color.TRANSPARENT) {
+      //  paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      //} else {
+      //  paintBackground.setXfermode(null);
+      //}
       paintStarBackground.setColor(starBackgroundColor);
-      if (starBackgroundColor == Color.TRANSPARENT) {
-        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+      if (starBackgroundColor != Color.TRANSPARENT) {
+        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
       } else {
-        paintStarBackground.setXfermode(null);
+        paintStarBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
       }
     }
   }
@@ -572,69 +584,55 @@ public class SimpleRatingBar extends View {
   private void drawStar(Canvas canvas, float x, float y, float filled, Gravity gravity) {
     float fill = starSize * filled;
 
-    // draw background
-    //canvas.drawRect(x, y, x + starSize, y + starSize, paintBackground);
+    // draw star outline
+    path.reset();
+    path.moveTo(x + starVertex[0], y + starVertex[1]);
+    for(int i = 2; i < starVertex.length; i=i+2) {
+      path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+    }
+    path.lineTo(x + starVertex[0], y + starVertex[1]);
+    path.close();
+    canvas.drawPath(path, paintStarOutline);
 
     if (gravity == Gravity.Left) {
-      // draw fill of star
+      // color star fill
       path.reset();
-      path.setFillType(Path.FillType.EVEN_ODD);
       path.addRect(x, y, x + fill, y + starSize, Path.Direction.CW);
-      //path.addRect(x, y, x + starSize, y + starSize, Path.Direction.CW);
-      //path.moveTo(x + starSize, y);
-      //path.lineTo(x + fill, y);
-      //path.lineTo(x + fill, y + starSize);
-      //path.lineTo(x , y + starSize);
-      path.moveTo(x + starVertex[0], y + starVertex[1]);
-      for(int i = 2; i < starVertex.length; i=i+2) {
-        path.lineTo(x + starVertex[i], y + starVertex[i+1]);
-      }
-      path.lineTo(x + starVertex[0], y + starVertex[1]);
-      path.close();
       canvas.drawPath(path, paintStarFill);
 
       // draw star background
-      //path.reset();
-      //path.moveTo(x + starVertex[0], y + starVertex[1]);
-      //for(int i = 2; i < starVertex.length; i=i+2) {
-      //  path.lineTo(x + starVertex[i], y + starVertex[i+1]);
-      //}
-      //path.close();
-      //path.moveTo(x + fill, y);
-      //path.lineTo(x + fill, y + starSize);
-      //path.lineTo(x, y + starSize);
-      //path.lineTo(x, y);
-      //path.close();
-      //canvas.drawPath(path, paintStarBackground);
+      path.reset();
+      path.addRect(x + fill, y, x + starSize, y + starSize, Path.Direction.CW);
+      canvas.drawPath(path, paintStarBackground);
+
     } else {
-      //canvas.drawRect(x, y, x + starSize - fill, y + starSize, paintStarBackground);
+      // color star fill
+      path.reset();
+      path.addRect(x + starSize - fill, y, x + starSize, y + starSize, Path.Direction.CW);
+      canvas.drawPath(path, paintStarFill);
+
+      // draw star background
+      path.reset();
+      path.addRect(x, y, x + starSize - fill, y + starSize, Path.Direction.CW);
+      canvas.drawPath(path, paintStarBackground);
     }
 
-    // draw background
-    //path.reset();
-    //
-    //path.moveTo(x, y);
-    //path.lineTo(x, y + starSize);
-    //path.lineTo(x + starSize, y + starSize);
-    //path.lineTo(x + starSize, y);
-    //path.close();
-    //
-    //path.moveTo(x + starVertex[0], y + starVertex[1]);
-    //for(int i = 2; i < starVertex.length; i=i+2) {
-    //  path.lineTo(x + starVertex[i], y + starVertex[i+1]);
-    //}
-    //path.close();
-    //
-    //canvas.drawPath(path, paintBackground);
+    // draw view background
+    path.reset();
+    path.addRect(x, y, x + starSize, y + starSize, Path.Direction.CW);
+    if (backgroundColor != Color.TRANSPARENT) {
+      paintBackground.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+    }
+    canvas.drawPath(path, paintBackground);
 
     // draw star border on top
-    //path.reset();
-    //path.moveTo(x + starVertex[0], y + starVertex[1]);
-    //for(int i = 2; i < starVertex.length; i=i+2) {
-    //  path.lineTo(x + starVertex[i], y + starVertex[i+1]);
-    //}
-    //path.close();
-    //canvas.drawPath(path, paintStarBorder);
+    path.reset();
+    path.moveTo(x + starVertex[0], y + starVertex[1]);
+    for(int i = 2; i < starVertex.length; i=i+2) {
+      path.lineTo(x + starVertex[i], y + starVertex[i+1]);
+    }
+    path.close();
+    canvas.drawPath(path, paintStarBorder);
   }
 
   /**
@@ -885,7 +883,7 @@ public class SimpleRatingBar extends View {
     }
     cornerPathEffect = new CornerPathEffect(starCornerRadius);
     paintStarBorder.setPathEffect(cornerPathEffect);
-    paintStarFill.setPathEffect(cornerPathEffect);
+    paintStarOutline.setPathEffect(cornerPathEffect);
     // request redraw of the view
     invalidate();
   }
