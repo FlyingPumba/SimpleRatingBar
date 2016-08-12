@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="SimpleRatingBar">
-    <attr name="borderColor" format="color" />
-    <attr name="fillColor" format="color" />
-    <attr name="backgroundColor" format="color" />
-    <attr name="pressedBorderColor" format="color" />
-    <attr name="pressedFillColor" format="color" />
-    <attr name="pressedBackgroundColor" format="color" />
-    <attr name="numberOfStars" format="integer" />
-    <attr name="starSize" format="dimension" />
-    <attr name="maxStarSize" format="dimension" />
-    <attr name="starsSeparation" format="dimension" />
-    <attr name="starBorderWidth" format="float" />
-    <attr name="starCornerRadius" format="float" />
-    <attr name="isIndicator" format="boolean" />
-    <attr name="rating" format="float" />
-    <attr name="stepSize" format="float" />
-    <attr name="gravity" format="enum">
+    <attr name="srb_borderColor" format="color" />
+    <attr name="srb_fillColor" format="color" />
+    <attr name="srb_backgroundColor" format="color" />
+    <attr name="srb_pressedBorderColor" format="color" />
+    <attr name="srb_pressedFillColor" format="color" />
+    <attr name="srb_pressedBackgroundColor" format="color" />
+    <attr name="srb_numberOfStars" format="integer" />
+    <attr name="srb_starSize" format="dimension" />
+    <attr name="srb_maxStarSize" format="dimension" />
+    <attr name="srb_starsSeparation" format="dimension" />
+    <attr name="srb_starBorderWidth" format="float" />
+    <attr name="srb_starCornerRadius" format="float" />
+    <attr name="srb_isIndicator" format="boolean" />
+    <attr name="srb_rating" format="float" />
+    <attr name="srb_stepSize" format="float" />
+    <attr name="srb_gravity" format="enum">
       <enum name="left" value="0"/>
       <enum name="right" value="1"/>
     </attr>

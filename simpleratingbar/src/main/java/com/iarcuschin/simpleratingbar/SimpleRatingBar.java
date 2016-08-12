@@ -155,27 +155,27 @@ public class SimpleRatingBar extends View {
   private void parseAttrs(AttributeSet attrs) {
     TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleRatingBar);
 
-    borderColor = arr.getColor(R.styleable.SimpleRatingBar_borderColor, getResources().getColor(R.color.golden_stars));
-    fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, borderColor);
-    backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_backgroundColor, Color.TRANSPARENT);
+    borderColor = arr.getColor(R.styleable.SimpleRatingBar_srb_borderColor, getResources().getColor(R.color.golden_stars));
+    fillColor = arr.getColor(R.styleable.SimpleRatingBar_srb_fillColor, borderColor);
+    backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_backgroundColor, Color.TRANSPARENT);
 
-    pressedBorderColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBorderColor, borderColor);
-    pressedFillColor = arr.getColor(R.styleable.SimpleRatingBar_pressedFillColor, fillColor);
-    pressedBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBackgroundColor, backgroundColor);
+    pressedBorderColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedBorderColor, borderColor);
+    pressedFillColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedFillColor, fillColor);
+    pressedBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedBackgroundColor, backgroundColor);
 
-    numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_numberOfStars, 5);
+    numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_srb_numberOfStars, 5);
 
-    float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_starsSeparation, 4);
+    float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_srb_starsSeparation, 4);
     starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
-    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, Integer.MAX_VALUE);
-    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, Integer.MAX_VALUE);
-    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, Float.MAX_VALUE);
-    starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_starBorderWidth, 5f);
-    starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_starCornerRadius, 6f);
+    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_maxStarSize, Integer.MAX_VALUE);
+    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starSize, Integer.MAX_VALUE);
+    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, Float.MAX_VALUE);
+    starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_srb_starBorderWidth, 5f);
+    starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_srb_starCornerRadius, 6f);
 
-    rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
-    isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
-    gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_gravity, Gravity.Left.id));
+    rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_srb_rating, 0f));
+    isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_srb_isIndicator, false);
+    gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_srb_gravity, Gravity.Left.id));
 
     arr.recycle();
 
