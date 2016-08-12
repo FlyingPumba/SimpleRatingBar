@@ -33,12 +33,12 @@ In your layout file:
 <com.iarcuschin.simpleratingbar.SimpleRatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:starSize="40dp"
-        app:numberOfStars="5"
-        app:rating="3"
-        app:stepSize="0.5"
-        app:borderColor="@color/blue"
-        app:fillColor="@color/light_blue"
+        app:srb_starSize="40dp"
+        app:srb_numberOfStars="5"
+        app:srb_rating="3"
+        app:srb_stepSize="0.5"
+        app:srb_borderColor="@color/blue"
+        app:srb_fillColor="@color/light_blue"
         />
 ```
 
@@ -86,7 +86,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.6'
+    compile 'com.iarcuschin:simpleratingbar:0.0.7'
 }
 ```
 
@@ -97,7 +97,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.6'
+    compile 'com.iarcuschin:simpleratingbar:0.0.7'
 }
 ```
 
@@ -106,7 +106,7 @@ Using `Maven`:
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.7</version>
   <type>apklib</type>
 </dependency>
 ```
