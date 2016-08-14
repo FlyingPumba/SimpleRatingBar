@@ -18,6 +18,7 @@
     <attr name="srb_isIndicator" format="boolean" />
     <attr name="srb_rating" format="float" />
     <attr name="srb_stepSize" format="float" />
+    <attr name="srb_drawBorderEnabled" format="boolean" />
     <attr name="srb_gravity" format="enum">
       <enum name="left" value="0"/>
       <enum name="right" value="1"/>

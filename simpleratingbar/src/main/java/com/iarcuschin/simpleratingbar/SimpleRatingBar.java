@@ -77,6 +77,7 @@ public class SimpleRatingBar extends View {
   private Gravity gravity;
   private float starBorderWidth;
   private float starCornerRadius;
+  private boolean drawBorderEnabled;
 
   // Internal variables
   private float currentStarSize;
@@ -184,6 +185,7 @@ public class SimpleRatingBar extends View {
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_srb_rating, 0f));
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_srb_isIndicator, false);
+    drawBorderEnabled = arr.getBoolean(R.styleable.SimpleRatingBar_srb_drawBorderEnabled, true);
     gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_srb_gravity, Gravity.Left.id));
 
     arr.recycle();
@@ -593,7 +595,9 @@ public class SimpleRatingBar extends View {
     }
 
     // draw star border on top
-    canvas.drawPath(starPath, paintStarBorder);
+    if (drawBorderEnabled) {
+      canvas.drawPath(starPath, paintStarBorder);
+    }
   }
 
   @Override
@@ -933,6 +937,21 @@ public class SimpleRatingBar extends View {
    */
   public void setGravity(Gravity gravity) {
     this.gravity = gravity;
+    // request redraw of the view
+    invalidate();
+  }
+
+  public boolean isDrawBorderEnabled() {
+    return drawBorderEnabled;
+  }
+
+  /**
+   * Sets drawBorder property.
+   * If provided value is true, border will be drawn, otherwise it will be omithed.
+   * @param drawBorderEnabled
+   */
+  public void setDrawBorderEnabled(boolean drawBorderEnabled) {
+    this.drawBorderEnabled = drawBorderEnabled;
     // request redraw of the view
     invalidate();
   }
