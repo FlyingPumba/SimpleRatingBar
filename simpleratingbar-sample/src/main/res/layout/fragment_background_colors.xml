@@ -23,8 +23,8 @@
         app:srb_borderColor="@color/material_red500"
         app:srb_pressedFillColor="@color/material_redA200"
         app:srb_pressedBorderColor="@color/material_redA400"
-        app:srb_starBackgroundColor="@color/material_grey500"
-        app:srb_backgroundColor="@color/material_pink200"
+        app:srb_starBackgroundColor="@color/material_grey100"
+        app:srb_backgroundColor="@color/material_pink100"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -36,7 +36,7 @@
         app:srb_borderColor="@color/material_blue500"
         app:srb_pressedFillColor="@color/material_blueA200"
         app:srb_pressedBorderColor="@color/material_blueA400"
-        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_starBackgroundColor="@color/material_grey200"
         app:srb_backgroundColor="@color/material_pink200"
         />
 
@@ -49,8 +49,8 @@
         app:srb_borderColor="@color/material_green500"
         app:srb_pressedFillColor="@color/material_greenA700"
         app:srb_pressedBorderColor="@color/material_green700"
-        app:srb_starBackgroundColor="@color/material_grey500"
-        app:srb_backgroundColor="@color/material_pink200"
+        app:srb_starBackgroundColor="@color/material_grey300"
+        app:srb_backgroundColor="@color/material_pink300"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -62,8 +62,8 @@
         app:srb_borderColor="@color/material_amber500"
         app:srb_pressedFillColor="@color/material_amberA400"
         app:srb_pressedBorderColor="@color/material_amberA700"
-        app:srb_starBackgroundColor="@color/material_grey500"
-        app:srb_backgroundColor="@color/material_pink200"
+        app:srb_starBackgroundColor="@color/material_grey400"
+        app:srb_backgroundColor="@color/material_pink400"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -76,7 +76,7 @@
         app:srb_pressedFillColor="@color/material_purpleA200"
         app:srb_pressedBorderColor="@color/material_purpleA400"
         app:srb_starBackgroundColor="@color/material_grey500"
-        app:srb_backgroundColor="@color/material_pink200"
+        app:srb_backgroundColor="@color/material_pink500"
         />
 
   </LinearLayout>
