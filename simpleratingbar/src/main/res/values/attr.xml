@@ -4,9 +4,11 @@
     <attr name="srb_borderColor" format="color" />
     <attr name="srb_fillColor" format="color" />
     <attr name="srb_backgroundColor" format="color" />
+    <attr name="srb_starBackgroundColor" format="color" />
     <attr name="srb_pressedBorderColor" format="color" />
     <attr name="srb_pressedFillColor" format="color" />
     <attr name="srb_pressedBackgroundColor" format="color" />
+    <attr name="srb_pressedStarBackgroundColor" format="color" />
     <attr name="srb_numberOfStars" format="integer" />
     <attr name="srb_starSize" format="dimension" />
     <attr name="srb_maxStarSize" format="dimension" />

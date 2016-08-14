@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:orientation="vertical"
+      android:animateLayoutChanges="true"
+      >
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:srb_fillColor="@color/material_red300"
+        app:srb_borderColor="@color/material_red500"
+        app:srb_pressedFillColor="@color/material_redA200"
+        app:srb_pressedBorderColor="@color/material_redA400"
+        app:srb_starBackgroundColor="@color/material_grey100"
+        app:srb_backgroundColor="@color/material_pink100"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:srb_fillColor="@color/material_blue300"
+        app:srb_borderColor="@color/material_blue500"
+        app:srb_pressedFillColor="@color/material_blueA200"
+        app:srb_pressedBorderColor="@color/material_blueA400"
+        app:srb_starBackgroundColor="@color/material_grey200"
+        app:srb_backgroundColor="@color/material_pink200"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:srb_fillColor="@color/material_green300"
+        app:srb_borderColor="@color/material_green500"
+        app:srb_pressedFillColor="@color/material_greenA700"
+        app:srb_pressedBorderColor="@color/material_green700"
+        app:srb_starBackgroundColor="@color/material_grey300"
+        app:srb_backgroundColor="@color/material_pink300"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:srb_fillColor="@color/material_amber300"
+        app:srb_borderColor="@color/material_amber500"
+        app:srb_pressedFillColor="@color/material_amberA400"
+        app:srb_pressedBorderColor="@color/material_amberA700"
+        app:srb_starBackgroundColor="@color/material_grey400"
+        app:srb_backgroundColor="@color/material_pink400"
+        />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/ratingBar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:srb_fillColor="@color/material_purple300"
+        app:srb_borderColor="@color/material_purple500"
+        app:srb_pressedFillColor="@color/material_purpleA200"
+        app:srb_pressedBorderColor="@color/material_purpleA400"
+        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_backgroundColor="@color/material_pink500"
+        />
+
+  </LinearLayout>
+
+</ScrollView>

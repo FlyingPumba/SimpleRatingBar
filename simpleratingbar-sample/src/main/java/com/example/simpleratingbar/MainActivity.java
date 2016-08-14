@@ -35,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
             return new BorderWidthFragment();
           case 5:
             return new CornerRadiusFragment();
+          case 6:
+          return new StepSizeAndGravityFragment();
           default:
-            return new StepSizeAndGravityFragment();
+            return new BackgroundColorsFragment();
         }
       }
 
       @Override public int getCount() {
-        return 7;
+        return 8;
       }
 
       @Override public CharSequence getPageTitle(int position) {
@@ -58,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
             return "Border width";
           case 5:
             return "Corner radius";
-          default:
+          case 6:
             return "Step size and Gravity";
+          default:
+            return "Background color";
         }
       }
     });
