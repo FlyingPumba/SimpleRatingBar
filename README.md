@@ -76,6 +76,7 @@ The view can be configured as follows:
 * Set stars background color in pressed state with `app:srb_pressedStarBackgroundColor` / `setPressedStarBackgroundColor(@ColorInt int)`
 * Set background color of rating bar in pressed state with `app:srb_pressedBackgroundColor` / `setPressedBackgroundColor(@ColorInt int)`
 * Enabled/disable user interaction with `app:srb_isIndicator` / `setIsIndicator(boolean)`
+* Enabled/disable border of star with `app:srb_drawBorderEnabled` / `setDrawBorderEnabled(boolean)`
 * Set gravity of fill (left or right) with `app:srb_gravity` / `setGravity(Gravity)`
 
 Download
@@ -88,7 +89,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.9'
+    compile 'com.iarcuschin:simpleratingbar:0.0.10'
 }
 ```
 
@@ -99,7 +100,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.9'
+    compile 'com.iarcuschin:simpleratingbar:0.0.10'
 }
 ```
 
@@ -108,7 +109,7 @@ Using `Maven`:
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.0.9</version>
+  <version>0.0.10</version>
   <type>apklib</type>
 </dependency>
 ```
