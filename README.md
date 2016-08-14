@@ -33,12 +33,12 @@ In your layout file:
 <com.iarcuschin.simpleratingbar.SimpleRatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:starSize="40dp"
-        app:numberOfStars="5"
-        app:rating="3"
-        app:stepSize="0.5"
-        app:borderColor="@color/blue"
-        app:fillColor="@color/light_blue"
+        app:srb_starSize="40dp"
+        app:srb_numberOfStars="5"
+        app:srb_rating="3"
+        app:srb_stepSize="0.5"
+        app:srb_borderColor="@color/blue"
+        app:srb_fillColor="@color/light_blue"
         />
 ```
 
@@ -59,22 +59,22 @@ Configuration
 ----
 The view can be configured as follows:
 
-* Set the number of stars with `app:numberOfStars` / `setNumberOfStars(int)`
-* Set the rating with `app:rating` / `setRating(float)`
-* Set step size with `app:stepSize` / `setStepSize(float)`
-* Set star size with `app:starSize` / `setStarSize(float)`
-* Set max star size with `app:maxStarSize` / `setMaxStarSize(float)`
-* Set separation between stars with `app:starsSeparation` / `setStarsSeparation(float)`
-* Set border width with `app:starBorderWidth` / `setStarBorderWidth(float)`
-* Set stars corner radius with `app:starCornerRadius` / `setStarCornerRadius(float)`
-* Set stars border color in normal state with `app:borderColor` / `setBorderColor(@ColorInt int)`
-* Set stars fill color in normal state with `app:fillColor` / `setFillColor(@ColorInt int)`
-* Set background color in normal state with `app:backgroundColor` / `setBackgroundColor(@ColorInt int)`
-* Set stars border color in pressed state with `app:pressedBorderColor` / `setPressedBorderColor(@ColorInt int)`
-* Set stars fill color in pressed state with `app:pressedFillColor` / `setPressedFillColor(@ColorInt int)`
-* Set background color in pressed state with `app:pressedBackgroundColor` / `setPressedBackgroundColor(@ColorInt int)`
-* Enabled/disable user interaction with `app:isIndicator` / `setIsIndicator(boolean)`
-* Set gravity of fill (left or right) with `app:gravity` / `setGravity(Gravity)`
+* Set the number of stars with `app:srb_numberOfStars` / `setNumberOfStars(int)`
+* Set the rating with `app:srb_rating` / `setRating(float)`
+* Set step size with `app:srb_stepSize` / `setStepSize(float)`
+* Set star size with `app:srb_starSize` / `setStarSize(float)`
+* Set max star size with `app:srb_maxStarSize` / `setMaxStarSize(float)`
+* Set separation between stars with `app:srb_starsSeparation` / `setStarsSeparation(float)`
+* Set border width with `app:srb_starBorderWidth` / `setStarBorderWidth(float)`
+* Set stars corner radius with `app:srb_starCornerRadius` / `setStarCornerRadius(float)`
+* Set stars border color in normal state with `app:srb_borderColor` / `setBorderColor(@ColorInt int)`
+* Set stars fill color in normal state with `app:srb_fillColor` / `setFillColor(@ColorInt int)`
+* Set background color in normal state with `app:srb_backgroundColor` / `setBackgroundColor(@ColorInt int)`
+* Set stars border color in pressed state with `app:srb_pressedBorderColor` / `setPressedBorderColor(@ColorInt int)`
+* Set stars fill color in pressed state with `app:srb_pressedFillColor` / `setPressedFillColor(@ColorInt int)`
+* Set background color in pressed state with `app:srb_pressedBackgroundColor` / `setPressedBackgroundColor(@ColorInt int)`
+* Enabled/disable user interaction with `app:srb_isIndicator` / `setIsIndicator(boolean)`
+* Set gravity of fill (left or right) with `app:srb_gravity` / `setGravity(Gravity)`
 
 Download
 ----
@@ -86,7 +86,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.6'
+    compile 'com.iarcuschin:simpleratingbar:0.0.7'
 }
 ```
 
@@ -97,7 +97,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.6'
+    compile 'com.iarcuschin:simpleratingbar:0.0.7'
 }
 ```
 
@@ -106,7 +106,7 @@ Using `Maven`:
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.7</version>
   <type>apklib</type>
 </dependency>
 ```

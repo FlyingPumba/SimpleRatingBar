@@ -19,11 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:fillColor="@color/material_red300"
-        app:borderColor="@color/material_red500"
-        app:pressedFillColor="@color/material_redA200"
-        app:pressedBorderColor="@color/material_redA400"
-        app:starBackgroundColor="@color/material_grey200"
+        app:srb_fillColor="@color/material_red300"
+        app:srb_borderColor="@color/material_red500"
+        app:srb_pressedFillColor="@color/material_redA200"
+        app:srb_pressedBorderColor="@color/material_redA400"
+        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_backgroundColor="@color/material_pink200"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -31,11 +32,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:fillColor="@color/material_blue300"
-        app:borderColor="@color/material_blue500"
-        app:pressedFillColor="@color/material_blueA200"
-        app:pressedBorderColor="@color/material_blueA400"
-        app:starBackgroundColor="@color/material_grey200"
+        app:srb_fillColor="@color/material_blue300"
+        app:srb_borderColor="@color/material_blue500"
+        app:srb_pressedFillColor="@color/material_blueA200"
+        app:srb_pressedBorderColor="@color/material_blueA400"
+        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_backgroundColor="@color/material_pink200"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -43,11 +45,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:fillColor="@color/material_green300"
-        app:borderColor="@color/material_green500"
-        app:pressedFillColor="@color/material_greenA700"
-        app:pressedBorderColor="@color/material_green700"
-        app:starBackgroundColor="@color/material_grey200"
+        app:srb_fillColor="@color/material_green300"
+        app:srb_borderColor="@color/material_green500"
+        app:srb_pressedFillColor="@color/material_greenA700"
+        app:srb_pressedBorderColor="@color/material_green700"
+        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_backgroundColor="@color/material_pink200"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -55,12 +58,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:fillColor="@color/material_amber300"
-        app:borderColor="@color/material_amber500"
-        app:pressedFillColor="@color/material_amberA400"
-        app:pressedBorderColor="@color/material_amberA700"
-        app:starBackgroundColor="@color/material_grey200"
-        android:background="@color/material_pink200"
+        app:srb_fillColor="@color/material_amber300"
+        app:srb_borderColor="@color/material_amber500"
+        app:srb_pressedFillColor="@color/material_amberA400"
+        app:srb_pressedBorderColor="@color/material_amberA700"
+        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_backgroundColor="@color/material_pink200"
         />
 
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -68,11 +71,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:fillColor="@color/material_purple300"
-        app:borderColor="@color/material_purple500"
-        app:pressedFillColor="@color/material_purpleA200"
-        app:pressedBorderColor="@color/material_purpleA400"
-        app:starBackgroundColor="@color/material_grey200"
+        app:srb_fillColor="@color/material_purple300"
+        app:srb_borderColor="@color/material_purple500"
+        app:srb_pressedFillColor="@color/material_purpleA200"
+        app:srb_pressedBorderColor="@color/material_purpleA400"
+        app:srb_starBackgroundColor="@color/material_grey500"
+        app:srb_backgroundColor="@color/material_pink200"
         />
 
   </LinearLayout>

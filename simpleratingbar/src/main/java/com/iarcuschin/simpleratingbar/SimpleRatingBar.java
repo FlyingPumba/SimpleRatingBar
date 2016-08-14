@@ -62,9 +62,11 @@ public class SimpleRatingBar extends View {
   // Configurable variables
   private @ColorInt int borderColor;
   private @ColorInt int fillColor;
+  private @ColorInt int backgroundColor;
   private @ColorInt int starBackgroundColor;
   private @ColorInt int pressedBorderColor;
   private @ColorInt int pressedFillColor;
+  private @ColorInt int pressedBackgroundColor;
   private @ColorInt int pressedStarBackgroundColor;
   private int numberOfStars;
   private float starsSeparation;
@@ -129,7 +131,6 @@ public class SimpleRatingBar extends View {
     paintStarOutline.setStrokeCap(Paint.Cap.ROUND);
     paintStarOutline.setColor(Color.BLACK);
     paintStarOutline.setPathEffect(cornerPathEffect);
-    paintStarOutline.setStrokeWidth(starBorderWidth);
 
     paintStarBorder = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
     paintStarBorder.setStyle(Paint.Style.STROKE);
@@ -144,7 +145,6 @@ public class SimpleRatingBar extends View {
     paintStarBackground.setDither(true);
     paintStarBackground.setStrokeJoin(Paint.Join.ROUND);
     paintStarBackground.setStrokeCap(Paint.Cap.ROUND);
-    paintStarBackground.setStrokeWidth(starBorderWidth);
 
     paintStarFill = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
     paintStarFill.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -152,7 +152,6 @@ public class SimpleRatingBar extends View {
     paintStarFill.setDither(true);
     paintStarFill.setStrokeJoin(Paint.Join.ROUND);
     paintStarFill.setStrokeCap(Paint.Cap.ROUND);
-    paintStarFill.setStrokeWidth(starBorderWidth);
 
     defaultStarSize = applyDimension(COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
   }
@@ -163,27 +162,29 @@ public class SimpleRatingBar extends View {
   private void parseAttrs(AttributeSet attrs) {
     TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleRatingBar);
 
-    borderColor = arr.getColor(R.styleable.SimpleRatingBar_borderColor, getResources().getColor(R.color.golden_stars));
-    fillColor = arr.getColor(R.styleable.SimpleRatingBar_fillColor, borderColor);
-    starBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_starBackgroundColor, Color.TRANSPARENT);
+    borderColor = arr.getColor(R.styleable.SimpleRatingBar_srb_borderColor, getResources().getColor(R.color.golden_stars));
+    fillColor = arr.getColor(R.styleable.SimpleRatingBar_srb_fillColor, borderColor);
+    starBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_starBackgroundColor, Color.TRANSPARENT);
+    backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_backgroundColor, Color.TRANSPARENT);
 
-    pressedBorderColor = arr.getColor(R.styleable.SimpleRatingBar_pressedBorderColor, borderColor);
-    pressedFillColor = arr.getColor(R.styleable.SimpleRatingBar_pressedFillColor, fillColor);
-    pressedStarBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_pressedStarBackgroundColor, starBackgroundColor);
+    pressedBorderColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedBorderColor, borderColor);
+    pressedFillColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedFillColor, fillColor);
+    pressedStarBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedStarBackgroundColor, starBackgroundColor);
+    pressedBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedBackgroundColor, backgroundColor);
 
-    numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_numberOfStars, 5);
+    numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_srb_numberOfStars, 5);
 
-    float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_starsSeparation, 4);
+    float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_srb_starsSeparation, 4);
     starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
-    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_maxStarSize, Integer.MAX_VALUE);
-    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_starSize, Integer.MAX_VALUE);
-    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_stepSize, Float.MAX_VALUE);
-    starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_starBorderWidth, 5f);
-    starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_starCornerRadius, 6f);
+    maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_maxStarSize, Integer.MAX_VALUE);
+    starSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starSize, Integer.MAX_VALUE);
+    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, Float.MAX_VALUE);
+    starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_srb_starBorderWidth, 5f);
+    starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_srb_starCornerRadius, 6f);
 
-    rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_rating, 0f));
-    isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_isIndicator, false);
-    gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_gravity, Gravity.Left.id));
+    rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_srb_rating, 0f));
+    isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_srb_isIndicator, false);
+    gravity = Gravity.fromId(arr.getInt(R.styleable.SimpleRatingBar_srb_gravity, Gravity.Left.id));
 
     arr.recycle();
 
@@ -437,15 +438,24 @@ public class SimpleRatingBar extends View {
       return;
     }
 
-    internalCanvas.drawColor(Color.argb(0,0,0,0));
+    // clean internal canvas
+    internalCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
     // choose colors
     setupColorsInPaint();
 
+    // draw stars
     if (gravity == Gravity.Left) {
       drawFromLeftToRight(internalCanvas);
     } else {
       drawFromRightToLeft(internalCanvas);
+    }
+
+    // draw view background color
+    if (touchInProgress) {
+      canvas.drawColor(pressedBackgroundColor);
+    } else {
+      canvas.drawColor(backgroundColor);
     }
 
     // draw internal bitmap to definite canvas
@@ -560,30 +570,32 @@ public class SimpleRatingBar extends View {
    * @param gravity Left or Right
    */
   private void drawStar(Canvas canvas, float x, float y, float filled, Gravity gravity) {
+    // calculate fill in pixels
     float fill = starSize * filled;
-    // draw star outline
+
+    // prepare path for star
     path.reset();
     path.moveTo(x + starVertex[0], y + starVertex[1]);
     for(int i = 2; i < starVertex.length; i=i+2) {
       path.lineTo(x + starVertex[i], y + starVertex[i+1]);
     }
     path.close();
+
+    // draw star outline
     canvas.drawPath(path, paintStarOutline);
 
+    // Note: below, starSize*0.02f is a minor correction so the user won't see a vertical black line in between the fill and empty color
     if (gravity == Gravity.Left) {
       // color star fill
-      canvas.drawRect(x, y, x + fill, y + starSize, paintStarFill);
+      canvas.drawRect(x, y, x + fill + starSize*0.02f, y + starSize, paintStarFill);
       // draw star background
       canvas.drawRect(x + fill, y, x + starSize, y + starSize, paintStarBackground);
     } else {
       // color star fill
-      canvas.drawRect(x + starSize - fill, y, x + starSize, y + starSize, paintStarFill);
+      canvas.drawRect(x + starSize - (fill+ starSize*0.02f), y, x + starSize, y + starSize, paintStarFill);
       // draw star background
       canvas.drawRect(x, y, x + starSize - fill, y + starSize, paintStarBackground);
     }
-
-    // draw view background
-    //canvas.drawRect(x, y, x + starSize, y + starSize, paintBackground);
 
     // draw star border on top
     canvas.drawPath(path, paintStarBorder);
