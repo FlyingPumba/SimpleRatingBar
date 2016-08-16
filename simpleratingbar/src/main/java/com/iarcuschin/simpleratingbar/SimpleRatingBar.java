@@ -663,7 +663,14 @@ public class SimpleRatingBar extends View {
 
     // correct rating in case step size is present
     if (stepSize != Float.MAX_VALUE) {
-      rating -= rating % stepSize;
+      float mod = rating % stepSize;
+      if (mod < stepSize/2) {
+        rating = rating - mod;
+        rating = Math.max(0, rating);
+      } else {
+        rating =  rating - mod + stepSize;
+        rating = Math.min(numberOfStars, rating);
+      }
     }
   }
 
