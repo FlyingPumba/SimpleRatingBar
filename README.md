@@ -89,7 +89,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.10'
+    compile 'com.iarcuschin:simpleratingbar:0.1.0'
 }
 ```
 
@@ -100,7 +100,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.10'
+    compile 'com.iarcuschin:simpleratingbar:0.1.0'
 }
 ```
 
@@ -109,7 +109,7 @@ Using `Maven`:
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.0.10</version>
+  <version>0.1.0</version>
   <type>apklib</type>
 </dependency>
 ```
