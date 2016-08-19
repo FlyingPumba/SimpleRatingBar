@@ -616,7 +616,7 @@ public class SimpleRatingBar extends View {
           setNewRatingFromTouch(event.getX(), event.getY());
         } else {
           if (touchInProgress && listener != null) {
-            listener.onRatingChanged(this, rating, false);
+            listener.onRatingChanged(this, rating, true);
           }
           touchInProgress = false;
           return false;
@@ -626,7 +626,7 @@ public class SimpleRatingBar extends View {
         setNewRatingFromTouch(event.getX(), event.getY());
       case MotionEvent.ACTION_CANCEL:
         if (listener != null) {
-          listener.onRatingChanged(this, rating, false);
+          listener.onRatingChanged(this, rating, true);
         }
         touchInProgress = false;
         break;
