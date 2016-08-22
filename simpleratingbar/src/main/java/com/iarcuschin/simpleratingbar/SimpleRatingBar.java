@@ -3,6 +3,7 @@ package com.iarcuschin.simpleratingbar;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -14,6 +15,9 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -672,6 +676,56 @@ public class SimpleRatingBar extends View {
         rating = Math.min(numberOfStars, rating);
       }
     }
+  }
+  
+  @Override
+  protected Parcelable onSaveInstanceState() {
+      Parcelable superState = super.onSaveInstanceState();
+      SavedState savedState = new SavedState(superState);
+      savedState.rating = getRating();
+      return savedState;
+    }
+
+  @Override
+  protected void onRestoreInstanceState(Parcelable state) {
+      SavedState savedState = (SavedState) state;
+      super.onRestoreInstanceState(savedState.getSuperState());
+      setRating(savedState.rating);
+  }
+
+  private static class SavedState extends BaseSavedState {
+      public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+          @Override
+          public SavedState createFromParcel(Parcel parcel) {
+              return new SavedState(parcel);
+          }
+
+          @Override
+          public SavedState[] newArray(int size) {
+              return new SavedState[size];
+          }
+      };
+      private float rating = 0.0f;
+
+      protected SavedState(Parcel source) {
+          super(source);
+          rating = source.readFloat();
+      }
+
+      @TargetApi(Build.VERSION_CODES.N)
+      protected SavedState(Parcel source, ClassLoader loader) {
+          super(source, loader);
+      }
+
+      protected SavedState(Parcelable superState) {
+          super(superState);
+      }
+
+      @Override
+      public void writeToParcel(Parcel out, int flags) {
+          super.writeToParcel(out, flags);
+          out.writeFloat(rating);
+      }
   }
 
   /* ----------- GETTERS AND SETTERS ----------- */
