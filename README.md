@@ -3,7 +3,9 @@ SimpleRatingBar
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-%20SimpleRatingBar-green.svg?style=true)](https://android-arsenal.com/details/1/4027)
 [![Download](https://api.bintray.com/packages/flyingpumba/maven/simpleratingbar/images/download.svg) ](https://bintray.com/flyingpumba/maven/simpleratingbar/_latestVersion)
+[![API](https://img.shields.io/badge/API-9%2B-green.svg?style=true)](https://android-arsenal.com/api?level=9)
 [![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/LICENSE.txt)
+<!--[![maven central](https://maven-badges.herokuapp.com/maven-central/com.iarcuschin/simpleratingbar/badge.svg) ](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22simpleratingbar%22%20g%3A%22com.iarcuschin%22)-->
 
 A simple RatingBar for Android.
 
