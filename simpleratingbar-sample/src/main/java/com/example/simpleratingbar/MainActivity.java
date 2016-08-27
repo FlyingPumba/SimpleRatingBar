@@ -37,13 +37,15 @@ public class MainActivity extends AppCompatActivity {
             return new CornerRadiusFragment();
           case 6:
           return new StepSizeAndGravityFragment();
-          default:
+          case 7:
             return new BackgroundColorsFragment();
+          default:
+            return new RatingChangedListenerFragment();
         }
       }
 
       @Override public int getCount() {
-        return 8;
+        return 9;
       }
 
       @Override public CharSequence getPageTitle(int position) {
@@ -62,8 +64,10 @@ public class MainActivity extends AppCompatActivity {
             return "Corner radius";
           case 6:
             return "Step size and Gravity";
-          default:
+          case 7:
             return "Background color";
+          default:
+            return "Rating changed Listener";
         }
       }
     });

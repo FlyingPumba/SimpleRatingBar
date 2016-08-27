@@ -3,11 +3,13 @@ SimpleRatingBar
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-%20SimpleRatingBar-green.svg?style=true)](https://android-arsenal.com/details/1/4027)
 [![Download](https://api.bintray.com/packages/flyingpumba/maven/simpleratingbar/images/download.svg) ](https://bintray.com/flyingpumba/maven/simpleratingbar/_latestVersion)
+[![API](https://img.shields.io/badge/API-11%2B-green.svg?style=true)](https://android-arsenal.com/api?level=11)
 [![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/LICENSE.txt)
+<!--[![maven central](https://maven-badges.herokuapp.com/maven-central/com.iarcuschin/simpleratingbar/badge.svg) ](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22simpleratingbar%22%20g%3A%22com.iarcuschin%22)-->
 
 A simple RatingBar for Android.
 
-![](images/sample2.gif)
+![](images/sample.gif)
 
 Features
 ----
@@ -15,8 +17,8 @@ Features
 * Arbitrary number of stars.
 * Arbitrary step size.
 * Size of stars can be controlled exactly or by setting a maximum size.
-* Customizable colors in normal state (border, fill and background of stars).
-* Customizable colors in pressed state (border, fill and background of stars).
+* Customizable colors in normal state (border, fill and background of stars and rating bar).
+* Customizable colors in pressed state (border, fill and background of stars and rating bar).
 * Customizable size separation between stars.
 * Customizable border width of stars.
 * Customizable stars corner radius.
@@ -69,11 +71,14 @@ The view can be configured as follows:
 * Set stars corner radius with `app:srb_starCornerRadius` / `setStarCornerRadius(float)`
 * Set stars border color in normal state with `app:srb_borderColor` / `setBorderColor(@ColorInt int)`
 * Set stars fill color in normal state with `app:srb_fillColor` / `setFillColor(@ColorInt int)`
-* Set background color in normal state with `app:srb_backgroundColor` / `setBackgroundColor(@ColorInt int)`
+* Set stars background color in normal state with `app:srb_starBackgroundColor` / `setStarBackgroundColor(@ColorInt int)`
+* Set background color of rating bar in normal state with `app:srb_backgroundColor` / `setBackgroundColor(@ColorInt int)`
 * Set stars border color in pressed state with `app:srb_pressedBorderColor` / `setPressedBorderColor(@ColorInt int)`
 * Set stars fill color in pressed state with `app:srb_pressedFillColor` / `setPressedFillColor(@ColorInt int)`
-* Set background color in pressed state with `app:srb_pressedBackgroundColor` / `setPressedBackgroundColor(@ColorInt int)`
+* Set stars background color in pressed state with `app:srb_pressedStarBackgroundColor` / `setPressedStarBackgroundColor(@ColorInt int)`
+* Set background color of rating bar in pressed state with `app:srb_pressedBackgroundColor` / `setPressedBackgroundColor(@ColorInt int)`
 * Enabled/disable user interaction with `app:srb_isIndicator` / `setIsIndicator(boolean)`
+* Enabled/disable border of star with `app:srb_drawBorderEnabled` / `setDrawBorderEnabled(boolean)`
 * Set gravity of fill (left or right) with `app:srb_gravity` / `setGravity(Gravity)`
 
 Download
@@ -86,7 +91,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.7'
+    compile 'com.iarcuschin:simpleratingbar:0.1.2'
 }
 ```
 
@@ -97,7 +102,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.0.7'
+    compile 'com.iarcuschin:simpleratingbar:0.1.2'
 }
 ```
 
@@ -106,7 +111,7 @@ Using `Maven`:
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.0.7</version>
+  <version>0.1.2</version>
   <type>apklib</type>
 </dependency>
 ```

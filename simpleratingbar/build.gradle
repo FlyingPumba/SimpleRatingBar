@@ -13,7 +13,7 @@ ext {
   siteUrl = 'https://github.com/FlyingPumba/SimpleRatingBar'
   gitUrl = 'https://github.com/FlyingPumba/SimpleRatingBar.git'
 
-  libraryVersion = '0.0.7'
+  libraryVersion = '0.1.2'
 
   developerId = 'flyingpumba'
   developerName = 'Ivan Arcuschin'
@@ -35,14 +35,14 @@ repositories {
 }
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  compileSdkVersion 24
+  buildToolsVersion "23.0.3"
 
   defaultConfig {
-    minSdkVersion 14
-    targetSdkVersion 23
-    versionCode 7
-    versionName "0.0.7"
+    minSdkVersion 11
+    targetSdkVersion 24
+    versionCode 13
+    versionName "0.1.2"
   }
   buildTypes {
     release {
@@ -53,8 +53,8 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:support-v4:23.2.1'
+  compile 'com.android.support:support-v4:24.2.0'
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: 'installv1.gradle'
+apply from: 'bintrayv1.gradle'
