@@ -1,6 +1,7 @@
 package com.example.simpleratingbar;
 
 import android.os.Bundle;
+import android.support.annotation.Dimension;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -45,17 +46,17 @@ public class StarsSeparationFragment extends Fragment {
     switch (item.getItemId()) {
       case R.id.menu_action_refresh:
         if (ratingBar1.getStarsSeparation() <= limit) {
-          ratingBar1.setStarsSeparation(ratingBar1.getStarsSeparation() + 4);
-          ratingBar2.setStarsSeparation(ratingBar2.getStarsSeparation() + 4);
-          ratingBar3.setStarsSeparation(ratingBar3.getStarsSeparation() + 4);
-          ratingBar4.setStarsSeparation(ratingBar4.getStarsSeparation() + 4);
-          ratingBar5.setStarsSeparation(ratingBar5.getStarsSeparation() + 4);
+          ratingBar1.setStarsSeparation(ratingBar1.getStarsSeparation(Dimension.DP) + 4, Dimension.DP);
+          ratingBar2.setStarsSeparation(ratingBar2.getStarsSeparation(Dimension.DP) + 4, Dimension.DP);
+          ratingBar3.setStarsSeparation(ratingBar3.getStarsSeparation(Dimension.DP) + 4, Dimension.DP);
+          ratingBar4.setStarsSeparation(ratingBar4.getStarsSeparation(Dimension.DP) + 4, Dimension.DP);
+          ratingBar5.setStarsSeparation(ratingBar5.getStarsSeparation(Dimension.DP) + 4, Dimension.DP);
         } else {
-          ratingBar1.setStarsSeparation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics()));
-          ratingBar2.setStarsSeparation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, getResources().getDisplayMetrics()));
-          ratingBar3.setStarsSeparation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-          ratingBar4.setStarsSeparation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
-          ratingBar5.setStarsSeparation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()));
+          ratingBar1.setStarsSeparation(4, Dimension.DP);
+          ratingBar2.setStarsSeparation(6, Dimension.DP);
+          ratingBar3.setStarsSeparation(8, Dimension.DP);
+          ratingBar4.setStarsSeparation(10, Dimension.DP);
+          ratingBar5.setStarsSeparation(12, Dimension.DP);
         }
         return false;
       default:

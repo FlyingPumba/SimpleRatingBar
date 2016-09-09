@@ -19,14 +19,17 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Dimension;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
 import static android.util.TypedValue.applyDimension;
 
 /**
@@ -179,8 +182,7 @@ public class SimpleRatingBar extends View {
 
     numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_srb_numberOfStars, 5);
 
-    float starsSeparationDp = arr.getDimension(R.styleable.SimpleRatingBar_srb_starsSeparation, 4);
-    starsSeparation = applyDimension(COMPLEX_UNIT_DIP, starsSeparationDp, getResources().getDisplayMetrics());
+    starsSeparation = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starsSeparation, (int)valueToPixels(4, Dimension.DP));
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_maxStarSize, Integer.MAX_VALUE);
     desiredStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starSize, Integer.MAX_VALUE);
     stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, Float.MAX_VALUE);
@@ -752,60 +754,6 @@ public class SimpleRatingBar extends View {
     }
   }
 
-  public boolean isIndicator() {
-    return isIndicator;
-  }
-
-  /**
-   * Sets indicator property.
-   * If provided value is true, touch events will be deactivated, and thus user interaction will be deactivated.
-   * @param indicator
-   */
-  public void setIndicator(boolean indicator) {
-    isIndicator = indicator;
-    touchInProgress = false;
-  }
-
-  public float getMaxStarSize() {
-    return maxStarSize;
-  }
-
-  /**
-   * Sets maximum star size in pixels.
-   * If current star size is less than provided value, this has no effect on the view.
-   * @param maxStarSize
-   */
-  public void setMaxStarSize(float maxStarSize) {
-    this.maxStarSize = maxStarSize;
-    if (currentStarSize > maxStarSize) {
-      // force re-calculating the layout dimension
-      requestLayout();
-      generateInternalCanvas(getWidth(), getHeight());
-      // request redraw of the view
-      invalidate();
-    }
-  }
-
-  public float getStarSize() {
-    return currentStarSize;
-  }
-
-  /**
-   * Sets exact star size.
-   * @param starSize
-   */
-  public void setStarSize(float starSize) {
-    this.desiredStarSize = starSize;
-    if (starSize != Integer.MAX_VALUE && maxStarSize != Integer.MAX_VALUE && starSize > maxStarSize) {
-      Log.w("SimpleRatingBar", String.format("Initialized with conflicting values: starSize is greater than maxStarSize (%f > %f). I will ignore maxStarSize", starSize, maxStarSize));
-    }
-    // force re-calculating the layout dimension
-    requestLayout();
-    generateInternalCanvas(getWidth(), getHeight());
-    // request redraw of the view
-    invalidate();
-  }
-
   public float getStepSize() {
     return stepSize;
   }
@@ -824,8 +772,119 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public boolean isIndicator() {
+    return isIndicator;
+  }
+
+  /**
+   * Sets indicator property.
+   * If provided value is true, touch events will be deactivated, and thus user interaction will be deactivated.
+   * @param indicator
+   */
+  public void setIndicator(boolean indicator) {
+    isIndicator = indicator;
+    touchInProgress = false;
+  }
+
+  /**
+   * Returns max star size in pixels.
+   * @return
+   */
+  public float getMaxStarSize() {
+    return maxStarSize;
+  }
+
+  /**
+   * Returns max star size in the requested dimension.
+   * @param dimen
+   * @return
+   */
+  public float getMaxStarSize(@Dimension int dimen) {
+    return valueFromPixels(maxStarSize, dimen);
+  }
+
+  /**
+   * Sets maximum star size in pixels.
+   * If current star size is less than provided value, this has no effect on the view.
+   * @param maxStarSize
+   */
+  public void setMaxStarSize(float maxStarSize) {
+    this.maxStarSize = maxStarSize;
+    if (currentStarSize > maxStarSize) {
+      // force re-calculating the layout dimension
+      requestLayout();
+      generateInternalCanvas(getWidth(), getHeight());
+      // request redraw of the view
+      invalidate();
+    }
+  }
+
+  /**
+   * Sets maximum star size using the given dimension.
+   * If current star size is less than provided value, this has no effect on the view.
+   * @param maxStarSize
+   */
+  public void setMaxStarSize(float maxStarSize, @Dimension int dimen) {
+    setMaxStarSize(valueToPixels(maxStarSize, dimen));
+  }
+
+  /**
+   * Return star size in pixels.
+   * @return
+   */
+  public float getStarSize() {
+    return currentStarSize;
+  }
+
+  /**
+   * Return star size in the requested dimension.
+   * @param dimen
+   * @return
+   */
+  public float getStarSize(@Dimension int dimen) {
+    return valueFromPixels(currentStarSize, dimen);
+  }
+
+  /**
+   * Sets exact star size in pixels.
+   * @param starSize
+   */
+  public void setStarSize(float starSize) {
+    this.desiredStarSize = starSize;
+    if (starSize != Integer.MAX_VALUE && maxStarSize != Integer.MAX_VALUE && starSize > maxStarSize) {
+      Log.w("SimpleRatingBar", String.format("Initialized with conflicting values: starSize is greater than maxStarSize (%f > %f). I will ignore maxStarSize", starSize, maxStarSize));
+    }
+    // force re-calculating the layout dimension
+    requestLayout();
+    generateInternalCanvas(getWidth(), getHeight());
+    // request redraw of the view
+    invalidate();
+  }
+
+  /**
+   * Sets exact star size using the given dimension.
+   * @param starSize
+   * @param dimen
+   */
+  public void setStarSize(float starSize, @Dimension int dimen) {
+    setStarSize(valueToPixels(starSize, dimen));
+  }
+
+  /**
+   * Returns stars separation in pixels.
+   * @return
+   */
   public float getStarsSeparation() {
     return starsSeparation;
+  }
+
+  /**
+   * Returns stars separation in the requested dimension.
+   * @param dimen
+   * @return
+   */
+  public float getStarsSeparation(@Dimension int dimen) {
+    return valueFromPixels(starsSeparation, dimen);
   }
 
   /**
@@ -839,6 +898,14 @@ public class SimpleRatingBar extends View {
     generateInternalCanvas(getWidth(), getHeight());
     // request redraw of the view
     invalidate();
+  }
+
+  /**
+   * Sets separation between stars using the given dimension.
+   * @param starsSeparation
+   */
+  public void setStarsSeparation(float starsSeparation, @Dimension int dimen) {
+    setStarsSeparation(valueToPixels(starsSeparation, dimen));
   }
 
   public int getNumberOfStars() {
@@ -864,12 +931,26 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  /**
+   * Returns star border width in pixels.
+   * @return
+   */
   public float getStarBorderWidth() {
     return starBorderWidth;
   }
 
   /**
+   * Returns star border width in the requested dimension.
+   * @param dimen
+   * @return
+   */
+  public float getStarBorderWidth(@Dimension int dimen) {
+    return valueFromPixels(starBorderWidth, dimen);
+  }
+
+  /**
    * Sets border width of stars in pixels.
+   * Throws IllegalArgumentException if provided value is less or equal than zero.
    * @param starBorderWidth
    */
   public void setStarBorderWidth(float starBorderWidth) {
@@ -883,12 +964,36 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  /**
+   * Sets border width of stars using the given dimension.
+   * Throws IllegalArgumentException if provided value is less or equal than zero.
+   * @param starBorderWidth
+   * @param dimen
+   */
+  public void setStarBorderWidth(float starBorderWidth, @Dimension int dimen) {
+    setStarBorderWidth(valueToPixels(starBorderWidth, dimen));
+  }
+
+  /**
+   * Returns start corner radius in pixels,
+   * @return
+   */
   public float getStarCornerRadius() {
     return starCornerRadius;
   }
 
   /**
+   * Returns start corner radius in the requested dimension,
+   * @param dimen
+   * @return
+   */
+  public float getStarCornerRadius(@Dimension int dimen) {
+    return valueFromPixels(starCornerRadius, dimen);
+  }
+
+  /**
    * Sets radius of star corner in pixels.
+   * Throws IllegalArgumentException if provided value is less than zero.
    * @param starCornerRadius
      */
   public void setStarCornerRadius(float starCornerRadius) {
@@ -902,6 +1007,16 @@ public class SimpleRatingBar extends View {
     paintStarOutline.setPathEffect(cornerPathEffect);
     // request redraw of the view
     invalidate();
+  }
+
+  /**
+   * Sets radius of star corner using the given dimension.
+   * Throws IllegalArgumentException if provided value is less than zero.
+   * @param starCornerRadius
+   * @param dimen
+   */
+  public void setStarCornerRadius(float starCornerRadius, @Dimension int dimen) {
+    setStarCornerRadius(valueToPixels(starCornerRadius, dimen));
   }
 
   public @ColorInt int getBorderColor() {
@@ -1015,6 +1130,40 @@ public class SimpleRatingBar extends View {
     this.drawBorderEnabled = drawBorderEnabled;
     // request redraw of the view
     invalidate();
+  }
+
+  /**
+   * Convenience method to convert a value in the given dimension to pixels.
+   * @param value
+   * @param dimen
+   * @return
+   */
+  private float valueToPixels(float value, @Dimension int dimen) {
+    switch (dimen) {
+      case Dimension.DP:
+        return applyDimension(COMPLEX_UNIT_DIP, value, getResources().getDisplayMetrics());
+      case Dimension.SP:
+        return applyDimension(COMPLEX_UNIT_SP, value, getResources().getDisplayMetrics());
+      default:
+        return value;
+    }
+  }
+
+  /**
+   * Convenience method to convert a value from pixels to the given dimension.
+   * @param value
+   * @param dimen
+   * @return
+   */
+  private float valueFromPixels(float value, @Dimension int dimen) {
+    switch (dimen) {
+      case Dimension.DP:
+        return value / getResources().getDisplayMetrics().density;
+      case Dimension.SP:
+        return value / getResources().getDisplayMetrics().scaledDensity;
+      default:
+        return value;
+    }
   }
 
   /**
