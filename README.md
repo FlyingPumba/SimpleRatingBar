@@ -7,7 +7,7 @@ SimpleRatingBar
 [![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/LICENSE.txt)
 <!--[![maven central](https://maven-badges.herokuapp.com/maven-central/com.iarcuschin/simpleratingbar/badge.svg) ](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22simpleratingbar%22%20g%3A%22com.iarcuschin%22)-->
 
-A simple RatingBar for Android.
+Open source project which features a simple yet powerful RatingBar alternative to Android's default.
 
 ![](images/sample.gif)
 
