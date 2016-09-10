@@ -109,6 +109,7 @@ public class SimpleRatingBar extends View {
 
   public SimpleRatingBar(Context context) {
     super(context);
+    parseAttrs(null);
     initView();
   }
 
@@ -786,6 +787,21 @@ public class SimpleRatingBar extends View {
     touchInProgress = false;
   }
 
+  public boolean isDrawBorderEnabled() {
+    return drawBorderEnabled;
+  }
+
+  /**
+   * Sets drawBorder property.
+   * If provided value is true, border will be drawn, otherwise it will be omithed.
+   * @param drawBorderEnabled
+   */
+  public void setDrawBorderEnabled(boolean drawBorderEnabled) {
+    this.drawBorderEnabled = drawBorderEnabled;
+    // request redraw of the view
+    invalidate();
+  }
+
   /**
    * Returns max star size in pixels.
    * @return
@@ -1047,6 +1063,20 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public @ColorInt int getBackgroundColor() {
+    return backgroundColor;
+  }
+
+  /**
+   * Sets background color of view.
+   * @param backgroundColor
+   */
+  @Override public void setBackgroundColor(@ColorInt int backgroundColor) {
+    this.backgroundColor = backgroundColor;
+    // request redraw of the view
+    invalidate();
+  }
+
   public @ColorInt int getStarBackgroundColor() {
     return starBackgroundColor;
   }
@@ -1089,6 +1119,20 @@ public class SimpleRatingBar extends View {
     invalidate();
   }
 
+  public @ColorInt int getPressedBackgroundColor() {
+    return pressedBackgroundColor;
+  }
+
+  /**
+   * Sets background color of view in pressed state.
+   * @param pressedBackgroundColor
+   */
+  public void setPressedBackgroundColor(@ColorInt int pressedBackgroundColor) {
+    this.pressedBackgroundColor = pressedBackgroundColor;
+    // request redraw of the view
+    invalidate();
+  }
+
   public @ColorInt int getPressedStarBackgroundColor() {
     return pressedStarBackgroundColor;
   }
@@ -1113,21 +1157,6 @@ public class SimpleRatingBar extends View {
    */
   public void setGravity(Gravity gravity) {
     this.gravity = gravity;
-    // request redraw of the view
-    invalidate();
-  }
-
-  public boolean isDrawBorderEnabled() {
-    return drawBorderEnabled;
-  }
-
-  /**
-   * Sets drawBorder property.
-   * If provided value is true, border will be drawn, otherwise it will be omithed.
-   * @param drawBorderEnabled
-   */
-  public void setDrawBorderEnabled(boolean drawBorderEnabled) {
-    this.drawBorderEnabled = drawBorderEnabled;
     // request redraw of the view
     invalidate();
   }
