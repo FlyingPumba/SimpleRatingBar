@@ -1,1 +1,1 @@
-include ':simpleratingbar', ':simpleratingbar-sample'
+include ':library', ':sample'
