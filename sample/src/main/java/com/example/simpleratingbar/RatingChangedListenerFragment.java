@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +22,11 @@ public class RatingChangedListenerFragment extends Fragment
   @BindView(R.id.ratingBar3) SimpleRatingBar ratingBar3;
   @BindView(R.id.ratingBar4) SimpleRatingBar ratingBar4;
   @BindView(R.id.ratingBar5) SimpleRatingBar ratingBar5;
+  @BindView(R.id.rating1) TextView rating1;
+  @BindView(R.id.rating2) TextView rating2;
+  @BindView(R.id.rating3) TextView rating3;
+  @BindView(R.id.rating4) TextView rating4;
+  @BindView(R.id.rating5) TextView rating5;
   private Unbinder unbinder;
 
   @Nullable @Override
@@ -45,8 +51,18 @@ public class RatingChangedListenerFragment extends Fragment
 
   @Override
   public void onRatingChanged(SimpleRatingBar simpleRatingBar, float rating, boolean fromUser) {
-    Toast.makeText(getContext(), String.format("New rating is : %.2f", rating), Toast.LENGTH_SHORT)
-        .show();
+    String text = String.format("%.2f", rating);
+    if (simpleRatingBar == ratingBar1) {
+      rating1.setText(text);
+    } else if (simpleRatingBar == ratingBar2) {
+      rating2.setText(text);
+    } else if (simpleRatingBar == ratingBar3) {
+      rating3.setText(text);
+    } else if (simpleRatingBar == ratingBar4) {
+      rating4.setText(text);
+    } else {
+      rating5.setText(text);
+    }
   }
 }
 
