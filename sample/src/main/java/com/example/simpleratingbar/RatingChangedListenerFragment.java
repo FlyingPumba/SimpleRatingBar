@@ -15,7 +15,7 @@ import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import java.util.Arrays;
 
 public class RatingChangedListenerFragment extends Fragment
-    implements SimpleRatingBar.OnRatingBarChangeListener {
+    implements SimpleRatingBar.OnRatingBarChangeListener, View.OnClickListener {
 
   @BindView(R.id.ratingBar1) SimpleRatingBar ratingBar1;
   @BindView(R.id.ratingBar2) SimpleRatingBar ratingBar2;
@@ -39,6 +39,7 @@ public class RatingChangedListenerFragment extends Fragment
 
     for (SimpleRatingBar srb : Arrays.asList(ratingBar1, ratingBar2, ratingBar3, ratingBar4, ratingBar5)) {
       srb.setOnRatingBarChangeListener(this);
+      // srb.setOnClickListener(this);
     }
 
     return view;
@@ -63,6 +64,11 @@ public class RatingChangedListenerFragment extends Fragment
     } else {
       rating5.setText(text);
     }
+  }
+
+  @Override
+  public void onClick(View view) {
+    Toast.makeText(getContext(), "Clicked!", Toast.LENGTH_SHORT).show();
   }
 }
 

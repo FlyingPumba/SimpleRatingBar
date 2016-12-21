@@ -22,7 +22,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.Dimension;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
@@ -96,7 +95,8 @@ public class SimpleRatingBar extends View {
   private CornerPathEffect cornerPathEffect;
   private Path starPath;
   private ValueAnimator ratingAnimator;
-  private OnRatingBarChangeListener listener;
+  private OnRatingBarChangeListener ratingListener;
+  private OnClickListener clickListener;
   private boolean touchInProgress;
   private float[] starVertex;
   private RectF starsDrawingSpace;
@@ -621,8 +621,8 @@ public class SimpleRatingBar extends View {
           touchInProgress = true;
           setNewRatingFromTouch(event.getX(), event.getY());
         } else {
-          if (touchInProgress && listener != null) {
-            listener.onRatingChanged(this, rating, true);
+          if (touchInProgress && ratingListener != null) {
+            ratingListener.onRatingChanged(this, rating, true);
           }
           touchInProgress = false;
           return false;
@@ -630,9 +630,12 @@ public class SimpleRatingBar extends View {
         break;
       case MotionEvent.ACTION_UP:
         setNewRatingFromTouch(event.getX(), event.getY());
+        if (clickListener != null) {
+          clickListener.onClick(this);
+        }
       case MotionEvent.ACTION_CANCEL:
-        if (listener != null) {
-          listener.onRatingChanged(this, rating, true);
+        if (ratingListener != null) {
+          ratingListener.onRatingChanged(this, rating, true);
         }
         touchInProgress = false;
         break;
@@ -749,8 +752,8 @@ public class SimpleRatingBar extends View {
     }
     // request redraw of the view
     invalidate();
-    if (listener != null && (ratingAnimator == null || !ratingAnimator.isRunning())) {
-      listener.onRatingChanged(this, rating, false);
+    if (ratingListener != null && (ratingAnimator == null || !ratingAnimator.isRunning())) {
+      ratingListener.onRatingChanged(this, rating, false);
     }
   }
 
@@ -1200,22 +1203,22 @@ public class SimpleRatingBar extends View {
 
       @Override
       public void onAnimationEnd(Animator animator) {
-        if (listener != null) {
-          listener.onRatingChanged(SimpleRatingBar.this, rating, false);
+        if (ratingListener != null) {
+          ratingListener.onRatingChanged(SimpleRatingBar.this, rating, false);
         }
       }
 
       @Override
       public void onAnimationCancel(Animator animator) {
-        if (listener != null) {
-          listener.onRatingChanged(SimpleRatingBar.this, rating, false);
+        if (ratingListener != null) {
+          ratingListener.onRatingChanged(SimpleRatingBar.this, rating, false);
         }
       }
 
       @Override
       public void onAnimationRepeat(Animator animator) {
-        if (listener != null) {
-          listener.onRatingChanged(SimpleRatingBar.this, rating, false);
+        if (ratingListener != null) {
+          ratingListener.onRatingChanged(SimpleRatingBar.this, rating, false);
         }
       }
     });
@@ -1248,11 +1251,19 @@ public class SimpleRatingBar extends View {
   }
 
   /**
+   * Sets OnClickListener.
+   * @param listener
+   */
+  @Override public void setOnClickListener(OnClickListener listener) {
+    this.clickListener = listener;
+  }
+
+  /**
    * Sets OnRatingBarChangeListener.
    * @param listener
    */
   public void setOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
-    this.listener = listener;
+    this.ratingListener = listener;
   }
 
   public interface OnRatingBarChangeListener {
