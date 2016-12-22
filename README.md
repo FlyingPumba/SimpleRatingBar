@@ -25,7 +25,7 @@ Features
 * Customizable size separation between stars.
 * Customizable border width of stars.
 * Customizable stars corner radius.
-* Allows to set OnRatingBarChangeListener
+* Allows to set OnRatingBarChangeListener and OnClickListener
 * Stars fill can be set to start from left to right or from right to left (RTL language support).
 * AnimationBuilder integrated in the view to set rating programatically with animation.
 
