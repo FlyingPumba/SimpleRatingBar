@@ -513,7 +513,7 @@ public class SimpleRatingBar extends View {
    * @param internalCanvas
    */
   private void drawFromLeftToRight(Canvas internalCanvas) {
-    float remainingTotalRating = getRatingToDraw();
+    float remainingTotalRating = rating;
     float startingX = starsDrawingSpace.left;
     float startingY = starsDrawingSpace.top;
     for (int i = 0; i < numberOfStars; i++) {
@@ -533,7 +533,7 @@ public class SimpleRatingBar extends View {
    * @param internalCanvas
    */
   private void drawFromRightToLeft(Canvas internalCanvas) {
-    float remainingTotalRating = getRatingToDraw();
+    float remainingTotalRating = rating;
     float startingX = starsDrawingSpace.right - currentStarSize;
     float startingY = starsDrawingSpace.top;
     for (int i = 0; i < numberOfStars; i++) {
@@ -545,22 +545,6 @@ public class SimpleRatingBar extends View {
         remainingTotalRating = 0;
       }
       startingX -= starsSeparation + currentStarSize;
-    }
-  }
-
-  /**
-   * Calculates rating to draw based on current step size.
-   * @return
-   */
-  private float getRatingToDraw() {
-    if (stepSize != Float.MAX_VALUE) {
-      if (rating >= numberOfStars) {
-        return numberOfStars;
-      } else {
-        return rating - (rating % stepSize);
-      }
-    } else {
-      return rating;
     }
   }
 
@@ -747,9 +731,6 @@ public class SimpleRatingBar extends View {
    */
   public void setRating(float rating) {
     this.rating = normalizeRating(rating);
-    if (stepSize != Float.MAX_VALUE && (ratingAnimator == null || !ratingAnimator.isRunning())) {
-      rating -= rating % stepSize;
-    }
     // request redraw of the view
     invalidate();
     if (ratingListener != null && (ratingAnimator == null || !ratingAnimator.isRunning())) {
