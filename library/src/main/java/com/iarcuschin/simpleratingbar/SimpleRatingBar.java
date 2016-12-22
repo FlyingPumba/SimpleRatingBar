@@ -185,7 +185,7 @@ public class SimpleRatingBar extends View {
     starsSeparation = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starsSeparation, (int)valueToPixels(4, Dimension.DP));
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_maxStarSize, Integer.MAX_VALUE);
     desiredStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starSize, Integer.MAX_VALUE);
-    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, Float.MAX_VALUE);
+    stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, 0.1f);
     starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_srb_starBorderWidth, 5f);
     starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_srb_starCornerRadius, 6f);
 
@@ -655,15 +655,13 @@ public class SimpleRatingBar extends View {
     rating = (float)numberOfStars / starsDrawingSpace.width() * x;
 
     // correct rating in case step size is present
-    if (stepSize != Float.MAX_VALUE) {
-      float mod = rating % stepSize;
-      if (mod < stepSize/4) {
-        rating = rating - mod;
-        rating = Math.max(0, rating);
-      } else {
-        rating =  rating - mod + stepSize;
-        rating = Math.min(numberOfStars, rating);
-      }
+    float mod = rating % stepSize;
+    if (mod < stepSize/4) {
+      rating = rating - mod;
+      rating = Math.max(0, rating);
+    } else {
+      rating =  rating - mod + stepSize;
+      rating = Math.min(numberOfStars, rating);
     }
   }
   
