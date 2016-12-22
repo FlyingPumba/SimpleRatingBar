@@ -372,17 +372,19 @@ public class SimpleRatingBar extends View {
     float tipHorizontalMargin = currentStarSize * 0.03f;
     float innerUpHorizontalMargin = currentStarSize * 0.38f;
     float innerBottomHorizontalMargin = currentStarSize * 0.32f;
-    float innerBottomVerticalMargin = currentStarSize * 0.55f;
+    float innerBottomVerticalMargin = currentStarSize * 0.6f;
     float innerCenterVerticalMargin = currentStarSize * 0.27f;
 
     starVertex = new float[] {
         tipHorizontalMargin, innerUpHorizontalMargin, // top left
-        tipHorizontalMargin + triangleSide, innerUpHorizontalMargin, half, tipVerticalMargin, // top tip
+        tipHorizontalMargin + triangleSide, innerUpHorizontalMargin,
+        half, tipVerticalMargin, // top tip
         currentStarSize - tipHorizontalMargin - triangleSide, innerUpHorizontalMargin,
         currentStarSize - tipHorizontalMargin, innerUpHorizontalMargin, // top right
         currentStarSize - innerBottomHorizontalMargin, innerBottomVerticalMargin,
         currentStarSize - bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom right
-        half, currentStarSize - innerCenterVerticalMargin, bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom left
+        half, currentStarSize - innerCenterVerticalMargin,
+        bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom left
         innerBottomHorizontalMargin, innerBottomVerticalMargin
     };
   }
