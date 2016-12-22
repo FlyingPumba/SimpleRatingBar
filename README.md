@@ -94,7 +94,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.1.4'
+    compile 'com.iarcuschin:simpleratingbar:0.1.5'
 }
 ```
 
@@ -105,7 +105,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.iarcuschin:simpleratingbar:0.1.4'
+    compile 'com.iarcuschin:simpleratingbar:0.1.5'
 }
 ```
 
@@ -116,7 +116,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compile 'com.github.FlyingPumba:SimpleRatingBar:v0.1.4'
+    compile 'com.github.FlyingPumba:SimpleRatingBar:v0.1.5'
 }
 ```
 
@@ -125,7 +125,7 @@ Using `Maven`:
 <dependency>
   <groupId>com.iarcuschin</groupId>
   <artifactId>simpleratingbar</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
   <type>apklib</type>
 </dependency>
 ```
