@@ -2,10 +2,13 @@ SimpleRatingBar
 ====
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-%20SimpleRatingBar-green.svg?style=true)](https://android-arsenal.com/details/1/4027)
-[![Download](https://api.bintray.com/packages/flyingpumba/maven/simpleratingbar/images/download.svg) ](https://bintray.com/flyingpumba/maven/simpleratingbar/_latestVersion)
 [![API](https://img.shields.io/badge/API-11%2B-green.svg?style=true)](https://android-arsenal.com/api?level=11)
 [![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://github.com/FlyingPumba/SimpleRatingBar/blob/master/LICENSE.txt)
-<!--[![maven central](https://maven-badges.herokuapp.com/maven-central/com.iarcuschin/simpleratingbar/badge.svg) ](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22simpleratingbar%22%20g%3A%22com.iarcuschin%22)-->
+
+[![JCenter](https://api.bintray.com/packages/flyingpumba/maven/simpleratingbar/images/download.svg) ](https://bintray.com/flyingpumba/maven/simpleratingbar/_latestVersion)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.iarcuschin/simpleratingbar/badge.svg) ](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22simpleratingbar%22%20g%3A%22com.iarcuschin%22)
+[![JitPack](https://jitpack.io/v/FlyingPumba/SimpleRatingBar.svg)](https://jitpack.io/#FlyingPumba/SimpleRatingBar)
+
 
 Open source project which features a simple yet powerful RatingBar alternative to Android's default.
 
@@ -103,6 +106,17 @@ repositories {
 }
 dependencies {
     compile 'com.iarcuschin:simpleratingbar:0.1.4'
+}
+```
+
+Using `Gradle` from `JitPack`:
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+dependencies {
+    compile 'com.github.FlyingPumba:SimpleRatingBar:v0.1.4'
 }
 ```
 
