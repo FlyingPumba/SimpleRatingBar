@@ -170,7 +170,7 @@ public class SimpleRatingBar extends View {
   private void parseAttrs(AttributeSet attrs) {
     TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleRatingBar);
 
-    borderColor = arr.getColor(R.styleable.SimpleRatingBar_srb_borderColor, getResources().getColor(R.color.golden_stars));
+    borderColor = arr.getColor(R.styleable.SimpleRatingBar_srb_borderColor, getResources().getColor(R.color.srb_golden_stars));
     fillColor = arr.getColor(R.styleable.SimpleRatingBar_srb_fillColor, borderColor);
     starBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_starBackgroundColor, Color.TRANSPARENT);
     backgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_backgroundColor, Color.TRANSPARENT);
