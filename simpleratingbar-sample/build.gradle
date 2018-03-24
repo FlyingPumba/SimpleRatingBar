@@ -1,30 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-
-buildscript {
-  repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-  }
-
-  dependencies {
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-  }
-}
-
-repositories {
-  mavenCentral()
-  maven { url 'https://jitpack.io' }
-}
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  compileSdkVersion 27
+  buildToolsVersion "27.0.0"
 
   defaultConfig {
     applicationId "com.example.simpleratingbar"
     minSdkVersion 14
-    targetSdkVersion 23
+    targetSdkVersion 27
     versionCode 1
     versionName "1.0"
   }
@@ -44,12 +27,12 @@ android {
 }
 
 dependencies {
-  compile project(':simpleratingbar')
-  compile 'com.android.support:appcompat-v7:23.4.0'
-  compile 'com.android.support:design:23.4.0'
+  implementation project(':simpleratingbar')
+  implementation 'com.android.support:appcompat-v7:27.0.1'
+  implementation 'com.android.support:design:27.0.1'
   // Material colors
-  compile 'com.github.mcginty:material-colors:1.1.0'
+  implementation 'com.github.mcginty:material-colors:1.1.0'
   // Butterknife
-  compile 'com.jakewharton:butterknife:8.2.1'
-  apt 'com.jakewharton:butterknife-compiler:8.2.1'
+  implementation 'com.jakewharton:butterknife:8.8.1'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
