@@ -9,6 +9,7 @@
     <attr name="srb_pressedFillColor" format="color" />
     <attr name="srb_pressedBackgroundColor" format="color" />
     <attr name="srb_pressedStarBackgroundColor" format="color" />
+    <attr name="srb_minStarCount" format="integer" />
     <attr name="srb_numberOfStars" format="integer" />
     <attr name="srb_starSize" format="dimension" />
     <attr name="srb_maxStarSize" format="dimension" />

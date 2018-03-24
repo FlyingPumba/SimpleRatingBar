@@ -73,6 +73,7 @@ public class SimpleRatingBar extends View {
   private @ColorInt int pressedFillColor;
   private @ColorInt int pressedBackgroundColor;
   private @ColorInt int pressedStarBackgroundColor;
+  private int minStarCount;
   private int numberOfStars;
   private float starsSeparation;
   private float desiredStarSize;
@@ -180,6 +181,7 @@ public class SimpleRatingBar extends View {
     pressedStarBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedStarBackgroundColor, starBackgroundColor);
     pressedBackgroundColor = arr.getColor(R.styleable.SimpleRatingBar_srb_pressedBackgroundColor, backgroundColor);
 
+    minStarCount = arr.getInteger(R.styleable.SimpleRatingBar_srb_minStarCount, 0);
     numberOfStars = arr.getInteger(R.styleable.SimpleRatingBar_srb_numberOfStars, 5);
 
     starsSeparation = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starsSeparation, (int)valueToPixels(4, Dimension.DP));
@@ -211,6 +213,9 @@ public class SimpleRatingBar extends View {
         > maxStarSize) {
       Log.w("SimpleRatingBar", String.format("Initialized with conflicting values: starSize is greater than maxStarSize (%f > %f). I will ignore maxStarSize", desiredStarSize, maxStarSize));
     }
+    if (minStarCount < 0) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for numberOfStars. Found %d, but should be greater or equal than 0", minStarCount));
+    }
     if (stepSize <= 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for stepSize. Found %f, but should be greater than 0", stepSize));
     }
@@ -221,6 +226,9 @@ public class SimpleRatingBar extends View {
     if (starCornerRadius < 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starCornerRadius. Found %f, but should be greater or equal than 0",
               starBorderWidth));
+    }
+    if (rating < minStarCount) {
+      throw new IllegalArgumentException("minStarCount cannot greater than default rating");
     }
   }
 
@@ -645,7 +653,7 @@ public class SimpleRatingBar extends View {
 
     // we know that touch was inside starsTouchSpace, but it might be outside starsDrawingSpace
     if (x < starsDrawingSpace.left) {
-      rating = 0;
+      rating = minStarCount;
       return;
     } else if (x >  starsDrawingSpace.right) {
       rating = numberOfStars;
@@ -660,10 +668,13 @@ public class SimpleRatingBar extends View {
     float mod = rating % stepSize;
     if (mod < stepSize/4) {
       rating = rating - mod;
-      rating = Math.max(0, rating);
+      rating = Math.max(minStarCount, rating);
     } else {
       rating =  rating - mod + stepSize;
       rating = Math.min(numberOfStars, rating);
+      if (rating < minStarCount) {
+        rating = minStarCount;
+      }
     }
   }
   
