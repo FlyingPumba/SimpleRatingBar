@@ -23,7 +23,7 @@
             app:srb_borderColor="@color/material_red500"
             app:srb_pressedFillColor="@color/material_redA200"
             app:srb_pressedBorderColor="@color/material_redA400"
-            app:srb_starCornerRadius="0"
+            app:srb_starCornerRadius="0dp"
             />
 
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -35,7 +35,7 @@
             app:srb_borderColor="@color/material_blue500"
             app:srb_pressedFillColor="@color/material_blueA200"
             app:srb_pressedBorderColor="@color/material_blueA400"
-            app:srb_starCornerRadius="2"
+            app:srb_starCornerRadius="2dp"
             />
 
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -47,7 +47,7 @@
             app:srb_borderColor="@color/material_green500"
             app:srb_pressedFillColor="@color/material_greenA700"
             app:srb_pressedBorderColor="@color/material_green700"
-            app:srb_starCornerRadius="4"
+            app:srb_starCornerRadius="4dp"
             />
 
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -59,7 +59,7 @@
             app:srb_borderColor="@color/material_amber500"
             app:srb_pressedFillColor="@color/material_amberA400"
             app:srb_pressedBorderColor="@color/material_amberA700"
-            app:srb_starCornerRadius="6"
+            app:srb_starCornerRadius="6dp"
             />
 
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -71,7 +71,7 @@
             app:srb_borderColor="@color/material_purple500"
             app:srb_pressedFillColor="@color/material_purpleA200"
             app:srb_pressedBorderColor="@color/material_purpleA400"
-            app:srb_starCornerRadius="8"
+            app:srb_starCornerRadius="8dp"
             />
 
     </LinearLayout>

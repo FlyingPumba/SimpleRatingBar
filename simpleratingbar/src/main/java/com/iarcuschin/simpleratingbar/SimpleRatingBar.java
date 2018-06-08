@@ -186,8 +186,8 @@ public class SimpleRatingBar extends View {
     maxStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_maxStarSize, Integer.MAX_VALUE);
     desiredStarSize = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starSize, Integer.MAX_VALUE);
     stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, 0.1f);
-    starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_srb_starBorderWidth, 5f);
-    starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_srb_starCornerRadius, 6f);
+    starBorderWidth = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starBorderWidth, (int)valueToPixels(5, Dimension.DP));
+    starCornerRadius = arr.getDimensionPixelSize(R.styleable.SimpleRatingBar_srb_starCornerRadius, (int)valueToPixels(6, Dimension.DP));
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_srb_rating, 0f));
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_srb_isIndicator, false);
