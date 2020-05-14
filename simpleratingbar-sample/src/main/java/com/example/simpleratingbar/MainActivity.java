@@ -39,13 +39,15 @@ public class MainActivity extends AppCompatActivity {
           return new StepSizeAndGravityFragment();
           case 7:
             return new BackgroundColorsFragment();
+          case 8:
+            return new ThicknessFragment();
           default:
             return new RatingChangedListenerFragment();
         }
       }
 
       @Override public int getCount() {
-        return 9;
+        return 10;
       }
 
       @Override public CharSequence getPageTitle(int position) {
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             return "Step size and Gravity";
           case 7:
             return "Background color";
+          case 8:
+            return "Thickness of Stars";
           default:
             return "Rating changed Listener";
         }

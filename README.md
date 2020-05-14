@@ -83,6 +83,7 @@ The view can be configured as follows:
 * Enabled/disable user interaction with `app:srb_isIndicator` / `setIsIndicator(boolean)`
 * Enabled/disable border of star with `app:srb_drawBorderEnabled` / `setDrawBorderEnabled(boolean)`
 * Set gravity of fill (left or right) with `app:srb_gravity` / `setGravity(Gravity)`
+* Set the shape thickness of the stars, which pulls the inner vertices outwards by percentage with `app:srb_starShapeThickness` / `setStarShapeThickness(float)`
 
 Download
 ----

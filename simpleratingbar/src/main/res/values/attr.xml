@@ -23,5 +23,6 @@
       <enum name="left" value="0"/>
       <enum name="right" value="1"/>
     </attr>
+    <attr name="srb_starShapeThickness" format="float" />
   </declare-styleable>
 </resources>

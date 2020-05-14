@@ -84,6 +84,7 @@ public class SimpleRatingBar extends View {
   private float starBorderWidth;
   private float starCornerRadius;
   private boolean drawBorderEnabled;
+  private float starShapeThickness;
 
   // Internal variables
   private float currentStarSize;
@@ -188,6 +189,7 @@ public class SimpleRatingBar extends View {
     stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, 0.1f);
     starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_srb_starBorderWidth, 5f);
     starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_srb_starCornerRadius, 6f);
+    starShapeThickness = arr.getFloat(R.styleable.SimpleRatingBar_srb_starShapeThickness, 0f);
 
     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_srb_rating, 0f));
     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_srb_isIndicator, false);
@@ -221,6 +223,11 @@ public class SimpleRatingBar extends View {
     if (starCornerRadius < 0) {
       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starCornerRadius. Found %f, but should be greater or equal than 0",
               starBorderWidth));
+    }
+
+    if (starShapeThickness > 1f || starShapeThickness < 0f) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starShapeThickness. Found %f, but should be greater or equal to 0, and less than or equal to 1",
+              starShapeThickness));
     }
   }
 
@@ -375,18 +382,40 @@ public class SimpleRatingBar extends View {
     float innerBottomVerticalMargin = currentStarSize * 0.6f;
     float innerCenterVerticalMargin = currentStarSize * 0.27f;
 
+    float upperLeftInnerVertexX = adjustCoordinateValueForThickness(-0.115f, tipHorizontalMargin + triangleSide);
+    float upperRightInnerVertexX = adjustCoordinateValueForThickness(0.115f, currentStarSize - tipHorizontalMargin - triangleSide);
+    float upperInnerVertexY = adjustCoordinateValueForThickness(-0.165f, innerUpHorizontalMargin);
+
+    float lowerLeftInnerVertexX = adjustCoordinateValueForThickness(-0.205f, innerBottomHorizontalMargin);
+    float lowerRightInnerVertexX = adjustCoordinateValueForThickness(0.205f, currentStarSize - innerBottomHorizontalMargin);
+    float lowerInnerVertexY = adjustCoordinateValueForThickness(0.065f, innerBottomVerticalMargin);
+
+    float bottomVertexY = adjustCoordinateValueForThickness(0.22f, currentStarSize - innerCenterVerticalMargin);
+
     starVertex = new float[] {
-        tipHorizontalMargin, innerUpHorizontalMargin, // top left
-        tipHorizontalMargin + triangleSide, innerUpHorizontalMargin,
-        half, tipVerticalMargin, // top tip
-        currentStarSize - tipHorizontalMargin - triangleSide, innerUpHorizontalMargin,
-        currentStarSize - tipHorizontalMargin, innerUpHorizontalMargin, // top right
-        currentStarSize - innerBottomHorizontalMargin, innerBottomVerticalMargin,
-        currentStarSize - bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom right
-        half, currentStarSize - innerCenterVerticalMargin,
-        bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom left
-        innerBottomHorizontalMargin, innerBottomVerticalMargin
+      tipHorizontalMargin, innerUpHorizontalMargin, // top left
+      upperLeftInnerVertexX, upperInnerVertexY,
+      half, tipVerticalMargin, // top tip
+      upperRightInnerVertexX, upperInnerVertexY,
+      currentStarSize - tipHorizontalMargin, innerUpHorizontalMargin, // top right
+      lowerRightInnerVertexX, lowerInnerVertexY,
+      currentStarSize - bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom right
+      half, bottomVertexY,
+      bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom left
+      lowerLeftInnerVertexX, lowerInnerVertexY
     };
+  }
+
+    /**
+     * Moves a coordinate value of the star's internal vertices outward based on thickness
+     * The fractionOfStarSizeToMove is specific to vertices' x or y value
+     *
+     * @param fractionOfStarSizeToMove
+     * @param unadjustedValue
+     * @return
+     */
+  private float adjustCoordinateValueForThickness(float fractionOfStarSizeToMove, float unadjustedValue) {
+    return unadjustedValue + (fractionOfStarSizeToMove * currentStarSize * starShapeThickness);
   }
 
   /**
@@ -666,7 +695,7 @@ public class SimpleRatingBar extends View {
       rating = Math.min(numberOfStars, rating);
     }
   }
-  
+
   @Override
   protected Parcelable onSaveInstanceState() {
       Parcelable superState = super.onSaveInstanceState();
@@ -1114,6 +1143,25 @@ public class SimpleRatingBar extends View {
     this.drawBorderEnabled = drawBorderEnabled;
     // request redraw of the view
     invalidate();
+  }
+
+  /**
+   * Sets starShapeThickness
+   * @param starShapeThickness
+   */
+  public void setStarShapeThickness(float starShapeThickness) {
+    if (starShapeThickness > 1f || starShapeThickness < 0f) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starShapeThickness. Found %f, but should be greater or equal to 0, and less than or equal to 1",
+              starShapeThickness));
+    }
+
+    this.starShapeThickness = starShapeThickness;
+    // request redraw of the view
+    invalidate();
+  }
+
+  public float getStarShapeThickness() {
+    return starShapeThickness;
   }
 
   /**
