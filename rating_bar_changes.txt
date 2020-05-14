@@ -1,0 +1,297 @@
+diff --git a/build.gradle b/build.gradle
+index f6a5564..a54f86e 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -6,7 +6,7 @@ buildscript {
+     google()
+   }
+   dependencies {
+-    classpath 'com.android.tools.build:gradle:3.0.1'
++    classpath 'com.android.tools.build:gradle:3.5.3'
+     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+   }
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+index b915dd5..add8032 100644
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,6 @@
+-#Mon Nov 13 12:26:42 CST 2017
++#Wed May 13 14:42:14 PDT 2020
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-4.1-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-5.4.1-all.zip
+diff --git a/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/MainActivity.java b/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/MainActivity.java
+index da4c6ac..6921260 100644
+--- a/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/MainActivity.java
++++ b/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/MainActivity.java
+@@ -39,13 +39,15 @@ public class MainActivity extends AppCompatActivity {
+           return new StepSizeAndGravityFragment();
+           case 7:
+             return new BackgroundColorsFragment();
++          case 8:
++            return new ThicknessFragment();
+           default:
+             return new RatingChangedListenerFragment();
+         }
+       }
+ 
+       @Override public int getCount() {
+-        return 9;
++        return 10;
+       }
+ 
+       @Override public CharSequence getPageTitle(int position) {
+@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
+             return "Step size and Gravity";
+           case 7:
+             return "Background color";
++          case 8:
++            return "Thickness of Stars";
+           default:
+             return "Rating changed Listener";
+         }
+diff --git a/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/ThicknessFragment.java b/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/ThicknessFragment.java
+new file mode 100644
+index 0000000..ae5e516
+--- /dev/null
++++ b/simpleratingbar-sample/src/main/java/com/example/simpleratingbar/ThicknessFragment.java
+@@ -0,0 +1,47 @@
++package com.example.simpleratingbar;
++
++import android.os.Bundle;
++import android.support.annotation.Nullable;
++import android.support.v4.app.Fragment;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import com.iarcuschin.simpleratingbar.SimpleRatingBar;
++
++import butterknife.BindView;
++import butterknife.ButterKnife;
++import butterknife.Unbinder;
++
++public class ThicknessFragment extends Fragment {
++
++    @BindView(R.id.ratingBar1)
++    SimpleRatingBar ratingBar1;
++    @BindView(R.id.ratingBar2)
++    SimpleRatingBar ratingBar2;
++    @BindView(R.id.ratingBar3)
++    SimpleRatingBar ratingBar3;
++    @BindView(R.id.ratingBar4)
++    SimpleRatingBar ratingBar4;
++    @BindView(R.id.ratingBar5)
++    SimpleRatingBar ratingBar5;
++    private Unbinder unbinder;
++
++    @Nullable
++    @Override
++    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
++                             @Nullable Bundle savedInstanceState) {
++        View view = inflater.inflate(R.layout.fragment_thickness, container, false);
++        unbinder = ButterKnife.bind(this, view);
++
++        setHasOptionsMenu(true);
++
++        return view;
++    }
++
++    @Override
++    public void onDestroyView() {
++        super.onDestroyView();
++        unbinder.unbind();
++    }
++}
+diff --git a/simpleratingbar-sample/src/main/res/layout/fragment_thickness.xml b/simpleratingbar-sample/src/main/res/layout/fragment_thickness.xml
+new file mode 100644
+index 0000000..d6f0653
+--- /dev/null
++++ b/simpleratingbar-sample/src/main/res/layout/fragment_thickness.xml
+@@ -0,0 +1,76 @@
++<?xml version="1.0" encoding="utf-8"?>
++<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:animateLayoutChanges="true"
++        android:gravity="center_horizontal"
++        android:orientation="vertical">
++
++        <com.iarcuschin.simpleratingbar.SimpleRatingBar
++            android:id="@+id/ratingBar1"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_margin="8dp"
++            app:srb_borderColor="@color/material_red500"
++            app:srb_fillColor="@color/material_red300"
++            app:srb_numberOfStars="5"
++            app:srb_pressedBorderColor="@color/material_redA400"
++            app:srb_pressedFillColor="@color/material_redA200"
++            app:srb_starShapeThickness="0" />
++
++        <com.iarcuschin.simpleratingbar.SimpleRatingBar
++            android:id="@+id/ratingBar2"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_margin="8dp"
++            app:srb_borderColor="@color/material_blue500"
++            app:srb_fillColor="@color/material_blue300"
++            app:srb_numberOfStars="5"
++            app:srb_pressedBorderColor="@color/material_blueA400"
++            app:srb_pressedFillColor="@color/material_blueA200"
++            app:srb_starShapeThickness=".25" />
++
++        <com.iarcuschin.simpleratingbar.SimpleRatingBar
++            android:id="@+id/ratingBar3"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_margin="8dp"
++            app:srb_borderColor="@color/material_green500"
++            app:srb_fillColor="@color/material_green300"
++            app:srb_numberOfStars="5"
++            app:srb_pressedBorderColor="@color/material_green700"
++            app:srb_pressedFillColor="@color/material_greenA700"
++            app:srb_starShapeThickness=".50" />
++
++        <com.iarcuschin.simpleratingbar.SimpleRatingBar
++            android:id="@+id/ratingBar4"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_margin="8dp"
++            app:srb_borderColor="@color/material_amber500"
++            app:srb_fillColor="@color/material_amber300"
++            app:srb_numberOfStars="5"
++            app:srb_pressedBorderColor="@color/material_amberA700"
++            app:srb_pressedFillColor="@color/material_amberA400"
++            app:srb_starShapeThickness=".75" />
++
++        <com.iarcuschin.simpleratingbar.SimpleRatingBar
++            android:id="@+id/ratingBar5"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_margin="8dp"
++            app:srb_borderColor="@color/material_purple500"
++            app:srb_fillColor="@color/material_purple300"
++            app:srb_numberOfStars="5"
++            app:srb_pressedBorderColor="@color/material_purpleA400"
++            app:srb_pressedFillColor="@color/material_purpleA200"
++            app:srb_starShapeThickness="1" />
++
++    </LinearLayout>
++
++</ScrollView>
+\ No newline at end of file
+diff --git a/simpleratingbar/src/main/java/com/iarcuschin/simpleratingbar/SimpleRatingBar.java b/simpleratingbar/src/main/java/com/iarcuschin/simpleratingbar/SimpleRatingBar.java
+index 114518f..2b044bd 100644
+--- a/simpleratingbar/src/main/java/com/iarcuschin/simpleratingbar/SimpleRatingBar.java
++++ b/simpleratingbar/src/main/java/com/iarcuschin/simpleratingbar/SimpleRatingBar.java
+@@ -84,6 +84,7 @@ public class SimpleRatingBar extends View {
+   private float starBorderWidth;
+   private float starCornerRadius;
+   private boolean drawBorderEnabled;
++  private float starShapeThickness;
+ 
+   // Internal variables
+   private float currentStarSize;
+@@ -188,6 +189,7 @@ public class SimpleRatingBar extends View {
+     stepSize = arr.getFloat(R.styleable.SimpleRatingBar_srb_stepSize, 0.1f);
+     starBorderWidth = arr.getFloat(R.styleable.SimpleRatingBar_srb_starBorderWidth, 5f);
+     starCornerRadius = arr.getFloat(R.styleable.SimpleRatingBar_srb_starCornerRadius, 6f);
++    starShapeThickness = arr.getFloat(R.styleable.SimpleRatingBar_srb_starShapeThickness, 0f);
+ 
+     rating = normalizeRating(arr.getFloat(R.styleable.SimpleRatingBar_srb_rating, 0f));
+     isIndicator = arr.getBoolean(R.styleable.SimpleRatingBar_srb_isIndicator, false);
+@@ -222,6 +224,11 @@ public class SimpleRatingBar extends View {
+       throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starCornerRadius. Found %f, but should be greater or equal than 0",
+               starBorderWidth));
+     }
++
++    if (starShapeThickness > 1f || starShapeThickness < 0f) {
++      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starShapeThickness. Found %f, but should be greater or equal to 0, and less than or equal to 1",
++              starShapeThickness));
++    }
+   }
+ 
+   @Override
+@@ -375,20 +382,42 @@ public class SimpleRatingBar extends View {
+     float innerBottomVerticalMargin = currentStarSize * 0.6f;
+     float innerCenterVerticalMargin = currentStarSize * 0.27f;
+ 
++    float upperLeftInnerVertexX = adjustCoordinateValueForThickness(-0.115f, tipHorizontalMargin + triangleSide);
++    float upperRightInnerVertexX = adjustCoordinateValueForThickness(0.115f, currentStarSize - tipHorizontalMargin - triangleSide);
++    float upperInnerVertexY = adjustCoordinateValueForThickness(-0.165f, innerUpHorizontalMargin);
++
++    float lowerLeftInnerVertexX = adjustCoordinateValueForThickness(-0.205f, innerBottomHorizontalMargin);
++    float lowerRightInnerVertexX = adjustCoordinateValueForThickness(0.205f, currentStarSize - innerBottomHorizontalMargin);
++    float lowerInnerVertexY = adjustCoordinateValueForThickness(0.065f, innerBottomVerticalMargin);
++
++    float bottomVertexY = adjustCoordinateValueForThickness(0.22f, currentStarSize - innerCenterVerticalMargin);
++
+     starVertex = new float[] {
+-        tipHorizontalMargin, innerUpHorizontalMargin, // top left
+-        tipHorizontalMargin + triangleSide, innerUpHorizontalMargin,
+-        half, tipVerticalMargin, // top tip
+-        currentStarSize - tipHorizontalMargin - triangleSide, innerUpHorizontalMargin,
+-        currentStarSize - tipHorizontalMargin, innerUpHorizontalMargin, // top right
+-        currentStarSize - innerBottomHorizontalMargin, innerBottomVerticalMargin,
+-        currentStarSize - bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom right
+-        half, currentStarSize - innerCenterVerticalMargin,
+-        bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom left
+-        innerBottomHorizontalMargin, innerBottomVerticalMargin
++      tipHorizontalMargin, innerUpHorizontalMargin, // top left
++      upperLeftInnerVertexX, upperInnerVertexY,
++      half, tipVerticalMargin, // top tip
++      upperRightInnerVertexX, upperInnerVertexY,
++      currentStarSize - tipHorizontalMargin, innerUpHorizontalMargin, // top right
++      lowerRightInnerVertexX, lowerInnerVertexY,
++      currentStarSize - bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom right
++      half, bottomVertexY,
++      bottomFromMargin, currentStarSize - tipVerticalMargin, // bottom left
++      lowerLeftInnerVertexX, lowerInnerVertexY
+     };
+   }
+ 
++    /**
++     * Moves a coordinate value of the star's internal vertices outward based on thickness
++     * The fractionOfStarSizeToMove is specific to vertices' x or y value
++     *
++     * @param fractionOfStarSizeToMove
++     * @param unadjustedValue
++     * @return
++     */
++  private float adjustCoordinateValueForThickness(float fractionOfStarSizeToMove, float unadjustedValue) {
++    return unadjustedValue + (fractionOfStarSizeToMove * currentStarSize * starShapeThickness);
++  }
++
+   /**
+    * Calculates total width to occupy based on several parameters
+    * @param starSize
+@@ -666,7 +695,7 @@ public class SimpleRatingBar extends View {
+       rating = Math.min(numberOfStars, rating);
+     }
+   }
+-  
++
+   @Override
+   protected Parcelable onSaveInstanceState() {
+       Parcelable superState = super.onSaveInstanceState();
+diff --git a/simpleratingbar/src/main/res/values/attr.xml b/simpleratingbar/src/main/res/values/attr.xml
+index 0186289..11e2d56 100644
+--- a/simpleratingbar/src/main/res/values/attr.xml
++++ b/simpleratingbar/src/main/res/values/attr.xml
+@@ -23,5 +23,6 @@
+       <enum name="left" value="0"/>
+       <enum name="right" value="1"/>
+     </attr>
++    <attr name="srb_starShapeThickness" format="float" />
+   </declare-styleable>
+ </resources>
