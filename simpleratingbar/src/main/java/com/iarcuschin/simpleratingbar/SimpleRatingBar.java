@@ -1146,6 +1146,25 @@ public class SimpleRatingBar extends View {
   }
 
   /**
+   * Sets starShapeThickness
+   * @param starShapeThickness
+   */
+  public void setStarShapeThickness(float starShapeThickness) {
+    if (starShapeThickness > 1f || starShapeThickness < 0f) {
+      throw new IllegalArgumentException(String.format("SimpleRatingBar initialized with invalid value for starShapeThickness. Found %f, but should be greater or equal to 0, and less than or equal to 1",
+              starShapeThickness));
+    }
+
+    this.starShapeThickness = starShapeThickness;
+    // request redraw of the view
+    invalidate();
+  }
+
+  public float getStarShapeThickness() {
+    return starShapeThickness;
+  }
+
+  /**
    * Convenience method to convert a value in the given dimension to pixels.
    * @param value
    * @param dimen
